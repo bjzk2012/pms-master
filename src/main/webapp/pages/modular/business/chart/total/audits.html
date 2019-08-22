@@ -1,0 +1,23 @@
+@layout("/common/_container.html",{bg:"bg-white"}){
+<div class="layui-body-header">
+    <span class="layui-body-header-title">工作总览</span>
+</div>
+
+<div class="layui-fluid">
+    <div class="layui-form-item">
+        <ul class="layui-timeline" style="margin-left:40px;">
+            @for(audit in audits) {
+            <li class="layui-timeline-item">
+                <i class="layui-icon layui-timeline-axis"></i>
+                <div class="layui-timeline-content layui-text">
+                    <h3 class="layui-timeline-title">【${audit.status.action}】<button type="button" class="layui-btn layui-btn-primary layui-btn-xs">${audit.createTime, dateFormat="yyyy-MM-dd HH:mm:ss"}</button></h3>
+                    <p>
+                        ${audit.remark}
+                    </p>
+                </div>
+            </li>
+            @}
+        </ul>
+    </div>
+</div>
+@}

@@ -1,0 +1,57 @@
+@layout("/common/_container.html",{bg:"bg-white", plugins:[],js:["/assets/modular/business/work/apply.js"]}){
+
+<div class="layui-body-header">
+    <span class="layui-body-header-title">工作录入</span>
+</div>
+
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-sm4 layui-col-md4 layui-col-lg4">
+            <table class="layui-table" id="workTable" lay-filter="workTable"></table>
+        </div>
+        <div class="layui-col-sm8 layui-col-md8 layui-col-lg8">
+            <table class="layui-table" id="workRecordTable" lay-filter="workRecordTable"></table>
+        </div>
+    </div>
+</div>
+
+<script type="text/html" id="workToolbar">
+    <div class="layui-form toolbar">
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <input id="timeLimit" class="layui-input" type="text" placeholder="工作时间" style="width:182px" value="{{d.where.timeLimit}}"/>
+            </div>
+            <div class="layui-inline">
+                <button class="layui-btn icon-btn" lay-event="search"><i class="layui-icon">&#xe615;</i>搜索</button>
+            </div>
+            <div class="layui-inline">
+                <a class="layui-btn icon-btn" lay-event="help"><i class="layui-icon">&#xe702;</i>帮助</a>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" id="workRecordToolbar">
+    <div class="layui-form toolbar">
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <button class="layui-btn icon-btn" lay-event="openAdd"><i class="layui-icon">&#xe654;</i>新增</button>
+                <button class="layui-btn layui-btn-warm" lay-event="submitWork"><i class="layui-icon">&#xe609;</i>提交</button>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" id="workStatusTpl">
+    <button class="layui-btn layui-btn-xs {{d.statusMessage=='草稿'?'layui-btn-primary':(d.statusMessage=='已提交'?'':(d.statusMessage=='已完成'?'layui-btn-normal':(d.statusMessage=='已拒绝'?'layui-btn-danger':'')))}}">{{d.statusMessage}}</button>
+</script>
+
+<script type="text/html" id="workRecordstatusTpl">
+    <button class="layui-btn layui-btn-xs {{d.status=='DRAFT'?'layui-btn-primary':(d.status=='SUBMIT'?'':(d.status=='FINISH'?'layui-btn-normal':(d.status=='SUBMIT'?'layui-btn-danger':'')))}}">{{d.statusMessage}}</button>
+</script>
+
+<script type="text/html" id="workRecordTableBar">
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit">修改</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete">删除</a>
+</script>
+@}

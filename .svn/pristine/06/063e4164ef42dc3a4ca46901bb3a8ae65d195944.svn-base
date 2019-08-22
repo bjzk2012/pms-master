@@ -1,0 +1,11 @@
+@layout("/common/_container.html",{bg:"bg-white", plugins:["ueditor"], js:[]}){
+<input id="demo2" class="layui-input layui-input-number" min="0" max="1000" data-prec="0" placeholder="请输入数字" style="width:200px;">
+<script id="demo3">111</script>
+<script>
+    layui.use(['numinput'], function () {
+        var numinput = layui.numinput;
+        numinput.init({ rightBtns: true });
+        UE.getEditor("demo3")
+    });
+</script>
+@}

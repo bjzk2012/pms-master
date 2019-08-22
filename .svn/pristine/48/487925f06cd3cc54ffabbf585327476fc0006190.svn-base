@@ -1,0 +1,87 @@
+@layout("/common/_container.html",{bg:"bg-white"}){
+<form id="questionForm" lay-filter="questionForm" class="layui-form model-form">
+    <div class="layui-form-item">
+        <label class="layui-form-label">问题标题</label>
+        <div class="layui-input-block">
+            <input type="text" class="layui-input" readonly value="${question.title}"/>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">所属项目</label>
+        <div class="layui-input-block">
+            <input type="text" class="layui-input" readonly value="${question.project.name!}"/>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">发生时间</label>
+        <div class="layui-input-block">
+            <input type="text" class="layui-input" readonly value='${question.time, dateFormat="yyyy-MM-dd HH:mm:ss"}'/>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">发起人</label>
+        <div class="layui-input-block">
+            <input type="text" class="layui-input" readonly value="${question.sponsor!}"/>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">手机号码</label>
+        <div class="layui-input-block">
+            <input type="text" class="layui-input" readonly value="${question.phone!}"/>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">问题类型</label>
+        <div class="layui-input-block">
+            <input type="text" class="layui-input" readonly value="${question.category.message!}"/>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">指派给</label>
+        <div class="layui-input-block">
+            <input type="text" class="layui-input" readonly value="${question.liable.name!}"/>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">问题原因</label>
+        <div class="layui-input-block">
+            <input type="text" class="layui-input" readonly value="${question.cause.message!}"/>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">处理方案</label>
+        <div class="layui-input-block">
+            <input type="text" class="layui-input" readonly value="${question.quomodo.message!}"/>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">IP地址</label>
+        <div class="layui-input-block">
+            <input type="text" class="layui-input" readonly value="${question.ip!}"/>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">浏览器版本</label>
+        <div class="layui-input-block">
+            <input type="text" class="layui-input" readonly value="${question.browse!}"/>
+        </div>
+    </div>
+    <div class="layui-fluid">
+        <div class="layui-form-item">
+            <ul class="layui-timeline" style="margin-left:40px;">
+                @for(record in records) {
+                <li class="layui-timeline-item">
+                    <i class="layui-icon layui-timeline-axis"></i>
+                    <div class="layui-timeline-content layui-text">
+                        <h3 class="layui-timeline-title">【${record.type.message}】<button type="button" class="layui-btn layui-btn-primary layui-btn-xs">${record.createTime, dateFormat="yyyy-MM-dd HH:mm:ss"}</button></h3>
+                        <p>
+                            ${record.description}
+                        </p>
+                    </div>
+                </li>
+                @}
+            </ul>
+        </div>
+    </div>
+</form>
+@}

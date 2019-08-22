@@ -1,0 +1,27 @@
+spring:
+  jpa:
+    hibernate:
+      naming_strategy: org.hibernate.cfg.EJB3NamingStrategy
+      dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+      ddl-auto: update
+    show-sql: true
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mysql://mysql-server:3306/bsc?useUnicode=true&characterEncoding=utf8&characterSetResults=utf8
+    username: root
+    password: root
+    druid:
+      validation-query: select 1
+ftp:
+  domain: http://www.file-server.com/
+  path: bsc/
+  host: 192.168.1.142
+  port: 21
+  username: ftpuser
+  password: ftpuser
+sms:
+  ipyy:
+    signature: 军民融合标准资源共享平台
+    account: hyszzd00468
+    password: 654321

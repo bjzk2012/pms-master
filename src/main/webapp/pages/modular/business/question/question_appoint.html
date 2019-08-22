@@ -1,0 +1,43 @@
+@layout("/common/_container.html",{bg:"bg-white",js:["/assets/modular/business/question/question_appoint.js"]}){
+<form id="questionForm" lay-filter="questionForm" class="layui-form model-form">
+    <input name="id" type="hidden" value="${questionId}"/>
+    <div class="layui-form-item">
+        <label class="layui-form-label">问题标题</label>
+        <div class="layui-input-block">
+            <input id="title" name="title" placeholder="请输入问题标题" type="text" class="layui-input" readonly value="${title}"/>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">指派给<span style="color: red;">*</span></label>
+        <div class="layui-input-block">
+            <select id="liableId" name="liableId" lay-verify="required" required>
+                <option value="">指派给</option>
+                @for(user in users) {
+                <option value="${user.id}">${user.name}</option>
+                @}
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">问题原因<span style="color: red;">*</span></label>
+        <div class="layui-input-block">
+            <select id="cause" name="cause" lay-verify="required" required>
+                <option value="">问题原因</option>
+                @for(cause in causes) {
+                <option value="${cause.key}">${cause.value}</option>
+                @}
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">描述</label>
+        <div class="layui-input-block">
+            <textarea id="description" name="description" placeholder="请输入描述" type="text/plain" class="layui-textarea"></textarea>
+        </div>
+    </div>
+    <div class="layui-form-item text-right">
+        <button class="layui-btn layui-btn-primary" type="button" ew-event="closeDialog">取消</button>
+        <button class="layui-btn" lay-filter="btnSubmit" lay-submit>保存</button>
+    </div>
+</form>
+@}

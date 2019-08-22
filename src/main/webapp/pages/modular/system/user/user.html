@@ -1,0 +1,52 @@
+@layout("/common/_container.html",{bg:"bg-white", plugins:["ztree"],js:["/assets/modular/system/user/user.js"]}){
+
+<div class="layui-body-header">
+    <span class="layui-body-header-title">用户管理</span>
+</div>
+
+<div class="layui-fluid">
+    <table class="layui-table" id="userTable" lay-filter="userTable"></table>
+</div>
+<script type="text/html" id="toolbar">
+    <div class="layui-form toolbar">
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <input id="name" class="layui-input" type="text" placeholder="账号/邮箱/姓名/手机号" value="{{d.where.name}}"/>
+            </div>
+            <div class="layui-inline">
+                <input id="timeLimit" class="layui-input" type="text" placeholder="注册时间" style="width:182px" value="{{d.where.timeLimit}}"/>
+            </div>
+            <div class="layui-inline">
+                <button class="layui-btn icon-btn" lay-event="search"><i class="layui-icon">&#xe615;</i>搜索</button>
+                 @if(shiro.hasPermission("mgr_add")){
+                <button class="layui-btn icon-btn" lay-event="openAdd"><i class="layui-icon">&#xe654;</i>添加</button>
+                 @}
+            </div>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" id="tableBar">
+    @if(shiro.hasPermission("mgr_edit")){
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit">修改</a>
+    @}
+    @if(shiro.hasPermission("mgr_delete")){
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete">删除</a>
+    @}
+    @if(shiro.hasPermission("mgr_reset")){
+    <a class="layui-btn layui-btn-xs" lay-event="reset">重置密码</a>
+    @}
+</script>
+
+<script type="text/html" id="avatarTpl">
+    <img src="{{d.avatar}}" width="28" height="28">
+</script>
+
+<script type="text/html" id="statusTpl">
+    @if(shiro.hasPermission("mgr_freeze")){
+    <input type="checkbox" lay-filter="status" value="{{d.id}}" lay-skin="switch" lay-text="正常|冻结" {{d.status=='UNLOCK'?'checked':''}} />
+    @} else {
+    <button class="layui-btn layui-btn-xs {{d.status=='DISABLE'?'layui-btn-primary':''}}">{{d.statusMessage}}</button>
+    @}
+</script>
+@}

@@ -1,0 +1,36 @@
+spring:
+  profiles:
+    active: @spring.active@
+  mvc:
+    view:
+      prefix: /pages
+  devtools:
+    restart:
+      enabled: false
+      additional-paths: src/main/java
+      exclude: assets/**,pages/**
+  servlet:
+    multipart:
+      max-request-size: 100MB
+      max-file-size: 100MB
+beetl:
+  resource-auto-check: true         #热加载beetl模板，开发时候用
+  delimiter-statement-start: '@'
+  delimiter-statement-end: null
+  resource-tagroot: common/tags
+  resource-tagsuffix: tag
+shiro:
+  password:
+    algorithmName: md5
+    hashIterations: 2
+swagger:
+  production: false
+  basic:
+    enable: true
+    username: pms
+    password: pms
+server:
+  port: 80
+logging:
+  level:
+    root: INFO

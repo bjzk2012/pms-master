@@ -1,0 +1,15 @@
+@layout("/common/_container.html",{bg:"bg-white", js:["/assets/common/js/iframe_auto.js"]}){
+<div class="layui-fluid">
+    <fieldset class="layui-elem-field">
+        <legend>操作说明</legend>
+        <div class="layui-field-box">
+            <p>1、新增“工作录入”时，按点击新增的时刻计算，为T时，以T时为时间节点计算，只能够选择日历上过去距离T时最近的<span style="color: red;font-weight: bolder">2个工作日</span>。</p>
+            <p>2、如果工作任务被退回，自退回时刻算起，2个工作日日内须提交，否则系统会拒绝提交。</p>
+            <p>3、以上条件之外，所有工作录入均不可保存、提交，请大家按时提交工作内容。</p>
+        </div>
+    </fieldset>
+    <div style="margin-top:25px;width: 100%">
+        <img src="/assets/common/images/legend.png" style="width: 100%">
+    </div>
+</div>
+@}
