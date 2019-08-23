@@ -1,0 +1,49 @@
+@layout("/common/_container.html",{bg:"bg-white", plugins:["ztree"], js:["/assets/modular/system/menu/menu.js"]}){
+
+<div class="layui-body-header">
+    <span class="layui-body-header-title">菜单管理</span>
+</div>
+
+<div class="layui-fluid">
+    <table class="layui-table" id="menuTable" lay-filter="menuTable"></table>
+</div>
+
+<script type="text/html" id="toolbar">
+    <div class="layui-form toolbar">
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <input id="menuName" class="layui-input" type="text" placeholder="菜单名称/编码" value="{{d.where.menuName}}"/>
+            </div>
+            <div class="layui-inline">
+                <button class="layui-btn icon-btn" lay-event="search"><i class="layui-icon">&#xe615;</i>搜索</button>
+                @if(shiro.hasPermission("menu_add")){
+                <button class="layui-btn icon-btn" lay-event="openAdd"><i class="layui-icon">&#xe654;</i>添加</button>
+                @}
+                <button class="layui-btn icon-btn" lay-event="expandAll"><i class="layui-icon">&#xe654;</i>展开所有</button>
+                <button class="layui-btn icon-btn" lay-event="foldAll"><i class="layui-icon">&#xe656;</i>折叠所有</button>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" id="tableBar">
+    @if(shiro.hasPermission("menu_edit")){
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit">修改</a>
+    @}
+    @if(shiro.hasPermission("menu_delete")){
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete">删除</a>
+    @}
+</script>
+
+<script type="text/html" id="statusTpl">
+    @if(shiro.hasPermission("menu_freeze")){
+    <input type="checkbox" lay-filter="status" value="{{d.id}}" lay-skin="switch" lay-text="启用|禁用" {{d.status=='ENABLE'?'checked':''}} />
+    @} else {
+    <button class="layui-btn layui-btn-xs {{d.status=='DISABLE'?'layui-btn-primary':''}}">{{d.statusMessage}}</button>
+    @}
+</script>
+
+<script type="text/html" id="iconTpl">
+    <div class="{{d.icon}}"></div>
+</script>
+@}

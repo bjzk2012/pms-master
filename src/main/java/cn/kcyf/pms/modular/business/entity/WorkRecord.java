@@ -30,10 +30,16 @@ public class WorkRecord extends TableDomain {
     @JSONField(serialize = false, deserialize = false)
     private Project project;
     public Long getProjectId(){
-        return project.getId();
+        if (project != null) {
+            return project.getId();
+        }
+        return null;
     }
     public String getProjectName(){
-        return project.getName();
+        if (project != null) {
+            return project.getName();
+        }
+        return null;
     }
     /**
      * 工作日期
@@ -42,7 +48,11 @@ public class WorkRecord extends TableDomain {
     @Temporal(value = TemporalType.DATE)
     private Date today;
     public String getTodayRemark(){
-        return DateUtils.format(today, "yyyy-MM-dd");
+        if(today != null) {
+            return DateUtils.format(today, "yyyy-MM-dd");
+        } else {
+            return null;
+        }
     }
     /**
      * 工作时间
@@ -68,7 +78,11 @@ public class WorkRecord extends TableDomain {
     @Enumerated
     private WorkStatus status;
     public String getStatusMessage(){
-        return status.getMessage();
+        if (status != null) {
+            return status.getMessage();
+        } else {
+            return null;
+        }
     }
 
     @Column(name = "submit_user_name")

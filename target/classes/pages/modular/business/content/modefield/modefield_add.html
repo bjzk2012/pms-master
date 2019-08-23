@@ -1,0 +1,155 @@
+@layout("/common/_container.html",{bg:"bg-white",js:["/assets/modular/business/content/modefield/modefield_add.js"]}){
+<form id="modefieldForm" lay-filter="modefieldForm" class="layui-form model-form">
+    <input name="modeId" value="${modeId}" type="hidden" />
+    <div class="layui-form-item">
+        <div class="layui-col-xs6">
+            <label class="layui-form-label">字段<span style="color: red;">*</span></label>
+            <div class="layui-input-block">
+                <input id="field" name="field" placeholder="请输入字段" type="text" class="layui-input" lay-verify="required"/>
+            </div>
+        </div>
+        <div class="layui-col-xs6">
+            <label class="layui-form-label">名称<span style="color: red;">*</span></label>
+            <div class="layui-input-block">
+                <input id="label" name="label" placeholder="请输入标识" type="text" class="layui-input" lay-verify="required"/>
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">默认值</label>
+        <div class="layui-input-block">
+            <input id="defValue" name="defValue" placeholder="请输入默认值" type="text" class="layui-input"/>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">类型<span style="color: red;">*</span></label>
+        <div class="layui-input-block">
+            <select id="type" name="type" lay-filter="type" lay-verify="required" required>
+                @for(type in types) {
+                <option value="${type.key}">${type.value}${type.key}</option>
+                @}
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">帮助文本</label>
+        <div class="layui-input-block">
+            <input id="help" name="help" placeholder="请输入帮助文本" type="text" class="layui-input"/>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-col-xs4">
+            <label class="layui-form-label">是否必填</label>
+            <div class="layui-input-block">
+                <input type="checkbox" checked="false" name="required" lay-skin="switch" lay-filter="switchRequired" lay-text="必填|非必填">
+            </div>
+        </div>
+        <div class="layui-col-xs4">
+            <label class="layui-form-label">独占一行</label>
+            <div class="layui-input-block">
+                <input type="checkbox" checked="false" name="single" lay-skin="switch" lay-filter="switchSingle" lay-text="是|否">
+            </div>
+        </div>
+        <div class="layui-col-xs4">
+            <label class="layui-form-label">是否显示</label>
+            <div class="layui-input-block">
+                <input type="checkbox" checked="" name="display" lay-skin="switch" lay-filter="switchDisplay" lay-text="是|否">
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">排序</label>
+        <div class="layui-input-block">
+            <input id="sort" name="sort" type="text" lay-verify="required|number" class="layui-input layui-input-number" required value="1" min="1" max="1000" data-prec="0" />
+        </div>
+    </div>
+    <div class="layui-form-item attr CHECKBOX REDIO COMBOBOX SWITCH">
+        <label class="layui-form-label">是否自定义</label>
+        <div class="layui-input-block">
+            <input type="checkbox" checked="" name="custom" lay-skin="switch" lay-filter="switchCustom" lay-text="自定义|字典">
+        </div>
+    </div>
+    <div class="layui-form-item attr CHECKBOX REDIO COMBOBOX SWITCH custom">
+        <label class="layui-form-label">可选项键</label>
+        <div class="layui-input-block">
+            <input id="optKeys" name="optKeys" placeholder="请输入内容模板" type="text" class="layui-input"/>
+        </div>
+    </div>
+    <div class="layui-form-item attr CHECKBOX REDIO COMBOBOX SWITCH custom">
+        <label class="layui-form-label">可选项值</label>
+        <div class="layui-input-block">
+            <input id="optValues" name="optValues" placeholder="请输入内容模板" type="text" class="layui-input"/>
+        </div>
+    </div>
+    <div class="layui-form-item attr dict">
+        <label class="layui-form-label">字典引用</label>
+        <div class="layui-input-block">
+            <select id="dictId" name="dictId" required>
+                @for(dict in dicts) {
+                <option value="${dict.id}">${dict.name}</option>
+                @}
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item attr NUMBER">
+        <div class="layui-col-xs6">
+            <label class="layui-form-label">最小值</label>
+            <div class="layui-input-block">
+                <input id="min" name="min" type="text" lay-verify="required|number" class="layui-input layui-input-number" required value="1" min="1" max="2000" data-prec="0" />
+            </div>
+        </div>
+        <div class="layui-col-xs6">
+            <label class="layui-form-label">最大值</label>
+            <div class="layui-input-block">
+                <input id="max" name="max" type="text" lay-verify="required|number" class="layui-input layui-input-number" required value="255" min="1" max="2000" data-prec="0" />
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item attr NUMBER TEXTAREA PASSWORD TEXT">
+        <div class="layui-col-xs6">
+            <label class="layui-form-label">最小长度</label>
+            <div class="layui-input-block">
+                <input id="minLength" name="minLength" type="text" lay-verify="required|number" class="layui-input layui-input-number" required value="1" min="1" max="2000" data-prec="0" />
+            </div>
+        </div>
+        <div class="layui-col-xs6">
+            <label class="layui-form-label">最大长度</label>
+            <div class="layui-input-block">
+                <input id="maxLength" name="maxLength" type="text" lay-verify="required|number" class="layui-input layui-input-number" required value="255" min="1" max="2000" data-prec="0" />
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item attr TEXTAREA">
+        <div class="layui-col-xs6">
+            <label class="layui-form-label">文本行数</label>
+            <div class="layui-input-block">
+                <input id="rows" name="rows" type="text" lay-verify="required|number" class="layui-input layui-input-number" value="5" min="1" max="60" data-prec="0" />
+            </div>
+        </div>
+        <div class="layui-col-xs6">
+            <label class="layui-form-label">文本列数</label>
+            <div class="layui-input-block">
+                <input id="cols" name="cols" type="text" lay-verify="required|number" class="layui-input layui-input-number" value="20" min="1" max="60" data-prec="0" />
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item attr IMAGE">
+        <div class="layui-col-xs6">
+            <label class="layui-form-label">宽度</label>
+            <div class="layui-input-block">
+                <input id="width" name="width" type="text" lay-verify="required|number" class="layui-input layui-input-number" value="150" min="150" max="1000" data-prec="0" />
+            </div>
+        </div>
+        <div class="layui-col-xs6">
+            <label class="layui-form-label">高度</label>
+            <div class="layui-input-block">
+                <input id="height" name="height" type="text" lay-verify="required|number" class="layui-input layui-input-number" value="150" min="150" max="1000" data-prec="0" />
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item text-right">
+        <button class="layui-btn layui-btn-primary" type="button" ew-event="closeDialog">取消</button>
+        <button class="layui-btn" lay-filter="btnSubmit" lay-submit>保存</button>
+    </div>
+</form>
+@}

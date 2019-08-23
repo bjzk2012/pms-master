@@ -1,0 +1,23 @@
+@layout("/common/_container.html",{bg:"bg-white", plugins:[],js:["/assets/modular/system/notice/notice.js"]}){
+<div class="layui-fluid">
+    <table class="layui-table" id="noticeTable" lay-filter="noticeTable"></table>
+</div>
+
+<script type="text/html" id="toolbar">
+    <div class="layui-form toolbar">
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <input id="condition" class="layui-input" type="text" placeholder="标题/内容" value="{{d.where.condition}}">
+            </div>
+            <div class="layui-inline">
+                <button class="layui-btn icon-btn" lay-event="search"><i class="layui-icon">&#xe615;</i>搜索</button>
+                <button class="layui-btn icon-btn" lay-event="openAdd"><i class="layui-icon">&#xe654;</i>添加</button>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" id="tableBar">
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+</script>
+@}
