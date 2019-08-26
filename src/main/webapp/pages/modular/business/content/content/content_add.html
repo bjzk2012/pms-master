@@ -43,8 +43,45 @@
             <input id="sort" name="sort" placeholder="请输入排序" type="text" lay-verify="required|number" class="layui-input layui-input-number" required value="1" min="1" max="1000" data-prec="0" />
         </div>
     </div>
+    <!-- TODO 此处根据属性列表生成表单，未理解逻辑之前不要修改任何代码 -->
+    <!-- TODO 注意，添加表单属性时，非独占一行属性必须成对出现，否则可能会发生页面乱码情况 -->
+    @var count = 0;
     @for(field in fields) {
-    ${field.field}|${field.label}|${field.type}|${field.min}|
+        <!-- 判断是否独占一行，是则重置行，否则行递增 -->
+        @if(field.single){
+            @count = 0;
+        @}else{
+            @count++;
+        @}
+        <!-- 基数行或独占一行的开启表单行标签 -->
+        @if(count%2==1 || field.single){
+            <div class="layui-form-item">
+        @}
+        <!-- 非独占一行则开启宽度平分标签 -->
+        @if(!field.single){
+        <div class="layui-col-xs6">
+        @}
+        <!-- 按照属性类型添加属性内容 -->
+        @if(field.type == 'TEXT'){
+            <label class="layui-form-label">${field.label}${field.required?'<span style="color: red;">*</span>':''}</label>
+            <div class="layui-input-block">
+                <input id="${field.field}" name="${field.field}" placeholder="请输入${field.label}" type="text" minlength="${field.minLenght}" maxlength="${field.maxLenght}" class="layui-input" value="${field.defValue}" ${field.required?'lay-verify="required" required':''}/>
+            </div>
+        @}
+        @if(field.type == 'PASSWORD'){
+            <label class="layui-form-label">${field.label}${field.required?'<span style="color: red;">*</span>':''}</label>
+            <div class="layui-input-block">
+                <input id="${field.field}" name="${field.field}" placeholder="请输入${field.label}" type="text" lay-verify="required|number" class="layui-input layui-input-number" minlength="${field.minLenght}" maxlength="${field.maxLenght}" value="${field.defValue}" min="${field.min}" max="${field.max}" data-prec="${field.prec}" ${field.required?'lay-verify="required|number" required':'lay-verify="number"'}/>
+            </div>
+        @}
+        <!-- 如果当前是独占一行则关闭平分标签-->
+        @if(!field.single){
+            </div>
+        @}
+        <!-- 如果当前是偶数行或独占一行则关闭表单行标签-->
+        @if(count%2==0 || field.single){
+            </div>
+        @}
     @}
     <div class="layui-form-item text-right">
         <button class="layui-btn layui-btn-primary" type="button" ew-event="closeDialog">取消</button>

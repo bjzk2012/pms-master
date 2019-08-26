@@ -100,6 +100,11 @@ public class ModeField extends TableDomain {
         return map;
     }
     /**
+     * 精确度
+     */
+    @Column(name = "prec")
+    private Integer prec = 0;
+    /**
      * 最小值
      */
     @Column(name = "min")
