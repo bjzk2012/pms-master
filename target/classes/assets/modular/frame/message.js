@@ -4,7 +4,7 @@ layui.use(['element', 'form', 'jquery', 'ax', 'laytpl'], function () {
     var form = layui.form;
     var $ax = layui.ax;
     var laytpl = layui.laytpl;
-    var ajax = new $ax(Feng.ctxPath + "/system/messages", function(data){
+    var ajax = new $ax(Feng.ctxPath + "/messages", function(data){
         $("#notice_item").empty();
         if (data.code != 200 || data.data.length == 0){
             var noticeEmptyTpl = $("#noticeEmptyTpl").html();
@@ -35,7 +35,7 @@ layui.use(['element', 'form', 'jquery', 'ax', 'laytpl'], function () {
     ajax.start();
 
     var read = function(id, show){
-        var readAjax = new $ax(Feng.ctxPath + "/system/messages/read/"+id, function(data){
+        var readAjax = new $ax(Feng.ctxPath + "/messages/read/"+id, function(data){
             ajax.start();
             if (show) {
                 Feng.infoDetail("通知详情", data.data.content);

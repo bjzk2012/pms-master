@@ -2,16 +2,15 @@ package cn.kcyf.pms.modular.business.entity;
 
 import cn.kcyf.pms.core.enumerate.Status;
 import cn.kcyf.orm.jpa.entity.TableDomain;
+import com.alibaba.fastjson.annotation.JSONField;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Enumerated;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.Set;
 
 @Data
 @ToString
@@ -58,6 +57,7 @@ public class Mode extends TableDomain {
     @Column(name = "status")
     @Enumerated
     private Status status;
+
     public String getStatusMessage() {
         if (this.status != null) {
             return status.getMessage();

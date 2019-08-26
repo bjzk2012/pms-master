@@ -18,7 +18,7 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @Entity
 @Table(name = "c_catalogue")
-@ApiModel("文章目录")
+@ApiModel("内容目录")
 public class Catalogue extends TableDomain {
     /**
      * 父目录

@@ -40,6 +40,8 @@ public class ModeFieldController extends BasicController {
     private String PREFIX = "/modular/business/content/modefield/";
 
     @Autowired
+    private ModeService modeService;
+    @Autowired
     private ModeFieldService modefieldService;
     @Autowired
     private DictService dictService;
@@ -54,6 +56,7 @@ public class ModeFieldController extends BasicController {
 
     private void setDicts(Model model){
         Criteria<Dict> criteria = new Criteria<Dict>();
+        criteria.add(Restrictions.isNull("parentId"));
         List<Dict> dicts = dictService.findList(criteria);
         model.addAttribute("dicts", dicts);
     }
@@ -71,6 +74,8 @@ public class ModeFieldController extends BasicController {
     @RequiresPermissions(value = "modefield_edit")
     public String modefieldUpdate(Long modefieldId, Model model) {
         model.addAttribute("modefieldId", modefieldId);
+        setTypes(model);
+        setDicts(model);
         return PREFIX + "modefield_edit.html";
     }
 
@@ -96,12 +101,21 @@ public class ModeFieldController extends BasicController {
     @BussinessLog("新增内容模板属性")
     @ApiOperation("新增内容模板属性")
     @RequiresPermissions(value = "modefield_add")
-    public ResponseData add(@Valid ModeField modefield, @NotBlank(message = "请选择内容模板") Long modeId, BindingResult bindingResult) {
+    public ResponseData add(@Valid ModeField modefield, @NotBlank(message = "请选择内容模板") Long modeId, Long dictId, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return ResponseData.error(bindingResult.getAllErrors().get(0).getDefaultMessage());
         }
         create(modefield);
+        Criteria<ModeField> criteria = new Criteria<ModeField>();
+        criteria.add(Restrictions.eq("field", modefield.getField()));
+        if (modefieldService.countBy(criteria) > 0){
+            return ResponseData.error("内容模板属性已存在，请更换属性名再试");
+        }
         modefield.setStatus(Status.ENABLE);
+        if (!modefield.getCustom() && dictId != null) {
+            modefield.setDict(dictService.getOne(dictId));
+        }
+        modefield.setMode(modeService.getOne(modeId));
         modefieldService.create(modefield);
         return SUCCESS_TIP;
     }
@@ -111,13 +125,46 @@ public class ModeFieldController extends BasicController {
     @BussinessLog("修改内容模板属性")
     @ApiOperation("修改内容模板属性")
     @RequiresPermissions(value = "modefield_edit")
-    public ResponseData edit(@Valid ModeField modefield, BindingResult bindingResult) {
+    public ResponseData edit(@Valid ModeField modefield, @NotBlank(message = "请选择内容模板") Long modeId, Long dictId, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return ResponseData.error(bindingResult.getAllErrors().get(0).getDefaultMessage());
         }
+
         ModeField dbmodefield = modefieldService.getOne(modefield.getId());
-        update(dbmodefield);
+        dbmodefield.setLabel(modefield.getLabel());
+        dbmodefield.setDefValue(modefield.getDefValue());
+        dbmodefield.setHelp(modefield.getHelp());
+        dbmodefield.setRequired(modefield.getRequired() == null ? false : modefield.getRequired());
+        dbmodefield.setSingle(modefield.getSingle() == null ? false : modefield.getSingle());
+        dbmodefield.setDisplay(modefield.getDisplay() == null ? false : modefield.getDisplay());
         dbmodefield.setSort(modefield.getSort());
+        if (modeId != null && !modeId.equals(dbmodefield.getModeId())){
+            dbmodefield.setMode(modeService.getOne(modeId));
+        }
+        if (modefield.getType().equals(FieldType.TEXT) || modefield.getType().equals(FieldType.PASSWORD) || modefield.getType().equals(FieldType.NUMBER) || modefield.getType().equals(FieldType.TEXTAREA)){
+            dbmodefield.setMinLenght(modefield.getMinLenght());
+            dbmodefield.setMaxLenght(modefield.getMaxLenght());
+        }
+        if (modefield.getType().equals(FieldType.NUMBER)){
+            dbmodefield.setMin(modefield.getMin());
+            dbmodefield.setMax(modefield.getMax());
+        }
+        if (modefield.getType().equals(FieldType.COMBOBOX) || modefield.getType().equals(FieldType.CHECKBOX) || modefield.getType().equals(FieldType.SWITCH) || modefield.getType().equals(FieldType.REDIO)){
+            if (modefield.getCustom()){
+                dbmodefield.setOptKeys(modefield.getOptKeys());
+                dbmodefield.setOptValues(modefield.getOptValues());
+            } else {
+                dbmodefield.setDict(dictService.getOne(dictId));
+            }
+        }
+        if (modefield.getType().equals(FieldType.TEXTAREA)){
+            dbmodefield.setCols(modefield.getCols());
+            dbmodefield.setRows(modefield.getRows());
+        }
+        if (modefield.getType().equals(FieldType.IMAGE)){
+            dbmodefield.setWidth(modefield.getWidth());
+            dbmodefield.setHeight(modefield.getHeight());
+        }
         modefieldService.update(dbmodefield);
         return SUCCESS_TIP;
     }

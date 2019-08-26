@@ -23,10 +23,17 @@ import java.util.Set;
 @Table(name = "c_mode_field")
 @ApiModel("内容模型属性")
 public class ModeField extends TableDomain {
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "mode_id")
     @JSONField(serialize = false, deserialize = false)
     private Mode mode;
+
+    public Long getModeId(){
+        if (mode != null){
+            return mode.getId();
+        }
+        return null;
+    }
     /**
      * 字段
      */
@@ -63,6 +70,13 @@ public class ModeField extends TableDomain {
     @JSONField(serialize = false, deserialize = false)
     private Dict dict;
 
+    public Long getDictId(){
+        if (dict != null){
+            return dict.getId();
+        }
+        return null;
+    }
+
     public Map<String, String> getMap(){
         Map<String, String> map = new HashMap<String, String>();
         if (this.custom){
@@ -86,15 +100,25 @@ public class ModeField extends TableDomain {
         return map;
     }
     /**
-     * 最小长度
+     * 最小值
      */
     @Column(name = "min")
-    private Integer min = 4;
+    private Integer min = 1;
     /**
-     * 最大长度
+     * 最大值
      */
     @Column(name = "max")
     private Integer max = 255;
+    /**
+     * 最小长度
+     */
+    @Column(name = "min_lenght")
+    private Integer minLenght = 1;
+    /**
+     * 最大长度
+     */
+    @Column(name = "max_lenght")
+    private Integer maxLenght = 255;
     /**
      * 文本行数
      */
@@ -111,11 +135,6 @@ public class ModeField extends TableDomain {
     @Column(name = "help")
     private String help;
     /**
-     * 帮助文本位置
-     */
-    @Column(name = "helpPosition")
-    private String helpPosition;
-    /**
      * 类型
      */
     @Column(name = "type", nullable = false)
@@ -129,17 +148,17 @@ public class ModeField extends TableDomain {
      * 是否必填
      */
     @Column(name = "required", nullable = false)
-    private Boolean required = false;
+    private Boolean required;
     /**
      * 是否独占一行
      */
     @Column(name = "single", nullable = false)
-    private Boolean single = false;
+    private Boolean single;
     /**
      * 是否显示
      */
     @Column(name = "display", nullable = false)
-    private Boolean display = true;
+    private Boolean display;
     /**
      * 宽度
      */

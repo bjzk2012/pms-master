@@ -36,7 +36,7 @@ layui.use(['form', 'table', 'admin', 'element'], function () {
             {field: 'field', title: '字段'},
             {field: 'label', title: '名称'},
             {field: 'typeMessage', title: '字段类型'},
-            {field: 'status', title: '状态', templet: '#statusTpl'},
+            {field: 'status', title: '状态', templet: '#fieldStatusTpl'},
             {align: 'center', toolbar: '#tableBar', title: '操作'}
         ]];
     };
@@ -122,7 +122,7 @@ layui.use(['form', 'table', 'admin', 'element'], function () {
             type: 2,
             area: ['600px', '800px'],
             title: '修改内容模型属性',
-            content: Feng.ctxPath + '/modefield/modefield_edit?fieldId=' + data.id,
+            content: Feng.ctxPath + '/modefield/modefield_edit?modefieldId=' + data.id,
             end: function () {
                 admin.getTempData('formOk') && Mode.fieldSearch();
             }
@@ -219,7 +219,7 @@ layui.use(['form', 'table', 'admin', 'element'], function () {
             confirm: true,
             elem: obj.elem,
             finish: function (d) {
-                Mode.search();
+                Mode.fieldSearch();
             }
         });
     });

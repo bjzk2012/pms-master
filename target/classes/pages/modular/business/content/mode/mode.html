@@ -61,7 +61,7 @@
 
 <script type="text/html" id="fieldStatusTpl">
     @if(shiro.hasPermission("modefield_freeze")){
-    <input type="checkbox" lay-filter="status" value="{{d.id}}" lay-skin="switch" lay-text="启用|禁用" {{d.status=='ENABLE'?'checked':''}} />
+    <input type="checkbox" lay-filter="fieldStatus" value="{{d.id}}" lay-skin="switch" lay-text="启用|禁用" {{d.status=='ENABLE'?'checked':''}} />
     @} else {
     <button class="layui-btn layui-btn-xs {{d.status=='DISABLE'?'layui-btn-primary':''}}">{{d.statusMessage}}</button>
     @}

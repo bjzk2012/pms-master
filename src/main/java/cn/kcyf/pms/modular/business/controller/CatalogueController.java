@@ -25,7 +25,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/catalogue")
-@Api(tags = "文章目录管理", description = "文章目录管理")
+@Api(tags = "内容目录管理", description = "内容目录管理")
 @RequiresRoles(value = "administrator")
 public class CatalogueController extends BasicController {
     @Autowired
@@ -61,7 +61,7 @@ public class CatalogueController extends BasicController {
 
     @GetMapping(value = "/treeSelect")
     @ResponseBody
-    @ApiOperation("查询文章目录树形下拉列表")
+    @ApiOperation("查询内容目录树形下拉列表")
     @RequiresPermissions(value = {"catalogue_add", "catalogue_edit"}, logical = Logical.OR)
     public List<CatalogueNode> treeSelect() {
         return catalogueService.tree();
@@ -69,7 +69,7 @@ public class CatalogueController extends BasicController {
 
     @GetMapping(value = "/list")
     @ResponseBody
-    @ApiOperation("查询文章目录树形结构")
+    @ApiOperation("查询内容目录树形结构")
     @RequiresPermissions(value = "catalogue_list")
     public ResponseData list(String name) {
         Criteria<Catalogue> criteria = new Criteria<Catalogue>();
@@ -81,8 +81,8 @@ public class CatalogueController extends BasicController {
 
     @PostMapping(value = "/add")
     @ResponseBody
-    @BussinessLog("新增文章目录")
-    @ApiOperation("新增文章目录")
+    @BussinessLog("新增内容目录")
+    @ApiOperation("新增内容目录")
     @RequiresPermissions(value = "catalogue_add")
     public ResponseData add(@Valid Catalogue catalogue, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
@@ -95,8 +95,8 @@ public class CatalogueController extends BasicController {
 
     @PostMapping(value = "/edit")
     @ResponseBody
-    @BussinessLog("修改文章目录")
-    @ApiOperation("修改文章目录")
+    @BussinessLog("修改内容目录")
+    @ApiOperation("修改内容目录")
     @RequiresPermissions(value = "catalogue_edit")
     public ResponseData edit(@Valid Catalogue catalogue, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
@@ -115,7 +115,7 @@ public class CatalogueController extends BasicController {
 
     @GetMapping(value = "/detail/{catalogueId}")
     @ResponseBody
-    @ApiOperation("查看文章目录详情")
+    @ApiOperation("查看内容目录详情")
     @RequiresPermissions(value = {"catalogue_detail", "catalogue_edit"}, logical = Logical.OR)
     public Catalogue detail(@PathVariable("catalogueId") Long catalogueId) {
         return catalogueService.getOne(catalogueId);

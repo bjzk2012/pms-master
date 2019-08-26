@@ -1,0 +1,54 @@
+@layout("/common/_container.html",{bg:"bg-white",js:["/assets/modular/business/content/content/content_add.js"]}){
+<form id="contentForm" lay-filter="contentForm" class="layui-form model-form">
+    <div class="layui-form-item">
+        <label class="layui-form-label">标题<span style="color: red;">*</span></label>
+        <div class="layui-input-block">
+            <input id="subject" name="subject" placeholder="请输入标题" type="text" class="layui-input" lay-verify="required"/>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">编辑<span style="color: red;">*</span></label>
+        <div class="layui-input-block">
+            <input id="author" name="author" placeholder="请输入编辑" type="text" class="layui-input" lay-verify="required"/>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">来源</label>
+        <div class="layui-input-block">
+            <input id="origin" name="origin" placeholder="请输入来源" type="text" class="layui-input"/>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">简介</label>
+        <div class="layui-input-block">
+            <textarea id="description" name="description" placeholder="请输入简介" type="text/plain" class="layui-textarea"></textarea>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">图片</label>
+        <div class="layui-input-block">
+            <input id="picture" name="picture" type="hidden"/>
+            <div class="layui-upload">
+                <button type="button" class="layui-btn" id="picture_btn">上传图片</button>
+                <div class="layui-upload-list">
+                    <img class="layui-upload-img" id="picture_img" style="width:150px;height:150px;border:1px solid #eee;" src="/assets/common/images/default.png">
+                    <p id="picture_text"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">排序</label>
+        <div class="layui-input-block">
+            <input id="sort" name="sort" placeholder="请输入排序" type="text" lay-verify="required|number" class="layui-input layui-input-number" required value="1" min="1" max="1000" data-prec="0" />
+        </div>
+    </div>
+    @for(field in fields) {
+    ${field.field}|${field.label}|${field.type}|${field.min}|
+    @}
+    <div class="layui-form-item text-right">
+        <button class="layui-btn layui-btn-primary" type="button" ew-event="closeDialog">取消</button>
+        <button class="layui-btn" lay-filter="btnSubmit" lay-submit>保存</button>
+    </div>
+</form>
+@}

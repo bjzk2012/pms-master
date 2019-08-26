@@ -1,6 +1,7 @@
-@layout("/common/_container.html",{bg:"bg-white",js:["/assets/modular/business/content/modefield/modefield_add.js"]}){
+@layout("/common/_container.html",{bg:"bg-white",js:["/assets/modular/business/content/modefield/modefield_edit.js"]}){
 <form id="modefieldForm" lay-filter="modefieldForm" class="layui-form model-form">
-    <input name="modeId" value="${modeId}" type="hidden" />
+    <input name="id" type="hidden" />
+    <input name="modeId" type="hidden" />
     <div class="layui-form-item">
         <div class="layui-col-xs6">
             <label class="layui-form-label">字段<span style="color: red;">*</span></label>

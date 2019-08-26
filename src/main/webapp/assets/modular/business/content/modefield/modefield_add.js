@@ -1,9 +1,8 @@
-layui.use(['form', 'admin', 'ax', 'numinput', 'upload'], function () {
+layui.use(['form', 'admin', 'ax', 'numinput'], function () {
     var $ = layui.jquery;
     var $ax = layui.ax;
     var form = layui.form;
     var admin = layui.admin;
-    var upload = layui.upload;
 
     var numinput = layui.numinput;
     numinput.init({rightBtns: true});
@@ -16,10 +15,11 @@ layui.use(['form', 'admin', 'ax', 'numinput', 'upload'], function () {
     form.on('select(type)', function (obj) {
         $(".attr").hide();
         $("." + obj.value).show();
+        form.val("modefieldForm", {custom: "true"});
         admin.iframeAuto();
     });
-    form.on('switch(switchCustom)', function (obj) {
-        if (obj.elem.checked) {
+    form.on('radio(radioCustom)', function (obj) {
+        if (obj.value == "true") {
             $(".custom").show();
             $(".dict").hide();
         } else {

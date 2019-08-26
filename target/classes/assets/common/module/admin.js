@@ -361,7 +361,7 @@ layui.define(['layer'], function (exports) {
         },
         messagesCount: function () {
             $("#layui-icon-notice .layui-badge-dot").remove();
-            admin.req(Feng.ctxPath + "/system/messages/count", {}, function (data) {
+            admin.req(Feng.ctxPath + "/messages/count", {}, function (data) {
                 if (data.data) {
                     $("#layui-icon-notice").append("<span class='layui-badge-dot'></span>");
                 }
@@ -404,7 +404,7 @@ layui.define(['layer'], function (exports) {
             var url = $(this).attr('data-url');
             admin.popupRight({
                 type: 2,
-                content: url ? url : Feng.ctxPath + '/system/message'
+                content: url ? url : Feng.ctxPath + '/message'
             });
             $("#layui-icon-notice .layui-badge-dot").remove();
         },
