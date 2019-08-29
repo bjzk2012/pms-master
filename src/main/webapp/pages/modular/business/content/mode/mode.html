@@ -47,8 +47,19 @@
                 <button class="layui-btn icon-btn" lay-event="openFieldAdd"><i class="layui-icon">&#xe654;</i>添加</button>
                 @}
             </div>
+            <div class="layui-inline" style="color:#F00">
+                注意：连续非独占一行的属性个数必须为内容模型“单行属性数”的整数倍，防止页面乱码
+            </div>
         </div>
     </div>
+</script>
+
+<script type="text/html" id="singleTpl">
+    @if(shiro.hasPermission("modefield_single")){
+    <input type="checkbox" lay-filter="single" value="{{d.id}}" lay-skin="switch" lay-text="是|否" {{d.single?'checked':''}} />
+    @} else {
+    <button class="layui-btn layui-btn-xs {{d.single?'layui-btn-primary':''}}">{{d.single?'是':'否'}}</button>
+    @}
 </script>
 
 <script type="text/html" id="statusTpl">

@@ -1,11 +1,13 @@
 package cn.kcyf.pms.modular.system.controller;
 
 import cn.kcyf.pms.core.controller.BasicController;
+import cn.kcyf.pms.core.enumerate.Status;
 import cn.kcyf.pms.core.log.BussinessLog;
 import cn.kcyf.pms.core.model.DeptNode;
 import cn.kcyf.pms.core.model.ResponseData;
 import cn.kcyf.pms.core.model.SuccessResponseData;
 import cn.kcyf.pms.modular.system.entity.Dept;
+import cn.kcyf.pms.modular.system.entity.Role;
 import cn.kcyf.pms.modular.system.service.DeptService;
 import cn.kcyf.orm.jpa.criteria.Criteria;
 import cn.kcyf.orm.jpa.criteria.Restrictions;
@@ -90,6 +92,7 @@ public class DeptController extends BasicController {
         if (bindingResult.hasErrors()) {
             return ResponseData.error(bindingResult.getAllErrors().get(0).getDefaultMessage());
         }
+        dept.setStatus(Status.ENABLE);
         create(dept);
         deptService.create(dept);
         return SUCCESS_TIP;
@@ -133,4 +136,21 @@ public class DeptController extends BasicController {
         return ResponseData.success(deptService.getOne(deptId));
     }
 
+    @PostMapping("/freeze/{deptId}")
+    @ResponseBody
+    @BussinessLog("禁用部门")
+    @ApiOperation("禁用部门")
+    @RequiresPermissions(value = "dept_freeze")
+    public ResponseData freeze(@PathVariable Long deptId) {
+        return deptService.freeze(deptId,getUser().getId());
+    }
+
+    @PostMapping("/unfreeze/{deptId}")
+    @ResponseBody
+    @BussinessLog("启用部门")
+    @ApiOperation("启用部门")
+    @RequiresPermissions(value = "dept_freeze")
+    public ResponseData unfreeze(@PathVariable Long deptId) {
+        return deptService.unfreeze(deptId);
+    }
 }

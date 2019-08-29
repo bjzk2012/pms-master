@@ -1,0 +1,23 @@
+@layout("/common/_container.html",{bg:"bg-white", js:["/assets/modular/system/security/security.js"]}){
+<form id="saltForm" lay-filter="saltForm" class="layui-form model-form">
+    <div class="layui-form-item">
+        <label class="layui-form-label">Salt</label>
+        <button id="salt_btn" class="layui-btn" lay-filter="saltSubmit" style="float:left;" lay-submit>Salt生成</button>
+        <div id="salt_result" class="layui-form-mid layui-word-aux" style="margin-left:10px;"></div>
+    </div>
+</form>
+
+<form id="md5Form" lay-filter="md5Form" class="layui-form model-form">
+    <div class="layui-form-item">
+        <label class="layui-form-label">MD5</label>
+        <div class="layui-input-inline">
+            <input id="password" name="password" type="text" placeholder="请输入待加密字符" class="layui-input" lay-verify="required" >
+        </div>
+        <div class="layui-input-inline">
+            <input id="salt" name="salt" type="text" placeholder="请输入加密盐" class="layui-input" lay-verify="required" >
+        </div>
+        <button id="md5_btn" class="layui-btn" lay-filter="md5Submit" style="float:left;" lay-submit>MD5加密</button>
+        <div id="md5_result" class="layui-form-mid layui-word-aux" style="margin-left:10px;"></div>
+    </div>
+</form>
+@}

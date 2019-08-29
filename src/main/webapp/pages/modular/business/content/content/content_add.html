@@ -1,21 +1,23 @@
-@layout("/common/_container.html",{bg:"bg-white",js:["/assets/modular/business/content/content/content_add.js"]}){
+@layout("/common/_container.html",{bg:"bg-white", plugins:["ztree"], js:["/assets/modular/business/content/content/content_add.js"]}){
 <form id="contentForm" lay-filter="contentForm" class="layui-form model-form">
     <div class="layui-form-item">
-        <label class="layui-form-label">标题<span style="color: red;">*</span></label>
-        <div class="layui-input-block">
-            <input id="subject" name="subject" placeholder="请输入标题" type="text" class="layui-input" lay-verify="required"/>
+        <div class="layui-col-xs4">
+            <label class="layui-form-label">标题<span style="color: red;">*</span></label>
+            <div class="layui-input-block">
+                <input id="subject" name="subject" placeholder="请输入标题" type="text" class="layui-input" lay-verify="required"/>
+            </div>
         </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">编辑<span style="color: red;">*</span></label>
-        <div class="layui-input-block">
-            <input id="author" name="author" placeholder="请输入编辑" type="text" class="layui-input" lay-verify="required"/>
+        <div class="layui-col-xs4">
+            <label class="layui-form-label">编辑<span style="color: red;">*</span></label>
+            <div class="layui-input-block">
+                <input id="author" name="author" placeholder="请输入编辑" type="text" class="layui-input" lay-verify="required"/>
+            </div>
         </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">来源</label>
-        <div class="layui-input-block">
-            <input id="origin" name="origin" placeholder="请输入来源" type="text" class="layui-input"/>
+        <div class="layui-col-xs4">
+            <label class="layui-form-label">来源</label>
+            <div class="layui-input-block">
+                <input id="origin" name="origin" placeholder="请输入来源" type="text" class="layui-input"/>
+            </div>
         </div>
     </div>
     <div class="layui-form-item">
@@ -25,14 +27,29 @@
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">图片</label>
-        <div class="layui-input-block">
-            <input id="picture" name="picture" type="hidden"/>
-            <div class="layui-upload">
-                <button type="button" class="layui-btn" id="picture_btn">上传图片</button>
-                <div class="layui-upload-list">
-                    <img class="layui-upload-img" id="picture_img" style="width:150px;height:150px;border:1px solid #eee;" src="/assets/common/images/default.png">
-                    <p id="picture_text"></p>
+        <div class="layui-col-xs6">
+            <label class="layui-form-label">标题图</label>
+            <div class="layui-input-block">
+                <input id="titleImg" name="titleImg" type="hidden"/>
+                <div class="layui-upload">
+                    <button type="button" class="layui-btn" id="titleImg_btn">上传图片</button>
+                    <div class="layui-upload-list">
+                        <img class="layui-upload-img" id="titleImg_img" style="width:150px;height:150px;border:1px solid #eee;" src="/assets/common/images/default.png">
+                        <p id="titleImg_text"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-xs6">
+            <label class="layui-form-label">内容图</label>
+            <div class="layui-input-block">
+                <input id="contentImg" name="contentImg" type="hidden"/>
+                <div class="layui-upload">
+                    <button type="button" class="layui-btn" id="contentImg_btn">上传图片</button>
+                    <div class="layui-upload-list">
+                        <img class="layui-upload-img" id="contentImg_img" style="width:150px;height:150px;border:1px solid #eee;" src="/assets/common/images/default.png">
+                        <p id="contentImg_text"></p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -40,46 +57,325 @@
     <div class="layui-form-item">
         <label class="layui-form-label">排序</label>
         <div class="layui-input-block">
-            <input id="sort" name="sort" placeholder="请输入排序" type="text" lay-verify="required|number" class="layui-input layui-input-number" required value="1" min="1" max="1000" data-prec="0" />
+            <input id="sort" name="sort" placeholder="请输入排序" type="text" lay-verify="required|number" class="layui-input layui-input-number" required value="1" min="1" max="1000" data-prec="2" />
         </div>
     </div>
     <!-- TODO 此处根据属性列表生成表单，未理解逻辑之前不要修改任何代码 -->
-    <!-- TODO 注意，添加表单属性时，非独占一行属性必须成对出现，否则可能会发生页面乱码情况 -->
+    @var index = 0;
     @var count = 0;
     @for(field in fields) {
+        @index++;
         <!-- 判断是否独占一行，是则重置行，否则行递增 -->
         @if(field.single){
             @count = 0;
-        @}else{
+        @} else {
             @count++;
         @}
         <!-- 基数行或独占一行的开启表单行标签 -->
-        @if(count%2==1 || field.single){
+        @if(count % mode.cols == 1 || field.single){
             <div class="layui-form-item">
         @}
         <!-- 非独占一行则开启宽度平分标签 -->
         @if(!field.single){
-        <div class="layui-col-xs6">
+        <div class="layui-col-xs${12/mode.cols}">
         @}
         <!-- 按照属性类型添加属性内容 -->
+        @var help = '请输入' + field.label;
+        @if(!tool.isEmpty(field.help)){
+            @help = field.help;
+        @}
+        @if(field.type == 'NUMBER'){
+            <label class="layui-form-label">${field.label}${field.required?'<span style="color: red;">*</span>':''}</label>
+            <div class="layui-input-inline">
+                <input name="attr_${field.field}" placeholder="${help}" type="text" class="layui-input layui-input-number" minlength="${field.minLength}" maxlength="${field.maxLength}" value="${field.defValue}" min="${field.min}" max="${field.max}" data-prec="${field.prec}" ${field.required?'lay-verify="required|number" required':'lay-verify="number"'}/>
+            </div>
+        @}
+
+        @var keys = [];
+            @var values = [];
+            @if(field.custom){
+                @if (!tool.isEmpty(field.optKeys) && !tool.isEmpty(field.optValues)){
+                    @keys = tool.split(field.optKeys, ',');
+                    @values = tool.split(field.optValues, ',');
+                @}
+            @} else {
+            @if(!tool.isEmpty(field.dict)){
+                @for(dict in field.dict.dicts){
+                    @array.add(keys, dict.code);
+                    @array.add(values, dict.name);
+                @}
+            @}
+        @}
+
+        @if(field.type == 'CHECKBOX'){
+            <label class="layui-form-label">${field.label}${field.required?'<span style="color: red;">*</span>':''}</label>
+            <div class="layui-input-block">
+                @for(key in keys){
+                    <input name="attr_${field.field}" lay-filter="attr_${field.field}" ${key == field.defValue ? 'checked': ''} type="checkbox" lay-data="${key}" lay-skin="primary" title="${values[keyLP.index-1]}" ${field.required?'lay-verify="checkboxRequired"':''}/>
+                @}
+            </div>
+        @}
+
+        @if(field.type == 'TEXTAREA'){
+            <label class="layui-form-label">${field.label}${field.required?'<span style="color: red;">*</span>':''}</label>
+            <div class="layui-input-block">
+                <textarea name="attr_${field.field}" placeholder="${help}" rows="${field.rows}" cols="${field.cols}" minlength="${field.minLength}" maxlength="${field.maxLength}" type="text/plain" class="layui-textarea" ${field.required?'lay-verify="required" required':''}>${field.defValue}</textarea>
+            </div>
+        @}
+
         @if(field.type == 'TEXT'){
             <label class="layui-form-label">${field.label}${field.required?'<span style="color: red;">*</span>':''}</label>
             <div class="layui-input-block">
-                <input id="${field.field}" name="${field.field}" placeholder="请输入${field.label}" type="text" minlength="${field.minLenght}" maxlength="${field.maxLenght}" class="layui-input" value="${field.defValue}" ${field.required?'lay-verify="required" required':''}/>
+                <input name="attr_${field.field}" placeholder="${help}" type="text" minlength="${field.minLength}" maxlength="${field.maxLength}" class="layui-input" value="${field.defValue}" ${field.required?'lay-verify="required" required':''}/>
             </div>
         @}
+
+        @if(field.type == 'FILES'){
+            <label class="layui-form-label">${field.label}${field.required?'<span style="color: red;">*</span>':''}</label>
+            <div class="layui-input-block">
+                <div class="layui-upload">
+                    <button type="button" class="layui-btn" id="attr_${field.field}_btn">选择多文件</button>
+                    <div class="layui-upload-list" style="border: 1px solid;border-color:rgba(0, 0, 0, 0) ">
+                        <table class="layui-table">
+                            <thead>
+                            <tr>
+                                <th>文件名</th>
+                                <th>大小</th>
+                                <th>状态</th>
+                                <th>操作</th>
+                            </tr>
+                            </thead>
+                            <tbody id="attr_${field.field}_dataList"></tbody>
+                        </table>
+                    </div>
+                    <input type="hidden" id="attr_${field.field}" name="attr_${field.field}" value="${field.defValue}" ${field.required?'lay-verify="filesRequired"':''}>
+                    <button type="button" class="layui-btn" id="attr_${field.field}_uploadBtn" style="float:left;">开始上传</button><div class="layui-form-mid layui-word-aux" style="margin-left:20px;">${help}</div>
+                </div>
+            </div>
+            <script>
+                layui.use(['jquery', 'upload'], function() {
+                    var $ = layui.jquery;
+                    var upload = layui.upload;
+                    var demoListView = $('#attr_${field.field}_dataList');
+                    var attr_${field.field}uploadListIns = upload.render({
+                        elem: '#attr_${field.field}_btn',
+                        url: '/system/upload/',
+                        accept: 'file',
+                        multiple: true,
+                        auto: false,
+                        bindAction: '#attr_${field.field}_uploadBtn',
+                        choose: function(obj){
+                            var files = this.files = obj.pushFile(); //将每次选择的文件追加到文件队列
+                            //读取本地文件
+                            obj.preview(function(index, file, result){
+                                var tr = $(['<tr id="upload-'+ index +'">'
+                                    ,'<td>'+ file.name +'</td>'
+                                    ,'<td>'+ (file.size/1014).toFixed(1) +'kb</td>'
+                                    ,'<td>等待上传</td>'
+                                    ,'<td>'
+                                    ,'<button class="layui-btn layui-btn-xs demo-reload layui-hide">重传</button>'
+                                    ,'<button class="layui-btn layui-btn-xs layui-btn-danger demo-delete">删除</button>'
+                                    ,'</td>'
+                                    ,'</tr>'].join(''));
+
+                                //单个重传
+                                tr.find('.demo-reload').on('click', function(){
+                                    obj.upload(index, file);
+                                });
+
+                                //删除
+                                tr.find('.demo-delete').on('click', function(){
+                                    delete files[index]; //删除对应的文件
+                                    tr.remove();
+                                    attr_${field.field}uploadListIns.config.elem.next()[0].value = ''; //清空 input file 值，以免删除后出现同名文件不可选
+                                });
+
+                                demoListView.append(tr);
+                            });
+                        },
+                        done: function(res, index, upload){
+                            if(res.code == 0){
+                                var value = $("#attr_${field.field}").val();
+                                var values = value.split(",");
+                                values.push(res.data.src);
+                                $("#attr_${field.field}").val(values.join(","));
+                                var tr = demoListView.find('tr#upload-'+ index);
+                                var tds = tr.children();
+                                tds.eq(2).html('<span style="color: #5FB878;">上传成功</span>');
+                                tds.eq(3).html('');
+                                return delete this.files[index];
+                            }
+                            this.error(index, upload);
+                        },
+                        error: function(index, upload){
+                            var tr = demoListView.find('tr#upload-'+ index)
+                                ,tds = tr.children();
+                            tds.eq(2).html('<span style="color: #FF5722;">上传失败</span>');
+                            tds.eq(3).find('.demo-reload').removeClass('layui-hide'); //显示重传
+                        }
+                    });
+                });
+            </script>
+        @}
+
+        @if(field.type == 'RICHTEXT'){
+            <label class="layui-form-label">${field.label}${field.required?'<span style="color: red;">*</span>':''}</label>
+            <div class="layui-input-block">
+                <textarea id="attr_${field.field}" name="attr_${field.field}" class="layui-layedit" name="attr_${field.field}" style="display: none;" ${field.required?'lay-verify="richtextRequired" required':''}>${field.defValue}</textarea>
+            </div>
+        @}
+
         @if(field.type == 'PASSWORD'){
             <label class="layui-form-label">${field.label}${field.required?'<span style="color: red;">*</span>':''}</label>
             <div class="layui-input-block">
-                <input id="${field.field}" name="${field.field}" placeholder="请输入${field.label}" type="text" lay-verify="required|number" class="layui-input layui-input-number" minlength="${field.minLenght}" maxlength="${field.maxLenght}" value="${field.defValue}" min="${field.min}" max="${field.max}" data-prec="${field.prec}" ${field.required?'lay-verify="required|number" required':'lay-verify="number"'}/>
+                <input name="attr_${field.field}" placeholder="${help}" type="password" class="layui-input" minlength="${field.minLength}" maxlength="${field.maxLength}" value="${field.defValue}" ${field.required?'lay-verify="required"':''}/>
             </div>
         @}
+
+        @if(field.type == 'IMAGE'){
+            <label class="layui-form-label">${field.label}${field.required?'<span style="color: red;">*</span>':''}</label>
+            <div class="layui-input-block">
+                <input id="attr_${field.field}" name="attr_${field.field}" type="hidden" value="${field.defValue}" ${field.required?'lay-verify="imageRequired"':''} />
+                <div class="layui-upload">
+                    <button type="button" class="layui-btn" id="attr_${field.field}_btn">上传图片</button>
+                    <div class="layui-upload-list">
+                        <img class="layui-upload-img" id="attr_${field.field}_img" style="width:150px;height:150px;border:1px solid #eee;" src="${field.defValue == '' ? '/assets/common/images/default.png' : field.defValue}">
+                        <p id="attr_${field.field}_text"></p>
+                    </div>
+                </div>
+            </div>
+            <script>
+                layui.use(['jquery', 'upload'],function(){
+                    var $ = layui.jquery;
+                    var upload = layui.upload;
+                    var attr_${field.field}Inst = upload.render({
+                        elem: '#attr_${field.field}_btn',
+                        url: Feng.ctxPath + '/system/upload',
+                        accept: 'images',
+                        before: function(obj){
+                            obj.preview(function(index, file, r){
+                                $('#attr_${field.field}_img').attr('src', r); //图片链接（base64）
+                            });
+                        },
+                        done: function(r){
+                            $("#attr_${field.field}").val(r.data.src);
+                        },
+                        error: function(){
+                            //演示失败状态，并实现重传
+                            var demoText = $('#attr_${field.field}_text');
+                            demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
+                            demoText.find('.demo-reload').on('click', function(){
+                                attr_${field.field}Inst.upload();
+                            });
+                        }
+                    });
+                });
+            </script>
+        @}
+
+        @if(field.type == 'REDIO'){
+            <label class="layui-form-label">${field.label}${field.required?'<span style="color: red;">*</span>':''}</label>
+            <div class="layui-input-block">
+                @for(key in keys){
+                <input name="attr_${field.field}" type="radio" value="${key}" ${key == field.defValue ? 'checked': ''} title="${values[keyLP.index-1]}" ${field.required?'lay-verify="redioRequired"':''}/>
+                @}
+            </div>
+        @}
+
+        @if(field.type == 'TREE'){
+            <label class="layui-form-label">${field.label}${field.required?'<span style="color: red;">*</span>':''}</label>
+            <div class="layui-input-block">
+                <input id="attr_${field.field}" name="attr_${field.field}" type="hidden" value="${field.defValue}">
+                <input id="attr_${field.field}Name" name="attr_${field.field}Name" placeholder="${help}" type="text" class="layui-input" lay-filter="${field.field}tree" autocomplete="off" ${field.required?'lay-verify="treeRequired"':''}/>
+            </div>
+            <script>
+                layui.use(['jquery', 'treeSelect'],function(){
+                    var $ = layui.jquery;
+                    var treeSelect = layui.treeSelect;
+                    treeSelect.render({
+                        elem: '#attr_${field.field}Name',
+                        data: Feng.ctxPath + "${field.dataUrl}",
+                        type: 'get',
+                        placeholder: '请选择${field.label}',
+                        search: true,
+                        click: function(d){
+                            $("#attr_${field.field}").val(d.current.id);
+                        },
+                        success: function(){
+                            @if(!tool.isEmpty(field.defValue)){
+                            treeSelect.checkNode('${field.field}tree', '${field.defValue}');
+                            @}
+                        }
+                    });
+                });
+            </script>
+        @}
+
+        @if(field.type == 'COMBOBOX'){
+            <label class="layui-form-label">${field.label}${field.required?'<span style="color: red;">*</span>':''}</label>
+            <div class="layui-input-block">
+                <select id="attr_${field.field}" name="attr_${field.field}" ${field.required?'lay-verify="required" required':''}>
+                    @for(key in keys){
+                        <option value="${key}" ${key == field.defValue ? 'selected': ''}>${values[keyLP.index-1]}</option>
+                    @}
+                </select>
+            </div>
+        @}
+
+        @if(field.type == 'SWITCH'){
+            @if (!tool.isEmpty(field.optValues)){
+                @values = tool.split(field.optValues, ',');
+            @}
+            <label class="layui-form-label">${field.label}${field.required?'<span style="color: red;">*</span>':''}</label>
+            <div class="layui-input-block">
+                <input type="checkbox" ${field.defValue == 'true' ? 'checked': ''} name="attr_${field.field}" lay-skin="switch" lay-filter="attr_${field.field}Switch" lay-text="${values[0]}|${values[1]}">
+            </div>
+        @}
+
+        @if(field.type == 'MACKDOWN'){
+            <label class="layui-form-label">${field.label}${field.required?'<span style="color: red;">*</span>':''}</label>
+            <div class="layui-input-block">
+                <textarea id="attr_${field.field}" name="attr_${field.field}" class="layui-layedit" name="attr_${field.field}" style="display: none;" ${field.required?'lay-verify="required" required':''}></textarea>
+            </div>
+        @}
+
+
+        @if(field.type == 'FILE'){
+            <label class="layui-form-label">${field.label}${field.required?'<span style="color: red;">*</span>':''}</label>
+            <div class="layui-input-block">
+                <input type="hidden" id="attr_${field.field}" name="attr_${field.field}" value="${field.defValue}" ${field.required?'lay-verify="fileRequired"':''}/>
+                <button type="button" class="layui-btn" id="attr_${field.field}_btn" style="float:left;">上传文件</button>
+                @if(field.required){
+                <div class="layui-form-mid layui-word-aux" style="margin-left:10px;border:1px solid rgba(0,0,0,0)">${help}</div>
+                @}
+                <a id="attr_${field.field}_href" target="_blank" href="${field.defValue}">${field.defValue}</a>
+            </div>
+            <script>
+                layui.use(['jquery', 'upload'], function() {
+                    var $ = layui.jquery;
+                    var upload = layui.upload;
+                    upload.render({
+                        elem: '#attr_${field.field}_btn',
+                        url: '/system/upload/',
+                        multiple: true,
+                        done: function(res){
+                            if(res.code == 0){
+                                $("#attr_${field.field}").val(res.data.src);
+                                $("#attr_${field.field}_href").text(res.data.src);
+                                $("#attr_${field.field}_href").attr("href", res.data.src);
+                            }
+                        }
+                    });
+                });
+            </script>
+        @}
+
         <!-- 如果当前是独占一行则关闭平分标签-->
         @if(!field.single){
             </div>
         @}
-        <!-- 如果当前是偶数行或独占一行则关闭表单行标签-->
-        @if(count%2==0 || field.single){
+        <!-- 如果当前是偶数行或独占一行或最后一个则关闭表单行标签-->
+        @if(count%mode.cols == 0 || field.single || index == fieldLP.size){
             </div>
         @}
     @}

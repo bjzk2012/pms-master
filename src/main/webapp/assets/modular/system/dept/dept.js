@@ -1,5 +1,6 @@
-layui.use(['table', 'treetable', 'admin'], function () {
+layui.use(['form','table', 'treetable', 'admin'], function () {
     var $ = layui.$;
+    var form = layui.form;
     var table = layui.table;
     var treetable = layui.treetable;
     var admin = layui.admin;
@@ -25,6 +26,7 @@ layui.use(['table', 'treetable', 'admin'], function () {
             {field: 'fullName', sort: true, title: '部门全称'},
             {field: 'sort', sort: true, title: '排序'},
             {field: 'description', title: '备注'},
+            {field: 'status', sort: true, templet: '#statusTpl', title: '状态'},
             {align: 'center', toolbar: '#tableBar', title: '操作', minWidth: 200}
         ]];
     };
@@ -129,5 +131,20 @@ layui.use(['table', 'treetable', 'admin'], function () {
                 }
             });
         }
+    });
+
+    // 修改状态
+    form.on('switch(status)', function (obj) {
+        Feng.doAction({
+            id: obj.elem.value,
+            module: "dept",
+            action: obj.elem.checked ? "unfreeze" : "freeze",
+            title: obj.elem.checked ? "启用" : "禁用",
+            confirm: true,
+            elem: obj.elem,
+            finish: function (d) {
+                Dept.search();
+            }
+        });
     });
 });

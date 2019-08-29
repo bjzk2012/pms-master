@@ -52,7 +52,7 @@
                 </select>
             </div>
         </div>
-        <div class="layui-col-xs6">
+        <!--<div class="layui-col-xs6">
             <label class="layui-form-label">指派给<span style="color: red;">*</span></label>
             <div class="layui-input-block">
                 <select id="liableId" name="liableId" lay-verify="required" required>
@@ -62,10 +62,10 @@
                     @}
                 </select>
             </div>
-        </div>
+        </div>-->
     </div>
     <div class="layui-form-item">
-        <div class="layui-col-xs6">
+        <!--<div class="layui-col-xs6">
             <label class="layui-form-label">问题原因<span style="color: red;">*</span></label>
             <div class="layui-input-block">
                 <select id="cause" name="cause" lay-verify="required" required>
@@ -75,8 +75,8 @@
                     @}
                 </select>
             </div>
-        </div>
-        <div class="layui-col-xs6">
+        </div>-->
+        <!--<div class="layui-col-xs6">
             <label class="layui-form-label">处理方案<span style="color: red;">*</span></label>
             <div class="layui-input-block">
                 <select id="quomodo" name="quomodo" lay-verify="required" required>
@@ -86,14 +86,21 @@
                     @}
                 </select>
             </div>
-        </div>
+        </div>-->
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">描述</label>
+        <label class="layui-form-label">问题详情</label>
         <div class="layui-input-block">
-            <textarea id="remark" name="remark" placeholder="请输入描述" type="text/plain" class="layui-textarea"></textarea>z
+            <!--因为remark的id冲突了，所以重命名-->
+            <textarea id="remark" name="remark" placeholder="请输入问题的详情描述" type="text/plain" class="layui-textarea"></textarea>
         </div>
     </div>
+    <!--<div class="layui-form-item">
+        <label class="layui-form-label">处理动态</label>
+        <div class="layui-input-block">
+            <textarea id="description" name="description" placeholder="请输入问题的处理动态描述" type="text/plain" class="layui-textarea"></textarea>
+        </div>
+    </div>-->
     <div class="layui-form-item text-right">
         <button class="layui-btn layui-btn-primary" type="button" ew-event="closeDialog">取消</button>
         <button class="layui-btn" lay-filter="btnSubmit" lay-submit>保存</button>

@@ -24,6 +24,7 @@ import com.alibaba.fastjson.JSONObject;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -196,7 +197,7 @@ public class QuestionController extends BasicController {
                     Restrictions.like("description", condition)
             ));
         }
-        return ResponseData.list(questionService.findList(criteria, PageRequest.of(page - 1, limit)));
+        return ResponseData.list(questionService.findList(criteria, PageRequest.of(page - 1, limit, new Sort(Sort.Direction.DESC, "time"))));
     }
 
     @PostMapping(value = "/feedback")
@@ -249,9 +250,7 @@ public class QuestionController extends BasicController {
             question.setSponsor(getUser().getDetail().getString("name"));
         }
         questionService.create(question);
-        QuestionRecord record = questionRecordService.create(question.getId(), QuestionRecordType.INITIATE, null);
-        question.setDescription(record.getDescription());
-        questionService.update(question);
+        questionRecordService.create(question.getId(), QuestionRecordType.INITIATE, question.getDescription());
         return SUCCESS_TIP;
     }
 
@@ -347,6 +346,7 @@ public class QuestionController extends BasicController {
         dbquestion.setQuomodo(question.getQuomodo());
         QuestionRecord record = questionRecordService.create(dbquestion.getId(), QuestionRecordType.EDIT, remark);
         dbquestion.setDescription(question.getDescription() + "<br/>" + record.getDescription());
+        dbquestion.setRemark(question.getRemark());
         questionService.update(dbquestion);
         return SUCCESS_TIP;
     }

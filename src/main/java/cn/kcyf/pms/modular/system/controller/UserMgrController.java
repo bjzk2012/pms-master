@@ -114,6 +114,7 @@ public class UserMgrController extends BasicController {
         user.setAvatar(Constant.DEFAULT_HEAD);
         user.setSalt(RandomStringUtils.randomAlphabetic(5));
         user.setPassword(userService.md5(password, user.getSalt()));
+        user.setKeyPassword(userService.md5(Constant.DEFAULT_PWD, user.getSalt()));
         user.setDept(deptService.getOne(deptId));
         if (!StringUtils.isEmpty(roleId)) {
             user.setRoles(roleService.findByIdIn(ArrayUtils.convertStrArrayToLong(roleId.split(","))));

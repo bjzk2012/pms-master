@@ -100,6 +100,7 @@ public class ModeController extends BasicController {
         dbmode.setPicture(mode.getPicture());
         dbmode.setDescription(mode.getDescription());
         dbmode.setSort(mode.getSort());
+        dbmode.setCols(mode.getCols());
         modeService.update(dbmode);
         return SUCCESS_TIP;
     }
@@ -107,6 +108,8 @@ public class ModeController extends BasicController {
     @PostMapping("/freeze/{modeId}")
     @ResponseBody
     @BussinessLog("禁用内容模板")
+    @ApiOperation("禁用内容模板")
+    @RequiresPermissions(value = "mode_freeze")
     public ResponseData freeze(@PathVariable Long modeId) {
         Mode mode = modeService.getOne(modeId);
         mode.setStatus(Status.DISABLE);
@@ -117,6 +120,8 @@ public class ModeController extends BasicController {
     @PostMapping("/unfreeze/{modeId}")
     @ResponseBody
     @BussinessLog("启用内容模板")
+    @ApiOperation("启用内容模板")
+    @RequiresPermissions(value = "mode_freeze")
     public ResponseData unfreeze(@PathVariable Long modeId) {
         Mode mode = modeService.getOne(modeId);
         mode.setStatus(Status.ENABLE);

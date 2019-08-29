@@ -43,4 +43,12 @@ public class ToolsSupport {
             return false;
         }
     }
+
+    public String[] split(String text, String regex){
+        if (!isEmpty(text)){
+            return text.split(regex);
+        }
+        return new String[0];
+    }
+
 }

@@ -15,6 +15,8 @@ public interface DeptDao extends BasicDao<Dept, Long> {
     @Query(value = "select id from sys_dept where parent_id = :id", nativeQuery = true)
     List<BigInteger> getChildIdById(@Param(value = "id") Long id);
 
+    List<Dept> findAllByParentId(Long id);
+
     @Query(value = "select p.simple_name from sys_dept p left join sys_dept d on d.parent_id = p.id where d.id = :id", nativeQuery = true)
     String getParentName(@Param(value = "id") Long id);
 }

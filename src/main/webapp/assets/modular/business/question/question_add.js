@@ -8,7 +8,12 @@ layui.use(['form', 'laydate', 'layedit', 'admin', 'ax'], function () {
         elem:'#time',
         type: 'datetime'
     });
-    var layeditIndex = layedit.build('description',{
+    var layeditIndex1 = layedit.build('remark',{
+        uploadImage: {
+            url: '/system/upload'
+        }
+    });
+    var layeditIndex2 = layedit.build('description',{
         uploadImage: {
             url: '/system/upload'
         }
@@ -22,7 +27,8 @@ layui.use(['form', 'laydate', 'layedit', 'admin', 'ax'], function () {
 
     // 表单提交事件
     form.on('submit(btnSubmit)', function (data) {
-        data.field.description = layedit.getContent(layeditIndex);
+        data.field.remark = layedit.getContent(layeditIndex1);
+        data.field.description = layedit.getContent(layeditIndex2);
         var ajax = new $ax(Feng.ctxPath + "/question/add", function (data) {
             Feng.success("添加成功！");
             admin.putTempData('formOk', true);

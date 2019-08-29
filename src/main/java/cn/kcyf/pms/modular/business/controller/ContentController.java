@@ -17,6 +17,7 @@ import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -55,7 +56,9 @@ public class ContentController extends BasicController {
     public String contentAdd(Long modeId, Model model) {
         Criteria<ModeField> criteria = new Criteria<ModeField>();
         criteria.add(Restrictions.eq("mode.id", modeId));
-        model.addAttribute("fields", modeFieldService.findList(criteria));
+        criteria.add(Restrictions.eq("status", Status.ENABLE));
+        model.addAttribute("fields", modeFieldService.findList(criteria, new Sort(Sort.Direction.ASC, "sort")));
+        model.addAttribute("mode", modeService.getOne(modeId));
         return PREFIX + "content_add.html";
     }
 

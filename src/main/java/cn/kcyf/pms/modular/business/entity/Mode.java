@@ -65,6 +65,11 @@ public class Mode extends TableDomain {
         return "";
     }
     /**
+     * 单行属性数
+     */
+    @Column(name = "cols")
+    private Integer cols;
+    /**
      * 排序号
      */
     @Column(name = "sort")

@@ -56,11 +56,17 @@ public class Question extends TableDomain {
     }
 
     /**
-     * 描述
+     * 问题描述
      */
     @Column(name = "description")
     @Lob
     private String description;
+    /**
+     * 问题备注
+     */
+    @Column(name = "remark")
+    @Lob
+    private String remark;
     /**
      * 发生时间
      */

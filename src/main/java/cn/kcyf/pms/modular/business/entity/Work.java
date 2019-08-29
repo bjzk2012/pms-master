@@ -46,8 +46,11 @@ public class Work extends TableDomain {
             return WorkStatus.DRAFT;
         }
         for (WorkRecord record : records){
-            if (record.getStatus().equals(WorkStatus.REFUSE)){
+            /*if (record.getStatus().equals(WorkStatus.REFUSE)){
                 return WorkStatus.REFUSE;
+            }*/
+            if (!record.getStatus().equals(WorkStatus.FINISH)){
+                return record.getStatus();
             }
         }
         return records.iterator().next().getStatus();

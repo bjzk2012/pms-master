@@ -18,7 +18,10 @@ layui.use(['form', 'admin', 'laydate', 'layedit', 'ax'], function () {
     var ajax = new $ax(Feng.ctxPath + "/question/detail/" + Feng.getUrlParam("questionId"));
     ajax.type = "get";
     var result = ajax.start();
-    form.val('questionForm',result.data);
+    form.val('questionForm', result.data);
+    try {
+        layedit.setContent(layeditIndex, result.data.remark, false);
+    } catch (e) { }
 
     // 表单提交事件
     form.on('submit(btnSubmit)', function (data) {

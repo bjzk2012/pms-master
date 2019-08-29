@@ -1,5 +1,6 @@
 package cn.kcyf.pms.core.model;
 
+import cn.kcyf.pms.core.enumerate.Status;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
@@ -47,4 +48,8 @@ public class DeptNode {
      * 子节点
      */
     private List<DeptNode> children;
+    /**
+     * 状态
+     */
+    private Status status;
 }

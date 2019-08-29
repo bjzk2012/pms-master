@@ -79,7 +79,7 @@ public class NoticeController extends BasicController {
 
     @GetMapping(value = "/list")
     @ResponseBody
-    @ApiOperation("查询内容模板树形结构")
+    @ApiOperation("查询站内信列表")
     public ResponseData list(String name) {
         Criteria<Notice> criteria = new Criteria<Notice>();
         if (!StringUtils.isEmpty(name)) {
@@ -90,8 +90,8 @@ public class NoticeController extends BasicController {
 
     @PostMapping(value = "/add")
     @ResponseBody
-    @BussinessLog("新增内容模板")
-    @ApiOperation("新增内容模板")
+    @BussinessLog("新增站内信")
+    @ApiOperation("新增站内信")
     public ResponseData add(@Valid Notice notice, int totype, String userId, String roleId, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return ResponseData.error(bindingResult.getAllErrors().get(0).getDefaultMessage());
@@ -103,7 +103,7 @@ public class NoticeController extends BasicController {
 
     @GetMapping(value = "/detail/{noticeId}")
     @ResponseBody
-    @ApiOperation("查看内容模板详情")
+    @ApiOperation("查看站内信详情")
     public ResponseData detail(@PathVariable("noticeId") Long noticeId) {
         return ResponseData.success(noticeService.getOne(noticeId));
     }

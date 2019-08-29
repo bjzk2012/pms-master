@@ -21,8 +21,8 @@ layui.use(['form', 'jquery', 'table', 'laydate'], function () {
             {type:'checkbox'},
             {title: '序号', type: 'numbers'},
             {field: 'todayRemark', title: '工作时间', sort: true},
-            {field: 'submitUserName', title: '姓名'},
-            {field: 'projectName', title: '项目'},
+            {field: 'submitUserName', title: '姓名', event: 'searchByUser', style:'cursor: pointer;'},
+            {field: 'projectName', title: '项目', event: 'searchByProject', style:'cursor: pointer;'},
             {field: 'content', title: '工作内容'},
             {field: 'time', title: '工时(h)', sort: true},
             {field: 'submitTime', title: '提交时间', sort: true},
@@ -122,6 +122,14 @@ layui.use(['form', 'jquery', 'table', 'laydate'], function () {
         });
     };
 
+    WorkAudit.clear = function(){
+        $("#timeLimit").val('');
+        $("#submitTimeLimit").val('');
+        $("#auditTimeLimit").val('');
+        $("#status").val('');
+        $("#condition").val('');
+    };
+
     /**
      * 头工具栏事件
      */
@@ -139,6 +147,20 @@ layui.use(['form', 'jquery', 'table', 'laydate'], function () {
         }
         if (obj.event === 'detail') {
             WorkAudit.openDetail(obj.data.id);
+        }
+        if (obj.event === 'searchByUser') {
+            WorkAudit.table.reload({
+                where: {
+                    condition: obj.data.submitUserName
+                }
+            });
+        }
+        if (obj.event === 'searchByProject') {
+            WorkAudit.table.reload({
+                where: {
+                    condition: obj.data.projectName
+                }
+            });
         }
     });
 });

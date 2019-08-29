@@ -1,11 +1,68 @@
 @layout("/common/_container.html",{bg:"bg-white", plugins:["ueditor"], js:[]}){
-<input id="demo2" class="layui-input layui-input-number" min="0" max="1000" data-prec="0" placeholder="请输入数字" style="width:200px;">
-<script id="demo3">111</script>
+<form id="userForm" lay-filter="userForm" class="layui-form model-form">
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <input class="layui-input" placeholder="请输入电话号码" lay-verify="phone" style="width:200px;">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <input class="layui-input" placeholder="请输入固定电话" lay-verify="telphone" style="width:200px;">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <input class="layui-input" placeholder="请输入手机号码" lay-verify="mobile" style="width:200px;">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <input class="layui-input" placeholder="请输入电子邮箱" lay-verify="email" style="width:200px;">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <input class="layui-input" placeholder="请输入网络地址" lay-verify="url" style="width:200px;">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <input class="layui-input" placeholder="请输入日期 (ISO)" lay-verify="dateISO" style="width:200px;">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <input class="layui-input" placeholder="请输入整数" lay-verify="digits" style="width:200px;">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <input class="layui-input" placeholder="请输入中文" lay-verify="isChinese" style="width:200px;">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <input id="input_1" class="layui-input" placeholder="请输入非中文" lay-verify="exclusiveChinese" style="width:200px;">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <input class="layui-input" placeholder="请输入上一个文本框的值" lay-verify="equlse" lay-equlse="input_1" style="width:200px;">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-filter="btnSubmit" lay-submit>提交</button>
+        </div>
+    </div>
+</form>
 <script>
-    layui.use(['numinput'], function () {
-        var numinput = layui.numinput;
-        numinput.init({ rightBtns: true });
-        UE.getEditor("description")
+    layui.use(['jquery', 'form'], function () {
+        var $ = layui.jquery;
+        var form = layui.form;
+        form.on("submit(btnSubmit)", function(data){
+            return false;
+        })
     });
 </script>
 @}

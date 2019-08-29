@@ -117,13 +117,13 @@ public class ModeField extends TableDomain {
     /**
      * 最小长度
      */
-    @Column(name = "min_lenght")
-    private Integer minLenght = 1;
+    @Column(name = "min_length")
+    private Integer minLength = 1;
     /**
      * 最大长度
      */
-    @Column(name = "max_lenght")
-    private Integer maxLenght = 255;
+    @Column(name = "max_length")
+    private Integer maxLength = 255;
     /**
      * 文本行数
      */
@@ -174,6 +174,11 @@ public class ModeField extends TableDomain {
      */
     @Column(name = "height")
     private Integer height;
+    /**
+     * 远程数据链接
+     */
+    @Column(name = "data_url")
+    private String dataUrl;
     /**
      * 状态
      */

@@ -13,7 +13,8 @@ public enum FieldType {
     MACKDOWN("Mackdown"),
     TREE("树形选择框"),
     IMAGE("图片"),
-    FILE("文件");
+    FILE("文件"),
+    FILES("多文件");
 
     FieldType(String message) {
         this.message = message;

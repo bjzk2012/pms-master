@@ -63,14 +63,14 @@
             <input id="sort" name="sort" type="text" lay-verify="required|number" class="layui-input layui-input-number" required value="1" min="1" max="1000" data-prec="0" />
         </div>
     </div>
-    <div class="layui-form-item attr CHECKBOX REDIO COMBOBOX SWITCH">
+    <div class="layui-form-item attr CHECKBOX REDIO COMBOBOX">
         <label class="layui-form-label">是否自定义</label>
         <div class="layui-input-block">
             <input type="radio" name="custom" lay-filter="radioCustom" value="true" title="自定义" checked="">
             <input type="radio" name="custom" lay-filter="radioCustom" value="false" title="字典">
         </div>
     </div>
-    <div class="layui-form-item attr CHECKBOX REDIO COMBOBOX SWITCH custom">
+    <div class="layui-form-item attr CHECKBOX REDIO COMBOBOX custom">
         <label class="layui-form-label">可选项键</label>
         <div class="layui-input-block">
             <input id="optKeys" name="optKeys" placeholder="请输入可选项键" type="text" class="layui-input"/>
@@ -152,6 +152,12 @@
             <div class="layui-input-block">
                 <input id="height" name="height" type="text" lay-verify="required|number" class="layui-input layui-input-number" value="150" min="150" max="1000" data-prec="0" />
             </div>
+        </div>
+    </div>
+    <div class="layui-form-item attr TREE">
+        <label class="layui-form-label">数据链接</label>
+        <div class="layui-input-block">
+            <input id="dataUrl" name="dataUrl" placeholder="请输入数据链接" type="text" class="layui-input"/>
         </div>
     </div>
     <div class="layui-form-item text-right">

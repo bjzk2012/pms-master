@@ -53,6 +53,12 @@ public class ProjectController extends BasicController {
         return PREFIX + "/project_edit.html";
     }
 
+    @GetMapping(value = "/project_view")
+    public String projectView(Long projectId, Model model) {
+        model.addAttribute("eneity", projectService.getOne(projectId));
+        return PREFIX + "/project_view.html";
+    }
+
     @GetMapping(value = "/list")
     @ResponseBody
     public ResponseData list(String condition, int page, int limit) {

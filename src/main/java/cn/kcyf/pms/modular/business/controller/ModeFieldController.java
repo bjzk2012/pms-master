@@ -21,6 +21,7 @@ import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -93,7 +94,7 @@ public class ModeFieldController extends BasicController {
         } else {
             criteria.add(Restrictions.eq("mode.id", modeId));
         }
-        return ResponseData.list(modefieldService.findList(criteria));
+        return ResponseData.list(modefieldService.findList(criteria, new Sort(Sort.Direction.ASC, "sort")));
     }
 
     @PostMapping(value = "/add")
@@ -115,6 +116,9 @@ public class ModeFieldController extends BasicController {
         if (!modefield.getCustom() && dictId != null) {
             modefield.setDict(dictService.getOne(dictId));
         }
+        modefield.setRequired(modefield.getRequired() == null ? false : modefield.getRequired());
+        modefield.setSingle(modefield.getSingle() == null ? false : modefield.getSingle());
+        modefield.setDisplay(modefield.getDisplay() == null ? false : modefield.getDisplay());
         modefield.setMode(modeService.getOne(modeId));
         modefieldService.create(modefield);
         return SUCCESS_TIP;
@@ -131,6 +135,7 @@ public class ModeFieldController extends BasicController {
         }
 
         ModeField dbmodefield = modefieldService.getOne(modefield.getId());
+        dbmodefield.setType(modefield.getType());
         dbmodefield.setLabel(modefield.getLabel());
         dbmodefield.setDefValue(modefield.getDefValue());
         dbmodefield.setHelp(modefield.getHelp());
@@ -142,8 +147,8 @@ public class ModeFieldController extends BasicController {
             dbmodefield.setMode(modeService.getOne(modeId));
         }
         if (modefield.getType().equals(FieldType.TEXT) || modefield.getType().equals(FieldType.PASSWORD) || modefield.getType().equals(FieldType.NUMBER) || modefield.getType().equals(FieldType.TEXTAREA)){
-            dbmodefield.setMinLenght(modefield.getMinLenght());
-            dbmodefield.setMaxLenght(modefield.getMaxLenght());
+            dbmodefield.setMinLength(modefield.getMinLength());
+            dbmodefield.setMaxLength(modefield.getMaxLength());
         }
         if (modefield.getType().equals(FieldType.NUMBER)){
             dbmodefield.setMin(modefield.getMin());
@@ -175,6 +180,38 @@ public class ModeFieldController extends BasicController {
     public ResponseData freeze(@PathVariable Long modefieldId) {
         ModeField modefield = modefieldService.getOne(modefieldId);
         modefield.setStatus(Status.DISABLE);
+        modefieldService.update(modefield);
+        return SUCCESS_TIP;
+    }
+
+    @PostMapping("/unsingle/{modefieldId}")
+    @ResponseBody
+    @BussinessLog("取消内容模板属性独占")
+    public ResponseData unsingle(@PathVariable Long modefieldId) {
+        ModeField modefield = modefieldService.getOne(modefieldId);
+        modefield.setSingle(false);
+        modefieldService.update(modefield);
+        return SUCCESS_TIP;
+    }
+
+    @PostMapping("/single/{modefieldId}")
+    @ResponseBody
+    @BussinessLog("内容模板属性独占")
+    public ResponseData single(@PathVariable Long modefieldId) {
+        ModeField modefield = modefieldService.getOne(modefieldId);
+        modefield.setSingle(true);
+        modefieldService.update(modefield);
+        return SUCCESS_TIP;
+    }
+
+
+
+    @PostMapping("/sort/{modefieldId}")
+    @ResponseBody
+    @BussinessLog("内容模板属性排序")
+    public ResponseData sort(@PathVariable Long modefieldId, Integer sort) {
+        ModeField modefield = modefieldService.getOne(modefieldId);
+        modefield.setSort(sort);
         modefieldService.update(modefield);
         return SUCCESS_TIP;
     }

@@ -57,6 +57,12 @@ public class User extends TableDomain {
     @ApiModelProperty(name = "password", value = "密码")
     private String password;
     /**
+     * 口令密码
+     */
+    @Column(name = "key_password")
+    @JSONField(serialize = false)
+    private String keyPassword;
+    /**
      * md5密码盐
      */
     @Column(name = "salt")

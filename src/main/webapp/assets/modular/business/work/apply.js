@@ -132,6 +132,8 @@ layui.use(['jquery', 'table', 'admin', 'laydate'], function () {
             confirm: true,
             finish: function (d) {
                 WorkApply.workRecordSearch();
+                // 需要刷新下主表列表的状态信息
+                WorkApply.search();
             }
         });
     };

@@ -54,6 +54,21 @@ layui.use(['table', 'admin', 'element', 'ax'], function () {
         });
     };
 
+ // 修改密码点击事件
+    Key.passEdit = function () {
+        admin.putTempData('formOk', false);
+        top.layui.admin.open({
+            type: 2,
+            area: ['600px', '300px'],
+            title: '修改口令',
+            content: Feng.ctxPath + '/key/key_pass',
+            end: function () {
+                admin.getTempData('formOk') && Key.search();
+            }
+        });
+    };
+
+
     /**
      * 点击编辑项目
      *

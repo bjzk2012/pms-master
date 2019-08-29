@@ -60,18 +60,29 @@ layui.use(['form', 'table', 'admin', 'element'], function () {
      * @param data 点击按钮时候的行数据
      */
     Project.openEdit = function (data) {
+        //设置临时变量
         admin.putTempData('formOk', false);
+        //ifram 弹层
         top.layui.admin.open({
             type: 2,
             area: ['600px', '800px'],
             title: '修改项目',
             content: Feng.ctxPath + '/project/project_edit?projectId=' + data.id,
             end: function () {
+                //编辑页面提交后，将临时变量设置为true,重新渲染表格
                 admin.getTempData('formOk') && Project.search();
             }
         });
     };
-
+    //查看项目
+    Project.openDetail = function (data) {
+        top.layui.admin.open({
+            type: 2,
+            area: ['600px', '800px'],
+            title: '查看项目',
+            content: Feng.ctxPath + '/project/project_view?projectId=' + data.id
+        });
+    };
     // 渲染表格
     Project.table = table.render({
         elem: '#projectTable',
@@ -115,6 +126,8 @@ layui.use(['form', 'table', 'admin', 'element'], function () {
                     Project.search();
                 }
             });
+        }else if(layEvent === 'detail') {
+            Project.openDetail(data);
         }
     });
 

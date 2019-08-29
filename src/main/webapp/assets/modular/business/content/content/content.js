@@ -46,7 +46,8 @@ layui.use(['form', 'table', 'admin', 'element', 'dropdown'], function () {
         admin.putTempData('formOk', false);
         top.layui.admin.open({
             type: 2,
-            area: ['600px', '800px'],
+            area: ['1000px', '800px'],
+            offset: "10px",
             title: '添加内容',
             content: Feng.ctxPath + '/content/content_add?modeId=' + modeId,
             end: function () {

@@ -18,18 +18,23 @@ Feng.confirm = function (tip, ensure, cancel) {
     });
 };
 Feng.doAction = function (options) {
+    var showMsg = options.msg === undefined ? true : options.msg;
     var func = function (id, module, action, title, finish, params) {
         var url = Feng.ctxPath + "/" + module + "/" + action;
         if (id){
             url += "/" + id;
         }
         var ajax = new top.layui.ax(url, function (data) {
-            Feng.success(title + "成功!");
+            if(showMsg) {
+                Feng.success(title + "成功!");
+            }
             if (finish != undefined){
                 finish(data)
             }
         }, function (data) {
-            Feng.error(title + "失败!" + data.message + "!");
+            if(showMsg) {
+                Feng.error(title + "失败!" + data.message + "!");
+            }
             if (finish != undefined){
                 finish(data)
             }

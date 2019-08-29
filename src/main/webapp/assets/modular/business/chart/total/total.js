@@ -9,11 +9,6 @@ layui.use(['table', 'laydate', 'jquery'], function () {
     /**
      * 渲染时间选择框
      */
-    laydate.render({
-        elem: '#timeLimit',
-        range: true,
-        max: Feng.currentDate()
-    });
     ChartTotal.table = table.init('totalTable', {
         page: false,
         toolbar: "#toolbar",
@@ -22,6 +17,11 @@ layui.use(['table', 'laydate', 'jquery'], function () {
         done: function(){
             $(".action_detail").click(function(){
                 ChartTotal.openDetail(JSON.parse($(this).attr("lay-data")));
+            });
+            laydate.render({
+                elem: '#timeLimit',
+                range: true,
+                max: Feng.currentDate()
             });
             $(".layui-layer-tips").mouseover(function(){
                 layer.tips($(this).attr('_title'), this, {

@@ -24,6 +24,7 @@ layui.use(['form', 'table', 'admin', 'element'], function () {
             {field: 'code', title: '编码'},
             {field: 'name', title: '名称'},
             {field: 'picture', title: '图片', templet: '#pictureTpl'},
+            {field: 'cols', title: '单行属性数'},
             {field: 'status', title: '状态', templet: '#statusTpl'},
             {align: 'center', toolbar: '#tableBar', title: '操作'}
         ]];
@@ -36,6 +37,8 @@ layui.use(['form', 'table', 'admin', 'element'], function () {
             {field: 'field', title: '字段'},
             {field: 'label', title: '名称'},
             {field: 'typeMessage', title: '字段类型'},
+            {field: 'single', title: '独占一行', templet: '#singleTpl'},
+            {field: 'sort', title: '排序', edit: 'text'},
             {field: 'status', title: '状态', templet: '#fieldStatusTpl'},
             {align: 'center', toolbar: '#tableBar', title: '操作'}
         ]];
@@ -55,7 +58,7 @@ layui.use(['form', 'table', 'admin', 'element'], function () {
         Mode.fieldSearch();
     };
 
-    Mode.fieldSearch = function() {
+    Mode.fieldSearch = function () {
         Mode.fieldTable.reload({
             where: {
                 modeId: Mode.condition.modeId,
@@ -80,8 +83,8 @@ layui.use(['form', 'table', 'admin', 'element'], function () {
         });
     };
 
-    Mode.openFieldAdd = function(){
-        if(!Mode.condition.modeId){
+    Mode.openFieldAdd = function () {
+        if (!Mode.condition.modeId) {
             Feng.error("请选择内容模板!");
             return;
         }
@@ -116,7 +119,7 @@ layui.use(['form', 'table', 'admin', 'element'], function () {
     };
 
 
-    Mode.openFieldEdit = function(data){
+    Mode.openFieldEdit = function (data) {
         admin.putTempData('formOk', false);
         top.layui.admin.open({
             type: 2,
@@ -155,6 +158,19 @@ layui.use(['form', 'table', 'admin', 'element'], function () {
             condition: ''
         }
     });
+    table.on('edit(modeFieldTable)', function (obj) {
+        Feng.doAction({
+            id: obj.data.id,
+            module: "modefield",
+            action: "sort",
+            title: "排序",
+            msg: false,
+            finish: function (d) {
+                Mode.fieldSearch();
+            },
+            params: {sort: obj.value}
+        });
+    });
     /**
      * 头工具栏事件
      */
@@ -192,6 +208,21 @@ layui.use(['form', 'table', 'admin', 'element'], function () {
         Mode.condition.modeId = data.id;
         Mode.fieldSearch();
         obj.tr.addClass('layui-table-click').siblings().removeClass('layui-table-click');
+    });
+
+    // 修改独占一行
+    form.on('switch(single)', function (obj) {
+        Feng.doAction({
+            id: obj.elem.value,
+            module: "modefield",
+            action: obj.elem.checked ? "single" : "unsingle",
+            title: obj.elem.checked ? "独占一行" : "取消独占",
+            confirm: true,
+            elem: obj.elem,
+            finish: function (d) {
+                Mode.fieldSearch();
+            }
+        });
     });
 
     // 修改状态

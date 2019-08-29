@@ -2,6 +2,7 @@ package cn.kcyf.pms.modular.system.entity;
 
 import cn.kcyf.orm.jpa.entity.TableDomain;
 
+import cn.kcyf.pms.core.enumerate.Status;
 import com.alibaba.fastjson.annotation.JSONField;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
@@ -73,4 +74,16 @@ public class Dept extends TableDomain {
      */
     @Column(name = "sort")
     private Integer sort;
+
+    /**
+     * 状态
+     */
+    @Column(name = "status", nullable = false)
+    private Status status;
+    public String getStatusMessage(){
+        if (this.status != null){
+            return this.status.getMessage();
+        }
+        return "";
+    }
 }

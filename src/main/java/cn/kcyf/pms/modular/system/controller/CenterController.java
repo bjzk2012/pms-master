@@ -12,6 +12,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -82,7 +83,11 @@ public class CenterController extends BasicController {
             @NotBlank(message = "确认密码不能为空")
             @Size(min = 6, max = 12, message = "确认密码必须6到12位")
             @Pattern(regexp = "[\\S]+", message = "确认密码不能出现空格")
-                    String rePassword) {
+                    String rePassword,
+            BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return ResponseData.error(bindingResult.getAllErrors().get(0).getDefaultMessage());
+        }
         User dbuser = userService.getOne(getUser().getId());
         if (!userService.md5(oldPassword, dbuser.getSalt()).equals(dbuser.getPassword())) {
             return ResponseData.error("旧密码输入错误");

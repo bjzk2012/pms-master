@@ -1,10 +1,13 @@
 
 package cn.kcyf.pms.modular.business.controller;
 
+import cn.kcyf.commons.utils.RandomUtils;
+import cn.kcyf.pms.core.enumerate.DayType;
 import cn.kcyf.pms.core.enumerate.Status;
 import cn.kcyf.pms.core.enumerate.WorkStatus;
 import cn.kcyf.pms.core.log.BussinessLog;
 import cn.kcyf.pms.core.model.ResponseData;
+import cn.kcyf.pms.core.util.WorkDayUtil;
 import cn.kcyf.pms.modular.business.entity.Project;
 import cn.kcyf.pms.modular.business.entity.Work;
 import cn.kcyf.pms.modular.business.entity.WorkRecord;
@@ -15,9 +18,9 @@ import cn.kcyf.pms.core.controller.BasicController;
 import cn.kcyf.commons.utils.DateUtils;
 import cn.kcyf.orm.jpa.criteria.Criteria;
 import cn.kcyf.orm.jpa.criteria.Restrictions;
-import com.alibaba.fastjson.JSON;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
@@ -28,6 +31,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -122,7 +127,25 @@ public class WorkController extends BasicController {
             criteria.add(Restrictions.lte("today", DateUtils.parse(split[1] + " 23:59:59", "yyyy-MM-dd HH:mm:ss")));
         }
         criteria.add(Restrictions.eq("createUserId", getUser().getId()));
-        return ResponseData.list(workService.findList(criteria, PageRequest.of(page - 1, limit, new Sort(Sort.Direction.DESC, "createTime"))));
+
+        // 判断是否有当天的记录，如果没有，则加上
+        Page<Work> records = workService.findList(criteria, PageRequest.of(page - 1, limit, new Sort(Sort.Direction.DESC, "createTime")));
+
+        Date today = new Date();
+        // 记录里是否有当天的记录
+        boolean todayFlag = records.get().anyMatch(re -> re.getTodayRemark().equals(LocalDate.now().toString()));
+        // 当天是不是工作日
+        boolean todayIsHoliday = DayType.WORKDAY.equals(WorkDayUtil.request(today));
+        if (!todayFlag && todayIsHoliday) {
+            Work work = new Work();
+            work.setCode("WT" + System.currentTimeMillis() + RandomUtils.generateNumString(4));
+            work.setToday(new Date());
+            create(work);
+            workService.create(work);
+            records = workService.findList(criteria, PageRequest.of(page - 1, limit, new Sort(Sort.Direction.DESC, "createTime")));
+        }
+
+        return ResponseData.list(records);
     }
 
     @GetMapping(value = "/records")
