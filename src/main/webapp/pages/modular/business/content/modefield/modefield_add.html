@@ -3,20 +3,20 @@
     <input name="modeId" value="${modeId}" type="hidden" />
     <div class="layui-form-item">
         <div class="layui-col-xs6">
-            <label class="layui-form-label">字段<span style="color: red;">*</span></label>
+            <label class="layui-form-label"><span style="color: red; padding: 0 3px;">*</span>字段</label>
             <div class="layui-input-block">
                 <input id="field" name="field" placeholder="请输入字段" type="text" class="layui-input" lay-verify="required"/>
             </div>
         </div>
         <div class="layui-col-xs6">
-            <label class="layui-form-label">名称<span style="color: red;">*</span></label>
+            <label class="layui-form-label"><span style="color: red; padding: 0 3px;">*</span>名称</label>
             <div class="layui-input-block">
                 <input id="label" name="label" placeholder="请输入标识" type="text" class="layui-input" lay-verify="required"/>
             </div>
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">类型<span style="color: red;">*</span></label>
+        <label class="layui-form-label"><span style="color: red; padding: 0 3px;">*</span>类型</label>
         <div class="layui-input-block">
             <select id="type" name="type" lay-filter="type" lay-verify="required" required>
                 @for(type in types) {

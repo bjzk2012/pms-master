@@ -124,6 +124,7 @@ layui.use(['table', 'admin', 'element', 'ax'], function () {
             $(".read_password").click(function(){
                 Key.openPassword($(this).attr("lay-data"))
             });
+
         }
     });
     /**
@@ -138,20 +139,24 @@ layui.use(['table', 'admin', 'element', 'ax'], function () {
     table.on('tool(keyTable)', function (obj) {
         var data = obj.data;
         var layEvent = obj.event;
-
-        if (layEvent === 'edit') {
-            Key.openEdit(data);
-        } else if (layEvent === 'delete') {
-            Feng.doAction({
-                id: data.id,
-                module: "key",
-                action: layEvent,
-                title: "删除口令",
-                confirm: true,
-                finish: function (d) {
-                    Key.search();
-                }
-            });
-        }
+        top.layer.prompt({title: '请输入口令', formType: 1}, function(pass, index){
+            top.layer.close(index);
+            if (layEvent === 'edit') {
+                data.keyPassword = pass;
+                Key.openEdit(data);
+            } else if (layEvent === 'delete') {
+                Feng.doAction({
+                    id: data.id,
+                    module: "key",
+                    action: layEvent,
+                    title: "删除口令",
+                    confirm: true,
+                    finish: function (d) {
+                        Key.search();
+                    },
+                    params:{keyPassword:pass}
+                });
+            }
+        });
     });
 });

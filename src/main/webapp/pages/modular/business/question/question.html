@@ -12,7 +12,48 @@
     <div class="layui-form toolbar">
         <div class="layui-form-item">
             <div class="layui-inline">
-                <input id="condition" class="layui-input" type="text" placeholder="标题/项目/描述/手机号/发起人/负责人" value="{{d.where.condition}}" style="width:250px;">
+                <input id="condition" class="layui-input" type="text" placeholder="关键字" value="{{d.where.condition}}">
+            </div>
+            <div class="layui-inline">
+                <select id="projectId">
+                    <option value="">所属项目</option>
+                    @for(project in projects) {
+                    <option value="${project.id}" {{'${project.id}' == d.where.projectId?'selected':''}}>${project.name}</option>
+                    @}
+                </select>
+            </div>
+            <div class="layui-inline">
+                <select id="category">
+                    <option value="">问题类型</option>
+                    @for(category in categorys) {
+                    <option value="${category.key}" {{'${category.key}' == d.where.category?'selected':''}}>${category.value}</option>
+                    @}
+                </select>
+            </div>
+            <div class="layui-inline">
+                <input id="submitTimeLimit" class="layui-input" type="text" placeholder="发起时间" style="width:182px" value="{{d.where.submitTimeLimit}}"/>
+            </div>
+            <div class="layui-inline">
+                <input id="phone" class="layui-input" type="text" placeholder="手机号" value="{{d.where.phone}}" style="width:114px;">
+            </div>
+            <div class="layui-inline">
+                <select id="status">
+                    <option value="">问题状态</option>
+                    @for(status in statuses) {
+                    <option value="${status.key}" {{'${status.key}' == d.where.status?'selected':''}}>${status.value}</option>
+                    @}
+                </select>
+            </div>
+            <div class="layui-inline">
+                <input id="sponsor" class="layui-input" type="text" placeholder="发起人" value="{{d.where.sponsor}}">
+            </div>
+            <div class="layui-inline">
+                <select id="liableId">
+                    <option value="">责任人</option>
+                    @for(user in users) {
+                    <option value="${user.id}" {{'${user.id}' == d.where.liableId?'selected':''}}>${user.name}</option>
+                    @}
+                </select>
             </div>
             <div class="layui-inline">
                 <button class="layui-btn icon-btn" lay-event="search"><i class="layui-icon">&#xe615;</i>搜索</button>

@@ -80,9 +80,12 @@ public class RoleController extends BasicController {
     @BussinessLog("新增角色")
     @ApiOperation("新增角色")
     @RequiresPermissions(value = "role_add")
-    public ResponseData add(@Valid Role role, @NotBlank(message = "菜单未选择") String menuId, BindingResult bindingResult) {
+    public ResponseData add(@Valid Role role, String menuId, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return ResponseData.error(bindingResult.getAllErrors().get(0).getDefaultMessage());
+        }
+        if (StringUtils.isEmpty(menuId)){
+            return ResponseData.error("菜单未选择");
         }
         create(role);
         role.setStatus(Status.ENABLE);
@@ -96,9 +99,12 @@ public class RoleController extends BasicController {
     @BussinessLog("修改角色")
     @ApiOperation("修改角色")
     @RequiresPermissions(value = "role_edit")
-    public ResponseData edit(@Valid Role role, @NotBlank(message = "菜单未选择") String menuId, BindingResult bindingResult) {
+    public ResponseData edit(@Valid Role role, String menuId, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return ResponseData.error(bindingResult.getAllErrors().get(0).getDefaultMessage());
+        }
+        if (StringUtils.isEmpty(menuId)){
+            return ResponseData.error("菜单未选择");
         }
         Role dbrole = roleService.getOne(role.getId());
         if (dbrole.getCode().equals("administrator") && !dbrole.getCode().equals(role.getCode())) {

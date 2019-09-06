@@ -22,6 +22,15 @@ ftp:
   password: ftpuser
 sms:
   ipyy:
-    signature: 军民融合标准资源共享平台
-    account: hyszzd00468
-    password: 654321
+    signature: 【Tinfo】
+    account: XPT30095
+    password: XPT3009595
+dingtalk:
+  appid: dingoaugcl42xapwtntrkh
+  appsecret: ahTZfAxGtKUrSprLS2eeRbbaEIjtiRRhrdWD_epV7GDcRDbaDVraxn-SOQ5tNCiN
+  service: https://oapi.dingtalk.com
+  ldomain: https://login.dingtalk.com
+  domain: http://tinfo.trm-cloud.com
+  getuserinfo_bycode: /sns/getuserinfo_bycode
+  redirect_uri: /dingtalk_login
+  login_url: https://oapi.dingtalk.com/connect/oauth2/sns_authorize?appid=${dingtalk.appid}&response_type=code&scope=snsapi_login&state=STATE&redirect_uri=${dingtalk.domain}${dingtalk.redirect_uri}

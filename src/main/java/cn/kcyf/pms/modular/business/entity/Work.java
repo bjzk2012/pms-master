@@ -10,8 +10,10 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
+
+import static cn.kcyf.pms.core.constant.Constant.workCompareMap;
 
 @Data
 @ToString
@@ -45,15 +47,11 @@ public class Work extends TableDomain {
         if (records == null || records.isEmpty()){
             return WorkStatus.DRAFT;
         }
-        for (WorkRecord record : records){
-            /*if (record.getStatus().equals(WorkStatus.REFUSE)){
-                return WorkStatus.REFUSE;
-            }*/
-            if (!record.getStatus().equals(WorkStatus.FINISH)){
-                return record.getStatus();
-            }
-        }
-        return records.iterator().next().getStatus();
+        List<WorkRecord> recordsList = records
+                .stream()
+                .sorted((a, b) -> workCompareMap.get(a.getStatus()) - workCompareMap.get(b.getStatus()))
+                .collect(Collectors.toList());
+        return recordsList.iterator().next().getStatus();
     }
     public String getStatusMessage(){
         return getStatus().getMessage();

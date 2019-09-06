@@ -75,6 +75,17 @@ body {
     color: #CF1900
 }
 
+.login-body .login-other .icon-dingtalk {
+    position: relative;
+    top: 2px;
+    font-size: 28px;
+    color: #3492ED
+}
+
+.layui-icon-cellphone {
+    color: #777;
+}
+
 /** 底部样式 */
 .login-footer {
     text-align: center;

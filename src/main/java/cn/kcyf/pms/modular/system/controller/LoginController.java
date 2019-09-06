@@ -14,12 +14,16 @@ import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Collections;
 import java.util.List;
 
@@ -31,6 +35,10 @@ import java.util.List;
 @Controller
 @Api(tags = "登录相关", description = "登录相关")
 public class LoginController extends BasicController {
+    @Value("${dingtalk.login_url}")
+    private String login_url;
+    @Value("${dingtalk.ldomain}")
+    private String ldomain;
 
     @Autowired
     private UserService userService;
@@ -38,6 +46,9 @@ public class LoginController extends BasicController {
     @GetMapping("/")
     @ApiOperation("跳转到首页")
     public String index(Model model) {
+        if (getUser().getId() == null){
+            return REDIRECT + "/sightseer/index";
+        }
         List<MenuNode> menus = userService.getUserMenus(getUser().getId());
         Collections.sort(menus, new MenuNodeComparator());
         model.addAttribute("menus", menus);
@@ -48,25 +59,15 @@ public class LoginController extends BasicController {
         return "/test.html";
     }
 
-    @GetMapping("/login")
-    @ApiOperation("跳转到登录页")
-    public String login() {
-        if (SecurityUtils.getSubject().isAuthenticated() || SecurityUtils.getSubject().getPrincipals() != null) {
-            return REDIRECT + "/";
-        } else {
-            return "/login.html";
-        }
-    }
-
     @RequestMapping(value = "login")
     @ApiOperation("登录")
     public String login(HttpServletRequest request, Model modelMap) {
+        String error = null;
         Subject subject = SecurityUtils.getSubject();
         if (subject != null && subject.isAuthenticated()){
             return REDIRECT + "/";
         }
         String exceptionClassName = (String) request.getAttribute("shiroLoginFailure");
-        String error = null;
         if (KaptchaException.class.getName().equals(exceptionClassName)) {
             error = "验证码不正确";
         } else if (UnknownAccountException.class.getName().equals(exceptionClassName)) {
@@ -78,6 +79,11 @@ public class LoginController extends BasicController {
         } else if (exceptionClassName != null) {
             error = "未知错误：" + exceptionClassName;
         }
+        if (StringUtils.isEmpty(error) && !StringUtils.isEmpty(request.getParameter("tips"))){
+            error = request.getParameter("tips");
+        }
+        modelMap.addAttribute("login_url", login_url);
+        modelMap.addAttribute("ldomain", ldomain);
         modelMap.addAttribute("tips", error);
         return "/login.html";
     }

@@ -52,15 +52,29 @@
     </div>
     <div class="layui-form-item">
         <div class="layui-input-block">
-            <button class="layui-btn" lay-filter="btnSubmit" lay-submit>提交</button>
+            <a class="layui-btn" lay-filter="btnSubmit" lay-submit>提交</a>
         </div>
     </div>
 </form>
 <script>
-    layui.use(['jquery', 'form'], function () {
+    layui.use(['jquery', 'form', "ax"], function () {
         var $ = layui.jquery;
+        var $ax = layui.ax;
         var form = layui.form;
         form.on("submit(btnSubmit)", function(data){
+            var ajax = new $ax(Feng.ctxPath + "/center/password", function (data) {
+                Feng.success("添加成功！");
+
+                //传给上个页面，刷新table用
+                admin.putTempData('formOk', true);
+
+                //关掉对话框
+                admin.closeThisDialog();
+            }, function (data) {
+                Feng.error("添加失败！" + data.message)
+            });
+            ajax.set(data.field);
+            ajax.start();
             return false;
         })
     });

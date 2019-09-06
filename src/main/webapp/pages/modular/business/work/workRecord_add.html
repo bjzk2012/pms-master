@@ -2,7 +2,7 @@
 <form id="workRecordForm" lay-filter="workRecordForm" class="layui-form model-form">
     <input id="workId" name="workId" type="hidden" value="${workId!}">
     <div class="layui-form-item">
-        <label class="layui-form-label">所属项目<span style="color: red;">*</span></label>
+        <label class="layui-form-label"><span style="color: red; padding: 0 3px;">*</span>所属项目</label>
         <div class="layui-input-block">
             <select id="projectId" name="projectId" lay-verify="required" required>
                 <option value="">所属项目</option>
@@ -13,7 +13,7 @@
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">工作时间<span style="color: red;">*</span></label>
+        <label class="layui-form-label"><span style="color: red; padding: 0 3px;">*</span>工作时间</label>
         <div class="layui-input-block">
             <select id="time" name="time" lay-verify="required" required>
                 <option value="1">1小时</option>

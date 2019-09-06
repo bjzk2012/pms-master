@@ -2,13 +2,13 @@
 <form id="contentForm" lay-filter="contentForm" class="layui-form model-form">
     <div class="layui-form-item">
         <div class="layui-col-xs4">
-            <label class="layui-form-label">标题<span style="color: red;">*</span></label>
+            <label class="layui-form-label"><span style="color: red; padding: 0 3px;">*</span>标题</label>
             <div class="layui-input-block">
                 <input id="subject" name="subject" placeholder="请输入标题" type="text" class="layui-input" lay-verify="required"/>
             </div>
         </div>
         <div class="layui-col-xs4">
-            <label class="layui-form-label">编辑<span style="color: red;">*</span></label>
+            <label class="layui-form-label"><span style="color: red; padding: 0 3px;">*</span>编辑</label>
             <div class="layui-input-block">
                 <input id="author" name="author" placeholder="请输入编辑" type="text" class="layui-input" lay-verify="required"/>
             </div>
@@ -85,7 +85,7 @@
             @help = field.help;
         @}
         @if(field.type == 'NUMBER'){
-            <label class="layui-form-label">${field.label}${field.required?'<span style="color: red;">*</span>':''}</label>
+            <label class="layui-form-label">${field.required?'<span style="color: red; padding: 0 3px;">*</span>':''}${field.label}</label>
             <div class="layui-input-inline">
                 <input name="attr_${field.field}" placeholder="${help}" type="text" class="layui-input layui-input-number" minlength="${field.minLength}" maxlength="${field.maxLength}" value="${field.defValue}" min="${field.min}" max="${field.max}" data-prec="${field.prec}" ${field.required?'lay-verify="required|number" required':'lay-verify="number"'}/>
             </div>
@@ -108,7 +108,7 @@
         @}
 
         @if(field.type == 'CHECKBOX'){
-            <label class="layui-form-label">${field.label}${field.required?'<span style="color: red;">*</span>':''}</label>
+            <label class="layui-form-label">${field.required?'<span style="color: red; padding: 0 3px;">*</span>':''}${field.label}</label>
             <div class="layui-input-block">
                 @for(key in keys){
                     <input name="attr_${field.field}" lay-filter="attr_${field.field}" ${key == field.defValue ? 'checked': ''} type="checkbox" lay-data="${key}" lay-skin="primary" title="${values[keyLP.index-1]}" ${field.required?'lay-verify="checkboxRequired"':''}/>
@@ -117,21 +117,21 @@
         @}
 
         @if(field.type == 'TEXTAREA'){
-            <label class="layui-form-label">${field.label}${field.required?'<span style="color: red;">*</span>':''}</label>
+            <label class="layui-form-label">${field.required?'<span style="color: red; padding: 0 3px;">*</span>':''}${field.label}</label>
             <div class="layui-input-block">
                 <textarea name="attr_${field.field}" placeholder="${help}" rows="${field.rows}" cols="${field.cols}" minlength="${field.minLength}" maxlength="${field.maxLength}" type="text/plain" class="layui-textarea" ${field.required?'lay-verify="required" required':''}>${field.defValue}</textarea>
             </div>
         @}
 
         @if(field.type == 'TEXT'){
-            <label class="layui-form-label">${field.label}${field.required?'<span style="color: red;">*</span>':''}</label>
+            <label class="layui-form-label">${field.required?'<span style="color: red; padding: 0 3px;">*</span>':''}${field.label}</label>
             <div class="layui-input-block">
                 <input name="attr_${field.field}" placeholder="${help}" type="text" minlength="${field.minLength}" maxlength="${field.maxLength}" class="layui-input" value="${field.defValue}" ${field.required?'lay-verify="required" required':''}/>
             </div>
         @}
 
         @if(field.type == 'FILES'){
-            <label class="layui-form-label">${field.label}${field.required?'<span style="color: red;">*</span>':''}</label>
+            <label class="layui-form-label">${field.required?'<span style="color: red; padding: 0 3px;">*</span>':''}${field.label}</label>
             <div class="layui-input-block">
                 <div class="layui-upload">
                     <button type="button" class="layui-btn" id="attr_${field.field}_btn">选择多文件</button>
@@ -219,21 +219,21 @@
         @}
 
         @if(field.type == 'RICHTEXT'){
-            <label class="layui-form-label">${field.label}${field.required?'<span style="color: red;">*</span>':''}</label>
+            <label class="layui-form-label">${field.required?'<span style="color: red; padding: 0 3px;">*</span>':''}${field.label}</label>
             <div class="layui-input-block">
                 <textarea id="attr_${field.field}" name="attr_${field.field}" class="layui-layedit" name="attr_${field.field}" style="display: none;" ${field.required?'lay-verify="richtextRequired" required':''}>${field.defValue}</textarea>
             </div>
         @}
 
         @if(field.type == 'PASSWORD'){
-            <label class="layui-form-label">${field.label}${field.required?'<span style="color: red;">*</span>':''}</label>
+            <label class="layui-form-label">${field.required?'<span style="color: red; padding: 0 3px;">*</span>':''}${field.label}</label>
             <div class="layui-input-block">
                 <input name="attr_${field.field}" placeholder="${help}" type="password" class="layui-input" minlength="${field.minLength}" maxlength="${field.maxLength}" value="${field.defValue}" ${field.required?'lay-verify="required"':''}/>
             </div>
         @}
 
         @if(field.type == 'IMAGE'){
-            <label class="layui-form-label">${field.label}${field.required?'<span style="color: red;">*</span>':''}</label>
+            <label class="layui-form-label">${field.required?'<span style="color: red; padding: 0 3px;">*</span>':''}${field.label}</label>
             <div class="layui-input-block">
                 <input id="attr_${field.field}" name="attr_${field.field}" type="hidden" value="${field.defValue}" ${field.required?'lay-verify="imageRequired"':''} />
                 <div class="layui-upload">
@@ -274,7 +274,7 @@
         @}
 
         @if(field.type == 'REDIO'){
-            <label class="layui-form-label">${field.label}${field.required?'<span style="color: red;">*</span>':''}</label>
+            <label class="layui-form-label">${field.required?'<span style="color: red; padding: 0 3px;">*</span>':''}${field.label}</label>
             <div class="layui-input-block">
                 @for(key in keys){
                 <input name="attr_${field.field}" type="radio" value="${key}" ${key == field.defValue ? 'checked': ''} title="${values[keyLP.index-1]}" ${field.required?'lay-verify="redioRequired"':''}/>
@@ -283,7 +283,7 @@
         @}
 
         @if(field.type == 'TREE'){
-            <label class="layui-form-label">${field.label}${field.required?'<span style="color: red;">*</span>':''}</label>
+            <label class="layui-form-label">${field.required?'<span style="color: red; padding: 0 3px;">*</span>':''}${field.label}</label>
             <div class="layui-input-block">
                 <input id="attr_${field.field}" name="attr_${field.field}" type="hidden" value="${field.defValue}">
                 <input id="attr_${field.field}Name" name="attr_${field.field}Name" placeholder="${help}" type="text" class="layui-input" lay-filter="${field.field}tree" autocomplete="off" ${field.required?'lay-verify="treeRequired"':''}/>
@@ -312,7 +312,7 @@
         @}
 
         @if(field.type == 'COMBOBOX'){
-            <label class="layui-form-label">${field.label}${field.required?'<span style="color: red;">*</span>':''}</label>
+            <label class="layui-form-label">${field.required?'<span style="color: red; padding: 0 3px;">*</span>':''}${field.label}</label>
             <div class="layui-input-block">
                 <select id="attr_${field.field}" name="attr_${field.field}" ${field.required?'lay-verify="required" required':''}>
                     @for(key in keys){
@@ -326,22 +326,40 @@
             @if (!tool.isEmpty(field.optValues)){
                 @values = tool.split(field.optValues, ',');
             @}
-            <label class="layui-form-label">${field.label}${field.required?'<span style="color: red;">*</span>':''}</label>
+            <label class="layui-form-label">${field.required?'<span style="color: red; padding: 0 3px;">*</span>':''}${field.label}</label>
             <div class="layui-input-block">
                 <input type="checkbox" ${field.defValue == 'true' ? 'checked': ''} name="attr_${field.field}" lay-skin="switch" lay-filter="attr_${field.field}Switch" lay-text="${values[0]}|${values[1]}">
             </div>
         @}
 
         @if(field.type == 'MACKDOWN'){
-            <label class="layui-form-label">${field.label}${field.required?'<span style="color: red;">*</span>':''}</label>
+            <label class="layui-form-label">${field.required?'<span style="color: red; padding: 0 3px;">*</span>':''}${field.label}</label>
             <div class="layui-input-block">
-                <textarea id="attr_${field.field}" name="attr_${field.field}" class="layui-layedit" name="attr_${field.field}" style="display: none;" ${field.required?'lay-verify="required" required':''}></textarea>
+                <div id="attr_${field.field}"></div>
             </div>
+            <script>
+                layui.use(['jquery', 'layer', 'laymd'], function() {
+                    var $ = layui.jquery;
+                    var layer = layui.layer;
+                    var laymd = layui.laymd;
+                    //实例化编辑器,可以多个实例
+                    var md = laymd('#attr_${field.field}', {});
+
+                    //内容改变事件
+                    md.on('change', function () {
+                        //这里借用marked.js解析效率比HyperDown快,用户可自行找解析器
+                        this.setPreview(marked(this.getText()));
+                    });
+
+                    //初始化数据预览
+                    md.do('change');
+                });
+            </script>
         @}
 
 
         @if(field.type == 'FILE'){
-            <label class="layui-form-label">${field.label}${field.required?'<span style="color: red;">*</span>':''}</label>
+            <label class="layui-form-label">${field.required?'<span style="color: red; padding: 0 3px;">*</span>':''}${field.label}</label>
             <div class="layui-input-block">
                 <input type="hidden" id="attr_${field.field}" name="attr_${field.field}" value="${field.defValue}" ${field.required?'lay-verify="fileRequired"':''}/>
                 <button type="button" class="layui-btn" id="attr_${field.field}_btn" style="float:left;">上传文件</button>

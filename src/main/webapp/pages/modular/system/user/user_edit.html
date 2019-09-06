@@ -2,13 +2,13 @@
 <form id="userForm" lay-filter="userForm" class="layui-form model-form">
     <input name="id" name="id" type="hidden"/>
     <div class="layui-form-item">
-        <label class="layui-form-label">账号<span style="color: red;">*</span></label>
+        <label class="layui-form-label"><span style="color: red; padding: 0 3px;">*</span>账号</label>
         <div class="layui-input-block">
             <input name="account" placeholder="请输入账号" type="text" class="layui-input" readonly/>
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">姓名<span style="color: red;">*</span></label>
+        <label class="layui-form-label"><span style="color: red; padding: 0 3px;">*</span>姓名</label>
         <div class="layui-input-block">
             <input name="name" placeholder="请输入姓名" type="text" class="layui-input" lay-verify="required" required/>
         </div>
@@ -20,19 +20,19 @@
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">密码<span style="color: red;">*</span></label>
+        <label class="layui-form-label"><span style="color: red; padding: 0 3px;">*</span>密码</label>
         <div class="layui-input-block">
             <input name="password" placeholder="请输入密码" type="password" class="layui-input" lay-verify="psw"/>
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">重复密码<span style="color: red;">*</span></label>
+        <label class="layui-form-label"><span style="color: red; padding: 0 3px;">*</span>重复密码</label>
         <div class="layui-input-block">
             <input name="rePassword" placeholder="请输入重复密码" type="password" class="layui-input" lay-verify="psw|repsw"/>
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">邮箱<span style="color: red;">*</span></label>
+        <label class="layui-form-label"><span style="color: red; padding: 0 3px;">*</span>邮箱</label>
         <div class="layui-input-block">
             <input name="email" placeholder="请输入邮箱" type="text" class="layui-input" lay-verify="required|email" required />
         </div>
@@ -45,14 +45,14 @@
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">部门<span style="color: red;">*</span></label>
+        <label class="layui-form-label"><span style="color: red; padding: 0 3px;">*</span>部门</label>
         <div class="layui-input-block">
             <input id="deptId" name="deptId" type="hidden">
             <input id="deptName" name="deptName" placeholder="请输入部门" type="text" class="layui-input" lay-filter="tree" autocomplete="off"/>
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">角色<span style="color: red;">*</span></label>
+        <label class="layui-form-label"><span style="color: red; padding: 0 3px;">*</span>角色</label>
         <div class="layui-input-block">
             <select id="roleId" name="roleId" lay-filter="roleId" autocomplete="off">
                 <option value=""></option>

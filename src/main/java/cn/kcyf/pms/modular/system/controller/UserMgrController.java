@@ -6,6 +6,8 @@ import cn.kcyf.pms.core.controller.BasicController;
 import cn.kcyf.pms.core.enumerate.LockStatus;
 import cn.kcyf.pms.core.log.BussinessLog;
 import cn.kcyf.pms.core.model.ResponseData;
+import cn.kcyf.pms.core.model.modular.system.UserAddRequest;
+import cn.kcyf.pms.core.model.modular.system.UserEditRequest;
 import cn.kcyf.pms.modular.system.entity.User;
 import cn.kcyf.pms.modular.system.service.DeptService;
 import cn.kcyf.pms.modular.system.service.RoleService;
@@ -95,15 +97,8 @@ public class UserMgrController extends BasicController {
     @BussinessLog("新增管理员")
     @ApiOperation("新增管理员")
     @RequiresPermissions(value = "mgr_add")
-    public ResponseData add(@Valid User user,
-                            @NotBlank(message = "确认密码不能为空")
-                            @Size(min = 6, max = 12, message = "确认密码必须6到12位")
-                            @Pattern(regexp = "[\\S]+", message = "确认密码不能出现空格") String password,
-                            @NotBlank(message = "确认密码不能为空") String rePassword,
-                            @NotBlank(message = "部门未选择") Long deptId,
-                            @NotBlank(message = "角色未选择") String roleId,
-                            BindingResult bindingResult) {
-        if (!password.equals(rePassword)) {
+    public ResponseData add(@Valid User user, @Valid UserAddRequest request, BindingResult bindingResult) {
+        if (!request.getPassword().equals(request.getRePassword())) {
             return ResponseData.error("两次密码输入不一致");
         }
         if (bindingResult.hasErrors()) {
@@ -113,11 +108,11 @@ public class UserMgrController extends BasicController {
         user.setStatus(LockStatus.UNLOCK);
         user.setAvatar(Constant.DEFAULT_HEAD);
         user.setSalt(RandomStringUtils.randomAlphabetic(5));
-        user.setPassword(userService.md5(password, user.getSalt()));
+        user.setPassword(userService.md5(request.getPassword(), user.getSalt()));
         user.setKeyPassword(userService.md5(Constant.DEFAULT_PWD, user.getSalt()));
-        user.setDept(deptService.getOne(deptId));
-        if (!StringUtils.isEmpty(roleId)) {
-            user.setRoles(roleService.findByIdIn(ArrayUtils.convertStrArrayToLong(roleId.split(","))));
+        user.setDept(deptService.getOne(request.getDeptId()));
+        if (!StringUtils.isEmpty(request.getRoleId())) {
+            user.setRoles(roleService.findByIdIn(ArrayUtils.convertStrArrayToLong(request.getRoleId().split(","))));
         }
         try {
             userService.create(user);
@@ -132,7 +127,7 @@ public class UserMgrController extends BasicController {
     @BussinessLog("修改管理员")
     @ApiOperation("修改管理员")
     @RequiresPermissions(value = "mgr_edit")
-    public ResponseData edit(@Valid User user, @NotBlank(message = "部门未选择") Long deptId, @NotBlank(message = "角色未选择") String roleId, BindingResult bindingResult) {
+    public ResponseData edit(@Valid User user, @Valid UserEditRequest request, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return ResponseData.error(bindingResult.getAllErrors().get(0).getDefaultMessage());
         }
@@ -144,9 +139,9 @@ public class UserMgrController extends BasicController {
         dbuser.setBirthday(user.getBirthday());
         dbuser.setEmail(user.getEmail());
         dbuser.setSex(user.getSex());
-        dbuser.setDept(deptService.getOne(deptId));
-        if (!StringUtils.isEmpty(roleId)) {
-            dbuser.setRoles(roleService.findByIdIn(ArrayUtils.convertStrArrayToLong(roleId.split(","))));
+        dbuser.setDept(deptService.getOne(request.getDeptId()));
+        if (!StringUtils.isEmpty(request.getRoleId())) {
+            dbuser.setRoles(roleService.findByIdIn(ArrayUtils.convertStrArrayToLong(request.getRoleId().split(","))));
         } else {
             dbuser.setRoles(null);
         }

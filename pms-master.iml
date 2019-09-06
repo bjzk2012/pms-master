@@ -27,6 +27,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Maven: com.taobao:taobao-sdk-java-auto:20180815" level="project" />
     <orderEntry type="library" name="Maven: cn.kcyf:develop.commons.core:1.0.0" level="project" />
     <orderEntry type="library" name="Maven: cn.kcyf:develop.commons.basic:1.0.0" level="project" />
     <orderEntry type="library" name="Maven: cn.kcyf:develop.commons.constant:1.0.0" level="project" />

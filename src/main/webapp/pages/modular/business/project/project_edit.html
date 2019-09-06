@@ -2,19 +2,19 @@
 <form id="projectForm" lay-filter="projectForm" class="layui-form model-form">
     <input name="id" type="hidden"/>
     <div class="layui-form-item">
-        <label class="layui-form-label">编码<span style="color: red;">*</span></label>
+        <label class="layui-form-label"><span style="color: red; padding: 0 3px;">*</span>编码</label>
         <div class="layui-input-block">
             <input id="code" name="code" placeholder="请输入编码" type="text" class="layui-input" value="${code}" readonly="readonly"/>
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">名称<span style="color: red;">*</span></label>
+        <label class="layui-form-label"><span style="color: red; padding: 0 3px;">*</span>名称</label>
         <div class="layui-input-block">
             <input id="name" name="name" placeholder="请输入名称" type="text" class="layui-input"/>
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">总工时<span style="color: red;">*</span></label>
+        <label class="layui-form-label"><span style="color: red; padding: 0 3px;">*</span>总工时</label>
         <div class="layui-input-block">
             <input id="time" name="time" placeholder="请输入总工时" type="text" lay-verify="required|number" class="layui-input layui-input-number" required min="1" max="1000" data-prec="0" />
         </div>

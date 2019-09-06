@@ -1,0 +1,131 @@
+@layout("/common/_container.html",{bg:"bg-white", title:"游客中心"}){
+<div class="layui-body-header">
+    <span class="layui-body-header-title">游客中心</span>
+    <span class="layui-breadcrumb pull-right">
+        <a href="/logout"><cite>切换用户</cite></a>
+    </span>
+</div>
+<div class="layui-fluid">
+    <table class="layui-table" id="myoriginateTable" lay-filter="myoriginateTable"></table>
+</div>
+<style>
+    .layui-text em, .layui-word-aux {
+        color: #fff!important;
+        padding: 0!important;
+    }
+</style>
+
+<script type="text/html" id="toolbar">
+    <div class="layui-form toolbar">
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <input id="{{d.domId}}condition" class="layui-input" type="text" placeholder="关键字" value="{{d.where.condition}}">
+            </div>
+            <div class="layui-inline">
+                <select id="{{d.domId}}projectId">
+                    <option value="">所属项目</option>
+                    @for(project in projects) {
+                    <option value="${project.id}" {{'${project.id}' == d.where.projectId?'selected':''}}>${project.name}</option>
+                    @}
+                </select>
+            </div>
+            <div class="layui-inline" style="width:100px;">
+                <select id="{{d.domId}}category">
+                    <option value="">问题类型</option>
+                    @for(category in categorys) {
+                    <option value="${category.key}" {{'${category.key}' == d.where.category?'selected':''}}>${category.value}</option>
+                    @}
+                </select>
+            </div>
+            <div class="layui-inline">
+                <input id="{{d.domId}}submitTimeLimit" class="layui-input" type="text" placeholder="发起时间" style="width:182px" value="{{d.where.submitTimeLimit}}"/>
+            </div>
+            <div class="layui-inline" style="width:100px;">
+                <select id="{{d.domId}}status">
+                    <option value="">问题状态</option>
+                    @for(status in statuses) {
+                    <option value="${status.key}" {{'${status.key}' == d.where.status?'selected':''}}>${status.value}</option>
+                    @}
+                </select>
+            </div>
+            <div class="layui-inline">
+                <button class="layui-btn icon-btn" lay-event="search"><i class="layui-icon">&#xe615;</i>搜索</button>
+                <button class="layui-btn icon-btn" lay-event="openAdd"><i class="layui-icon">&#xe654;</i>反馈</button>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script>
+    layui.use(['form', 'table', 'element','laydate'], function () {
+        var $ = layui.jquery;
+        var table = layui.table;
+        var element = layui.element;
+        var laydate = layui.laydate;
+        var MyOriginate = {};
+        // 我的发起和我的处理
+        MyOriginate.initColumn = function () {
+            return [[
+                {title: '序号', type: 'numbers'},
+                {field: 'id', hide: true, title: 'id'},
+                {field: 'code', title: '编码'},
+                {field: 'title', title: '标题'},
+                {field: 'projectName', title: '项目'},
+                {field: 'categoryMessage', title: '问题类型'},
+                {field: 'causeMessage', title: '问题原因'},
+                {field: 'statusMessage', title: '状态'},
+                {field: 'createTime', title: '发起时间'},
+                {field: 'sponsor', title: '发起人'},
+                {field: 'liableName', title: '负责人'},
+                {field: 'ip', title: 'IP地址'},
+            ]];
+        };
+
+        MyOriginate.search = function(){
+            MyOriginate.table.reload({
+                where: {
+                    condition: $("#myoriginateTablecondition").val(),
+                    projectId: $("#myoriginateTableprojectId").val(),
+                    category: $("#myoriginateTablecategory").val(),
+                    submitTimeLimit: $("#myoriginateTablesubmitTimeLimit").val(),
+                    status: $("#myoriginateTablestatus").val()
+                }
+            });
+        };
+
+        // 渲染表格
+        MyOriginate.table = table.render({
+            elem: '#myoriginateTable',
+            domId: 'myoriginateTable',
+            url: Feng.ctxPath + '/sightseer/myoriginate/list',
+            page: true,
+            toolbar: "#toolbar",
+            height: "full-80",
+            even: true,
+            cols: MyOriginate.initColumn(),
+            where: {
+                condition: '',
+                projectId: '',
+                category: '',
+                submitTimeLimit: '',
+                status: ''
+            },
+            done: function () {
+                element.render();
+                laydate.render({
+                    elem: '#myoriginateTablesubmitTimeLimit',
+                    range: true,
+                    max: Feng.currentDate()
+                });
+            }
+        });
+        MyOriginate.openAdd = function(){
+            window.location.href = "http://localhost/question/feedback";
+        };
+        table.on('toolbar(myoriginateTable)', function (obj) {
+            var layEvent = obj.event;
+            MyOriginate[layEvent]();
+        });
+    });
+</script>
+@}

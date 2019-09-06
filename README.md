@@ -5,6 +5,8 @@
     
     192.168.1.44 mysql-server
     192.168.1.142 www.file-server.com
+    #如果本地需要测试钉钉登录则需要添加以下内容
+    127.0.0.1 tinfo.trm-cloud.com
 
 ## 2.idea下载lombok插件
 

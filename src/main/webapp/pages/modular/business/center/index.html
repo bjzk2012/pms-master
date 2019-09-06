@@ -1,0 +1,113 @@
+@layout("/common/_container.html",{title:"个人中心",css:["/assets/modular/business/center/user_info.css","/assets/common/module/cropper/cropper.css"],js:["/assets/modular/business/center/user_info.js"]}){
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-sm12 layui-col-md3">
+            <div class="layui-card">
+                <div class="layui-card-body" style="padding: 25px;">
+                    <div class="text-center layui-text">
+                        <div class="user-info-head" id="imgHead">
+                            <img src="${entity.avatar!}"/>
+                            <input id="avatar" name="avatar" type="hidden" value="${entity.avatar!}">
+                        </div>
+                        <h2 style="padding-top: 20px;">${entity.name}</h2>
+                        <p style="padding-top: 8px;">${entity.roleName!} ${entity.deptName!}</p>
+                    </div>
+                    <div class="layui-text" style="padding-top: 30px;">
+                        <div class="info-list-item">
+                            <i class="layui-icon layui-icon-notice"></i>
+                            <p>${entity.email!}&nbsp;</p>
+                        </div>
+
+                        <div class="info-list-item">
+                            <i class="layui-icon layui-icon-cellphone"></i>
+                            <p>${entity.phone!}&nbsp;</p>
+                        </div>
+                        <div class="info-list-item">
+                            <i class="layui-icon layui-icon-location"></i>
+                            <p id="p_address">${entity.address!}&nbsp;</p>
+                        </div>
+                    </div>
+                    <div class="dash"></div>
+                    <h3>标签</h3>
+                    <div class="layui-badge-list" style="padding-top: 6px;">
+                        <span class="layui-badge layui-bg-gray">${entity.roleName!}</span>
+                        <span class="layui-badge layui-bg-gray">${entity.deptName!}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 右 -->
+        <div class="layui-col-sm12 layui-col-md9">
+            <div class="layui-card">
+                <div class="layui-card-body layui-text">
+                    <div class="layui-tab layui-tab-brief" lay-filter="centerTab">
+                        <ul class="layui-tab-title">
+                            <li class="layui-this" lay-id="1">基本信息</li>
+                            <li>安全隐私</li>
+                            <li>我发起的</li>
+                            <li>我的处理</li>
+                        </ul>
+                        <div class="layui-tab-content">
+                            <div class="layui-form layui-tab-item layui-show" lay-filter="userInfoForm">
+                                @include("info.html"){}
+                            </div>
+                            <div class="layui-tab-item" style="padding: 6px 25px 30px 25px;">
+                                @include("security.html"){}
+                            </div>
+                            <div class="layui-tab-item">
+                                @include("myoriginate.html"){}
+                            </div>
+                            <div class="layui-tab-item">
+                                @include("mydisposal.html"){}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/html" id="toolbar">
+    <div class="layui-form toolbar">
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <input id="{{d.domId}}condition" class="layui-input" type="text" placeholder="关键字" value="{{d.where.condition}}">
+            </div>
+            <div class="layui-inline">
+                <select id="{{d.domId}}projectId">
+                    <option value="">所属项目</option>
+                    @for(project in projects) {
+                    <option value="${project.id}" {{'${project.id}' == d.where.projectId?'selected':''}}>${project.name}</option>
+                    @}
+                </select>
+            </div>
+            <div class="layui-inline" style="width:100px;">
+                <select id="{{d.domId}}category">
+                    <option value="">问题类型</option>
+                    @for(category in categorys) {
+                    <option value="${category.key}" {{'${category.key}' == d.where.category?'selected':''}}>${category.value}</option>
+                    @}
+                </select>
+            </div>
+            <div class="layui-inline">
+                <input id="{{d.domId}}submitTimeLimit" class="layui-input" type="text" placeholder="发起时间" style="width:182px" value="{{d.where.submitTimeLimit}}"/>
+            </div>
+            <div class="layui-inline">
+                <input id="{{d.domId}}phone" class="layui-input" type="text" placeholder="手机号" value="{{d.where.phone}}" style="width:114px;">
+            </div>
+            <div class="layui-inline" style="width:100px;">
+                <select id="{{d.domId}}status">
+                    <option value="">问题状态</option>
+                    @for(status in statuses) {
+                    <option value="${status.key}" {{'${status.key}' == d.where.status?'selected':''}}>${status.value}</option>
+                    @}
+                </select>
+            </div>
+            <div class="layui-inline">
+                <button class="layui-btn icon-btn" lay-event="search"><i class="layui-icon">&#xe615;</i>搜索</button>
+            </div>
+        </div>
+    </div>
+</script>
+@}

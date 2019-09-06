@@ -5,8 +5,14 @@ import cn.kcyf.security.credentials.RetryLimitHashedCredentialsMatcher;
 import cn.kcyf.security.filter.DbFormAuthFilter;
 import cn.kcyf.security.filter.UserFilter;
 import cn.kcyf.security.realm.db.DbRealm;
+import cn.kcyf.security.realm.dingtalk.DingtalkRealm;
+import cn.kcyf.security.realm.phone.PhoneRealm;
 import cn.kcyf.security.service.ShiroService;
+import org.apache.shiro.authc.pam.AtLeastOneSuccessfulStrategy;
+import org.apache.shiro.authc.pam.ModularRealmAuthenticator;
 import org.apache.shiro.codec.Base64;
+import org.apache.shiro.realm.AuthorizingRealm;
+import org.apache.shiro.realm.Realm;
 import org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO;
 import org.apache.shiro.session.mgt.eis.JavaUuidSessionIdGenerator;
 import org.apache.shiro.session.mgt.eis.SessionDAO;
@@ -28,8 +34,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 
 import javax.servlet.Filter;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Configuration
 public class ShiroConfig {
@@ -79,11 +84,35 @@ public class ShiroConfig {
         dbRealm.setCredentialsMatcher(hashedCredentialsMatcher);
         dbRealm.setCachingEnabled(true);
         dbRealm.setAuthenticationCachingEnabled(false);
-//        dbRealm.setAuthenticationCacheName("authenticationCache");
+        dbRealm.setAuthenticationCacheName("authenticationCache");
         dbRealm.setAuthorizationCachingEnabled(true);
         dbRealm.setAuthorizationCacheName("authorizationCache");
         dbRealm.setShiroService(shiroService);
         return dbRealm;
+    }
+
+    @Bean
+    public DingtalkRealm dingtalkRealm(SessionDAO sessionDAO) {
+        DingtalkRealm dingtalkRealm = new DingtalkRealm();
+        dingtalkRealm.setCachingEnabled(true);
+        dingtalkRealm.setAuthenticationCachingEnabled(false);
+        dingtalkRealm.setAuthenticationCacheName("authenticationCache");
+        dingtalkRealm.setAuthorizationCachingEnabled(true);
+        dingtalkRealm.setAuthorizationCacheName("authorizationCache");
+        dingtalkRealm.setShiroService(shiroService);
+        return dingtalkRealm;
+    }
+
+    @Bean
+    public PhoneRealm phoneRealm(SessionDAO sessionDAO) {
+        PhoneRealm phoneRealm = new PhoneRealm();
+        phoneRealm.setCachingEnabled(true);
+        phoneRealm.setAuthenticationCachingEnabled(false);
+        phoneRealm.setAuthenticationCacheName("authenticationCache");
+        phoneRealm.setAuthorizationCachingEnabled(true);
+        phoneRealm.setAuthorizationCacheName("authorizationCache");
+        phoneRealm.setShiroService(shiroService);
+        return phoneRealm;
     }
 
     @Bean
@@ -135,11 +164,23 @@ public class ShiroConfig {
         return sessionManager;
     }
 
+    @Bean
+    public ModularRealmAuthenticator modularRealmAuthenticator() {
+        ModularRealmAuthenticator modularRealmAuthenticator = new ModularRealmAuthenticator();
+        // 只要有一个成功就视为登录成功
+        modularRealmAuthenticator.setAuthenticationStrategy(new AtLeastOneSuccessfulStrategy());
+        return modularRealmAuthenticator;
+    }
+
     //权限管理，配置主要是Realm的管理认证
     @Bean
-    public DefaultWebSecurityManager securityManager(DbRealm dbRealm, DefaultWebSessionManager sessionManager, SpringCacheManagerWrapper cacheManagerWrapper, CookieRememberMeManager rememberMeManager) {
+    public DefaultWebSecurityManager securityManager(DbRealm dbRealm, DingtalkRealm dingtalkRealm, PhoneRealm phoneRealm, DefaultWebSessionManager sessionManager, SpringCacheManagerWrapper cacheManagerWrapper, CookieRememberMeManager rememberMeManager) {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
-        securityManager.setRealm(dbRealm);
+        Set<Realm> realms = new HashSet<>();
+        realms.add(dbRealm);
+        realms.add(dingtalkRealm);
+        realms.add(phoneRealm);
+        securityManager.setRealms(realms);
         securityManager.setSessionManager(sessionManager);
         securityManager.setCacheManager(cacheManagerWrapper);
         securityManager.setRememberMeManager(rememberMeManager);
@@ -171,19 +212,22 @@ public class ShiroConfig {
         filterMap.put("user", userFilter);
         filterMap.put("logout", new LogoutFilter());
         shiroFilterFactoryBean.setFilters(filterMap);
-        Map<String, String> map = new HashMap<String, String>();
+        LinkedHashMap<String, String> map = new LinkedHashMap<>();
         //对所有用户认证
         map.put("/login", "authc");
         map.put("/logout", "logout");
         map.put("/favicon.ico", "anon");
         map.put("/upload/**", "anon");
         map.put("/kaptcha", "anon");
-        map.put("/kaptcha_register", "anon");
-        map.put("/kaptcha_feedback", "anon");
         map.put("/assets/**", "anon");
         map.put("/v2/api-docs/", "anon");
         map.put("/question/feedback", "anon");
         map.put("/question/kaptcha", "anon");
+        map.put("/dingtalk_login", "anon");
+        map.put("/dingtalk_bind", "anon");
+        map.put("/phonevcode_send", "anon");
+        map.put("/phonevcode_login", "anon");
+        map.put("/test", "anon");
         map.put("/**", "user");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(map);
         shiroFilterFactoryBean.setLoginUrl("/login");

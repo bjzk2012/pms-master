@@ -5,6 +5,9 @@ import cn.kcyf.pms.core.enumerate.LogType;
 import cn.kcyf.pms.core.enumerate.Status;
 import cn.kcyf.pms.core.log.BussinessLog;
 import cn.kcyf.pms.core.model.ResponseData;
+import cn.kcyf.pms.core.model.modular.business.KeyAddRequest;
+import cn.kcyf.pms.core.model.modular.business.KeyEditRequest;
+import cn.kcyf.pms.core.model.modular.system.PasswordRequest;
 import cn.kcyf.pms.modular.business.entity.Key;
 import cn.kcyf.pms.modular.business.entity.Project;
 import cn.kcyf.pms.modular.business.service.KeyService;
@@ -102,18 +105,13 @@ public class KeyController extends BasicController {
     @PostMapping(value = "/add")
     @ResponseBody
     @BussinessLog("新增账号")
-    public ResponseData add(@Valid Key key,
-                            @NotBlank(message = "账号密码不能为空") String password,
-                            @NotBlank(message = "请选择项目") Long projectId,
-                            @NotBlank(message = "请选择管理人") Long managerId,
-                            Long backupManagerId,
-                            BindingResult bindingResult) {
+    public ResponseData add(@Valid Key key, @Valid KeyAddRequest request, Long backupManagerId, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return ResponseData.error(bindingResult.getAllErrors().get(0).getDefaultMessage());
         }
         create(key);
-        key.setProject(projectService.getOne(projectId));
-        key.setManager(userService.getOne(managerId));
+        key.setProject(projectService.getOne(request.getProjectId()));
+        key.setManager(userService.getOne(request.getManagerId()));
         if (backupManagerId != null) {
             key.setBackupManager(userService.getOne(backupManagerId));
         }
@@ -124,17 +122,13 @@ public class KeyController extends BasicController {
     @PostMapping(value = "/edit")
     @ResponseBody
     @BussinessLog("修改账号")
-    public ResponseData edit(@Valid Key key,
-                             @NotBlank(message = "请选择项目") Long projectId,
-                             @NotBlank(message = "请选择管理人") Long managerId,
-                             Long backupManagerId,
-                             BindingResult bindingResult) {
+    public ResponseData edit(@Valid Key key, @Valid KeyEditRequest request, Long backupManagerId, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return ResponseData.error(bindingResult.getAllErrors().get(0).getDefaultMessage());
         }
         Key dbkey = keyService.getOne(key.getId());
         update(dbkey);
-        dbkey.setProject(projectService.getOne(projectId));
+        dbkey.setProject(projectService.getOne(request.getProjectId()));
         dbkey.setName(key.getName());
         dbkey.setUseway(key.getUseway());
         dbkey.setAccount(key.getAccount());
@@ -142,7 +136,7 @@ public class KeyController extends BasicController {
             dbkey.setPassword(key.getPassword());
         }
         dbkey.setDescription(key.getDescription());
-        dbkey.setManager(userService.getOne(managerId));
+        dbkey.setManager(userService.getOne(request.getManagerId()));
         if (backupManagerId != null) {
             dbkey.setBackupManager(userService.getOne(backupManagerId));
         }
@@ -161,26 +155,15 @@ public class KeyController extends BasicController {
     @PostMapping(value = "/key_pass")
     @ResponseBody
     @BussinessLog("修改口令")
-    public ResponseData key_pass(
-            @NotBlank(message = "旧密码不能为空")
-            @Size(min = 6, max = 12, message = "旧密码必须6到12位")
-            @Pattern(regexp = "[\\S]+", message = "旧密码不能出现空格") String oldPassword,
-            @NotBlank(message = "新密码不能为空")
-            @Size(min = 6, max = 12, message = "新密码必须6到12位")
-            @Pattern(regexp = "[\\S]+", message = "新密码不能出现空格")
-                    String newPassword,
-            @NotBlank(message = "确认密码不能为空")
-            @Size(min = 6, max = 12, message = "确认密码必须6到12位")
-            @Pattern(regexp = "[\\S]+", message = "确认密码不能出现空格")
-                    String rePassword) {
+    public ResponseData key_pass(@Valid PasswordRequest request) {
         User dbuser = userService.getOne(getUser().getId());
-        if (!userService.md5(oldPassword, dbuser.getSalt()).equals(dbuser.getKeyPassword())) {
+        if (!userService.md5(request.getOldPassword(), dbuser.getSalt()).equals(dbuser.getKeyPassword())) {
             return ResponseData.error("旧口令输入错误");
         }
-        if (!newPassword.equals(rePassword)) {
+        if (!request.getNewPassword().equals(request.getRePassword())) {
             return ResponseData.error("新密码和确认密码不一致");
         }
-        dbuser.setKeyPassword(userService.md5(newPassword, dbuser.getSalt()));
+        dbuser.setKeyPassword(userService.md5(request.getNewPassword(), dbuser.getSalt()));
         userService.update(dbuser);
         return SUCCESS_TIP;
     }

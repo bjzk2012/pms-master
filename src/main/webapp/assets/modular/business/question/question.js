@@ -1,8 +1,9 @@
-layui.use(['form', 'table', 'admin', 'element'], function () {
+layui.use(['form', 'table', 'admin', 'laydate', 'element'], function () {
     var $ = layui.$;
     var form = layui.form;
     var table = layui.table;
     var admin = layui.admin;
+    var laydate = layui.laydate;
     var element = layui.element;
 
     /**
@@ -37,7 +38,14 @@ layui.use(['form', 'table', 'admin', 'element'], function () {
     Question.search = function () {
         Question.table.reload({
             where: {
-                condition: $("#condition").val()
+                condition: $("#condition").val(),
+                projectId: $("#projectId").val(),
+                category: $("#category").val(),
+                submitTimeLimit: $("#submitTimeLimit").val(),
+                phone: $("#phone").val(),
+                status: $("#status").val(),
+                liableId: $("#liableId").val(),
+                sponsor: $("#sponsor").val()
             }
         });
     };
@@ -86,10 +94,22 @@ layui.use(['form', 'table', 'admin', 'element'], function () {
         even: true,
         cols: Question.initColumn(),
         where: {
-            condition: ''
+            condition: '',
+            projectId: '',
+            category: '',
+            submitTimeLimit: '',
+            phone: '',
+            status: '',
+            liableId:'',
+            sponsor: ''
         },
         done: function () {
             element.render();
+            laydate.render({
+                elem: '#submitTimeLimit',
+                range: true,
+                max: Feng.currentDate()
+            });
         }
     });
     /**

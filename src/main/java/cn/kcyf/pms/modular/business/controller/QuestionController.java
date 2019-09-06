@@ -43,8 +43,6 @@ import java.util.*;
 @Api(tags = "问题管理", description = "问题管理")
 public class QuestionController extends BasicController {
     private static String PREFIX = "/modular/business/question";
-    private static final java.util.regex.Pattern PHONE_PATTERN = java.util.regex.Pattern.compile("^0?[1][358][0-9]{9}$");
-
     @Autowired
     private QuestionService questionService;
     @Autowired
@@ -84,7 +82,7 @@ public class QuestionController extends BasicController {
         model.addAttribute("causes", causes);
     }
 
-    private void setQuomodo(Model model) {
+    private void setQuomodos(Model model) {
         Map<String, String> quomodos = new HashMap<String, String>();
         for (QuestionQuomodo quomodo : QuestionQuomodo.values()) {
             quomodos.put(quomodo.name(), quomodo.getMessage());
@@ -92,12 +90,21 @@ public class QuestionController extends BasicController {
         model.addAttribute("quomodos", quomodos);
     }
 
-    private void setModel(Model model) {
+    private void setStatus(Model model) {
+        Map<String, String> statuses = new HashMap<String, String>();
+        for (QuestionStatus status : QuestionStatus.values()) {
+            statuses.put(status.name(), status.getMessage());
+        }
+        model.addAttribute("statuses", statuses);
+    }
+
+    public void setModel(Model model) {
         setProjects(model);
         setUsers(model);
         setCategorys(model);
         setCauses(model);
-        setQuomodo(model);
+        setQuomodos(model);
+        setStatus(model);
     }
 
     @GetMapping("")
@@ -110,6 +117,45 @@ public class QuestionController extends BasicController {
     public String feedback(Model model) {
         setModel(model);
         return PREFIX + "/feedback.html";
+    }
+
+    public Criteria<Question> createCriteria(String condition, Long projectId, QuestionCategory category, String submitTimeLimit, String phone, QuestionStatus status){
+        Criteria<Question> criteria = new Criteria<Question>();
+        if (!StringUtils.isEmpty(condition)) {
+            criteria.add(Restrictions.or(
+                    Restrictions.like("code", condition),
+                    Restrictions.like("title", condition),
+                    Restrictions.like("project.name", condition),
+                    Restrictions.like("phone", condition),
+                    Restrictions.like("sponsor", condition),
+                    Restrictions.like("liable.name", condition),
+                    Restrictions.like("description", condition)
+            ));
+        }
+        if (projectId != null){
+            criteria.add(Restrictions.eq("project.id", projectId));
+        }
+        if (category != null){
+            criteria.add(Restrictions.eq("category", category));
+        }
+        if (category != null){
+            criteria.add(Restrictions.eq("category", category));
+        }
+        Date startTime, endTime;
+        if (!StringUtils.isEmpty(submitTimeLimit)) {
+            String[] split = submitTimeLimit.split(" - ");
+            startTime = DateUtils.parse(split[0], "yyyy-MM-dd");
+            endTime = DateUtils.parse(split[1] + " 23:59:59", "yyyy-MM-dd HH:mm:ss");
+            criteria.add(Restrictions.gte("createTime", startTime));
+            criteria.add(Restrictions.lte("createTime", endTime));
+        }
+        if (!StringUtils.isEmpty(phone)){
+            criteria.add(Restrictions.eq("phone", phone));
+        }
+        if (status != null){
+            criteria.add(Restrictions.eq("status", status));
+        }
+        return criteria;
     }
 
     @GetMapping(value = "/question_add")
@@ -185,17 +231,13 @@ public class QuestionController extends BasicController {
 
     @GetMapping(value = "/list")
     @ResponseBody
-    public ResponseData list(String condition, int page, int limit) {
-        Criteria<Question> criteria = new Criteria<Question>();
-        if (!StringUtils.isEmpty(condition)) {
-            criteria.add(Restrictions.or(
-                    Restrictions.like("title", condition),
-                    Restrictions.like("project.name", condition),
-                    Restrictions.like("phone", condition),
-                    Restrictions.like("sponsor", condition),
-                    Restrictions.like("liable.name", condition),
-                    Restrictions.like("description", condition)
-            ));
+    public ResponseData list(String condition, Long projectId, QuestionCategory category, String submitTimeLimit, String phone, QuestionStatus status, Long liableId, String sponsor, int page, int limit) {
+        Criteria<Question> criteria = createCriteria(condition, projectId, category, submitTimeLimit, phone, status);
+        if (liableId != null){
+            criteria.add(Restrictions.eq("liable.id", liableId));
+        }
+        if(!StringUtils.isEmpty(sponsor)) {
+            criteria.add(Restrictions.eq("sponsor", sponsor));
         }
         return ResponseData.list(questionService.findList(criteria, PageRequest.of(page - 1, limit, new Sort(Sort.Direction.DESC, "time"))));
     }

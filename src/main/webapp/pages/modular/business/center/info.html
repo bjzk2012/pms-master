@@ -1,0 +1,51 @@
+<input type="hidden" name="userId"/>
+<div class="layui-form user-info-form" style="max-width: 400px;padding-top: 25px;">
+    <div class="layui-form-item">
+        <label class="layui-form-label">账号</label>
+        <div class="layui-input-block">
+            <input type="text" name="account" class="layui-input" lay-verify="required" value="${entity.account!}" disabled/>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label"><span style="color: red; padding: 0 3px;">*</span>姓名</label>
+        <div class="layui-input-block">
+            <input type="text" name="name" class="layui-input" lay-verify="required" value="${entity.name!}" required/>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">性别</label>
+        <div class="layui-input-block">
+            <input type="radio" name="sex" value="MAN" title="男" ${entity.sex== 'MAN' ? 'checked' : ''}>
+            <input type="radio" name="sex" value="WOMAN" title="女" ${entity.sex== 'WOMAN' ? 'checked' : ''}>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">邮箱</label>
+        <div class="layui-input-block">
+            <input type="email" name="email" class="layui-input" lay-verify="email" value="${entity.email!}"/>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">出生日期</label>
+        <div class="layui-input-block">
+            <input type="text" id="birthday" name="birthday" class="layui-input" value="${entity.birthday,dateFormat='yyyy-MM-dd'}"/>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">联系电话</label>
+        <div class="layui-input-block">
+            <input type="text" name="phone" class="layui-input" value="${entity.phone!}"/>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">联系地址</label>
+        <div class="layui-input-block">
+            <textarea id="address" name="address" placeholder="请输入联系地址" type="text/plain" class="layui-textarea">${entity.address!}</textarea>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-filter="userInfoSubmit" lay-submit>更新基本信息</button>
+        </div>
+    </div>
+</div>

@@ -57,8 +57,21 @@ layui.use(['jquery', 'table', 'admin', 'laydate'], function () {
                 range: true,
                 max: Feng.currentDate()
             });
-            WorkApply.condition.workId = null;
-            WorkApply.workRecordSearch();
+
+            // 右侧表格提交之后有更新的话
+            if (objSelect_) {
+                $("div[lay-id='workTable'] .layui-table td[data-field='todayRemark']").each(function(index, ele) {
+                    if ($(ele).text() == objSelect_.data.todayRemark) {
+                        $(ele).parent().addClass('layui-table-click').siblings().removeClass('layui-table-click');
+                        return false;
+                    }
+                });
+                WorkApply.condition.workId = objSelect_.data.id;
+                WorkApply.workRecordSearch();
+            } else {
+                WorkApply.condition.workId = null;
+                WorkApply.workRecordSearch();
+            }
         }
     });
 
@@ -77,6 +90,17 @@ layui.use(['jquery', 'table', 'admin', 'laydate'], function () {
             Feng.error("请选择日期!");
             return;
         }
+
+        var timeSum = 0;
+        $(".layui-table td[data-field='time']").each(function(index, ele) {
+            timeSum += Number($(ele).text());
+        });
+        if (timeSum >= 7) {
+            var text = "填写内容超过了7小时，不能再填写！";
+            Feng.error(text);
+            return;
+        }
+
         admin.putTempData('formOk', false);
         top.layui.admin.open({
             type: 2,
@@ -159,7 +183,11 @@ layui.use(['jquery', 'table', 'admin', 'laydate'], function () {
         WorkApply.condition.workId = data.id;
         WorkApply.workRecordSearch();
         obj.tr.addClass('layui-table-click').siblings().removeClass('layui-table-click');
+
+        objSelect_ = obj;
     });
+
+    var objSelect_; // 记录左侧选中的行
 
     table.on('tool(workRecordTable)', function (obj) {
         if (obj.event === 'edit') {

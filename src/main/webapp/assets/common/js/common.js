@@ -147,7 +147,8 @@ layui.config({
     croppers: 'cropper/croppers',
     numinput: 'numinput/numinput',
     iconPicker: 'iconPicker/iconPicker',
-    ueditor: 'ueditor/ueditor-object'
+    ueditor: 'ueditor/ueditor-object',
+    laymd: 'laymd/laymd'
 }).use(['admin'], function () {
     var $ = layui.$;
     var admin = layui.admin;

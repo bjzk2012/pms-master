@@ -128,6 +128,22 @@ public class User extends TableDomain {
     @Column(name = "weibo")
     @ApiModelProperty(name = "weibo", value = "微博账号")
     private String weibo;
+
+    /**
+     * 钉钉昵称
+     */
+    @Column(name = "dingtalk_nick")
+    private String dingtalkNick;
+    /**
+     * 钉钉OpenId
+     */
+    @Column(name = "dingtalk_open_id")
+    private String dingtalkOpenId;
+    /**
+     * 钉钉企业Id
+     */
+    @Column(name = "dingtalk_unionid")
+    private String dingtalkUnionid;
     /**
      * 地址
      */

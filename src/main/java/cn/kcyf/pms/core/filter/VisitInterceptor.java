@@ -31,7 +31,7 @@ public class VisitInterceptor extends HandlerInterceptorAdapter {
         String ip = RequestUtils.getIpAddr(request);
         // 访问时间
         log.debug("access to {} from {} take {} ms。", new String[]{uri, ip, time + ""});
-        addVisit(uri, ip, (ShiroUser) SecurityUtils.getSubject().getPrincipal());
+        // addVisit(uri, ip, (ShiroUser) SecurityUtils.getSubject().getPrincipal());
         return true;
     }
 

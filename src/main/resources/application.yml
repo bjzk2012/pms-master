@@ -34,3 +34,4 @@ server:
 logging:
   level:
     root: INFO
+#  path: logs

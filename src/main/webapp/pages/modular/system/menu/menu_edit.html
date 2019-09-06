@@ -2,33 +2,33 @@
 <form id="menuForm" lay-filter="menuForm" class="layui-form model-form">
     <input name="id" name="id" type="hidden"/>
     <div class="layui-form-item">
-        <label class="layui-form-label">名称<span style="color: red;">*</span></label>
+        <label class="layui-form-label"><span style="color: red; padding: 0 3px;">*</span>名称</label>
         <div class="layui-input-block">
             <input name="name" placeholder="请输入名称" type="text" class="layui-input" lay-verify="required" required/>
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">菜单编码<span style="color: red;">*</span></label>
+        <label class="layui-form-label"><span style="color: red; padding: 0 3px;">*</span>菜单编码</label>
         <div class="layui-input-block">
             <input name="code" placeholder="请输入菜单编码" type="text" class="layui-input" lay-verify="required" required/>
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">父级菜单<span style="color: red;">*</span></label>
+        <label class="layui-form-label"><span style="color: red; padding: 0 3px;">*</span>父级菜单</label>
         <div class="layui-input-block">
             <input id="parentId" name="parentId" type="hidden">
             <input id="parentName" name="parentName" placeholder="请选择父级菜单" type="text" class="layui-input" lay-filter="tree" autocomplete="off"/>
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">是否是菜单<span style="color: red;">*</span></label>
+        <label class="layui-form-label"><span style="color: red; padding: 0 3px;">*</span>是否是菜单</label>
         <div class="layui-input-block">
             <input type="radio" name="menuFlag" value="YES" title="是" checked/>
             <input type="radio" name="menuFlag" value="NO" title="否"/>
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">请求地址<span style="color: red;">*</span></label>
+        <label class="layui-form-label"><span style="color: red; padding: 0 3px;">*</span>请求地址</label>
         <div class="layui-input-block">
             <input id="url" name="url" placeholder="请输入请求地址" type="text" class="layui-input" required autocomplete="off"/>
         </div>

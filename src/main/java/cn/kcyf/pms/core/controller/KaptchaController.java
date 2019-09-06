@@ -33,6 +33,9 @@ public class KaptchaController {
                 if ("question".equals(cmd)) {
                     kaptchaKey = KAPTCHA_QUESTION_SESSION_KEY;
                 }
+                if ("phonevcode".equals(cmd)) {
+                    kaptchaKey = KAPTCHA_PHONEVCODE_SESSION_KEY;
+                }
             }
             String createText = defaultKaptcha.createText();
             request.getSession().setAttribute(kaptchaKey, createText);

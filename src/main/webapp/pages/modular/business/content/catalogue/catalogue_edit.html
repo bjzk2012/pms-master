@@ -2,13 +2,13 @@
 <form id="catalogueForm" lay-filter="catalogueForm" class="layui-form model-form">
     <input name="id" name="id" type="hidden"/>
     <div class="layui-form-item">
-        <label class="layui-form-label">目录名称<span style="color: red;">*</span></label>
+        <label class="layui-form-label"><span style="color: red; padding: 0 3px;">*</span>目录名称</label>
         <div class="layui-input-block">
             <input name="simpleName" placeholder="请输入部门名称" type="text" class="layui-input" lay-verify="required|simpleName" required/>
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">目录全称<span style="color: red;">*</span></label>
+        <label class="layui-form-label"><span style="color: red; padding: 0 3px;">*</span>目录全称</label>
         <div class="layui-input-block">
             <input id="fullName" name="fullName" placeholder="请输入目录全称" type="text" class="layui-input" lay-verify="required|fullName" required autocomplete="off"/>
         </div>

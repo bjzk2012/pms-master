@@ -1,0 +1,123 @@
+<div class="bd-list">
+    <div class="bd-list-item">
+        <div class="bd-list-item-img">
+            <i class="layui-icon layui-icon-cellphone" style="color: #777;font-size: 48px;"></i>
+        </div>
+        <div class="bd-list-item-content">
+            <div class="bd-list-item-lable">密保手机</div>
+            @if(tool.isEmpty(entity.phone)){
+            <div class="bd-list-item-text">当前未绑定密保手机</div>
+            @}else{
+            <div class="bd-list-item-text">已绑定手机：${entity.phone!}</div>
+            @}
+        </div>
+        <a class="bd-list-item-oper phone_email_bind">
+            @if(tool.isEmpty(entity.phone)){
+            绑定
+            @}else{
+            修改
+            @}
+        </a>
+    </div>
+    <div class="bd-list-item">
+        <div class="bd-list-item-img">
+            <i class="layui-icon layui-icon-notice" style="color: #3492ED;font-size: 48px;"></i>
+        </div>
+        <div class="bd-list-item-content">
+            <div class="bd-list-item-lable">密保邮箱</div>
+            @if(tool.isEmpty(entity.email)){
+            <div class="bd-list-item-text">当前未绑定密保邮箱</div>
+            @}else{
+            <div class="bd-list-item-text">已绑定密保邮箱：${entity.email!}</div>
+            @}
+        </div>
+        <a class="bd-list-item-oper phone_email_bind">
+            @if(tool.isEmpty(entity.phone)){
+            绑定
+            @}else{
+            修改
+            @}
+        </a>
+    </div>
+    <div class="bd-list-item">
+        <div class="bd-list-item-img">
+            <i class="layui-icon layui-icon-login-qq" style="color: #3492ED;font-size: 48px;"></i>
+        </div>
+        <div class="bd-list-item-content">
+            <div class="bd-list-item-lable">绑定QQ</div>
+            @if(tool.isEmpty(entity.qq)){
+            <div class="bd-list-item-text">当前未绑定QQ账号</div>
+            @}else{
+            <div class="bd-list-item-text">已绑定QQ：${entity.qq}</div>
+            @}
+        </div>
+        <a class="bd-list-item-oper" _o = "qq" _v = "${entity.qq!}" _t = "qq" _f = "bind">
+            @if(tool.isEmpty(entity.qq)){
+            绑定
+            @}else{
+            修改
+            @}
+        </a>
+    </div>
+    <div class="bd-list-item">
+        <div class="bd-list-item-img">
+            <i class="layui-icon layui-icon-login-wechat"
+               style="color: #4DAF29;font-size: 48px;"></i>
+        </div>
+        <div class="bd-list-item-content">
+            <div class="bd-list-item-lable">绑定微信</div>
+            @if(tool.isEmpty(entity.wechat)){
+            <div class="bd-list-item-text">当前未绑定微信账号</div>
+            @}else{
+            <div class="bd-list-item-text">已绑定微信：${entity.wechat}</div>
+            @}
+        </div>
+        <a class="bd-list-item-oper" _o = "wechat" _v = "${entity.wechat!}" _t = "微信" _f = "bind">
+            @if(tool.isEmpty(entity.qq)){
+            绑定
+            @}else{
+            修改
+            @}
+        </a>
+    </div>
+    <div class="bd-list-item">
+        <div class="bd-list-item-img">
+            <i class="layui-icon layui-icon-login-weibo" style="color: #CF1900;font-size: 48px;"></i>
+        </div>
+        <div class="bd-list-item-content">
+            <div class="bd-list-item-lable">绑定微博</div>
+            @if(tool.isEmpty(entity.weibo)){
+            <div class="bd-list-item-text">当前未绑定微博账号</div>
+            @}else{
+            <div class="bd-list-item-text">已绑定微博：${entity.weibo}</div>
+            @}
+        </div>
+        <a class="bd-list-item-oper" _o = "weibo" _v = "${entity.weibo!}" _t = "微博" _f = "bind">
+            @if(tool.isEmpty(entity.qq)){
+            绑定
+            @}else{
+            修改
+            @}
+        </a>
+    </div>
+    <div class="bd-list-item">
+        <div class="bd-list-item-img">
+            <i class="iconfont icon-dingtalk" style="color: #3492ED;font-size: 52px;"></i>
+        </div>
+        <div class="bd-list-item-content">
+            <div class="bd-list-item-lable">绑定钉钉</div>
+            @if(tool.isEmpty(entity.dingtalkOpenId)){
+            <div class="bd-list-item-text">当前未绑定钉钉账号</div>
+            @}else{
+            <div class="bd-list-item-text">已绑定钉钉：${entity.dingtalkNick}</div>
+            @}
+        </div>
+        <a class="bd-list-item-oper" target="_top" href="https://oapi.dingtalk.com/connect/oauth2/sns_authorize?appid=dingoaugcl42xapwtntrkh&response_type=code&scope=snsapi_login&state=STATE&redirect_uri=http://tinfo.trm-cloud.com/dingtalk_login">
+            @if(tool.isEmpty(entity.dingtalkOpenId)){
+            绑定
+            @}else{
+            修改
+            @}
+        </a>
+    </div>
+</div>

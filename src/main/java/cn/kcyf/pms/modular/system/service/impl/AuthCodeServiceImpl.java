@@ -12,6 +12,7 @@ import cn.kcyf.orm.jpa.criteria.Restrictions;
 import cn.kcyf.orm.jpa.dao.BasicDao;
 import cn.kcyf.orm.jpa.service.AbstractBasicService;
 import cn.kcyf.security.domain.ShiroUser;
+import com.alibaba.fastjson.JSON;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -54,13 +55,16 @@ public class AuthCodeServiceImpl extends AbstractBasicService<AuthCode, Long> im
             case RESTPASSWORD_AUTHCODE:
                 entity.setContent(String.format(type.getTemplate(), memberName, content));
                 break;
+            case PHONEVCODELOGIN_AUTHCODE:
+                entity.setContent(String.format(type.getTemplate(), content));
+                break;
         }
 //        String result = smsUtils.send(mobile, entity.getContent(), DateUtils.format(new Date(), "yyyy-MM-dd"));
 //        if("Success".equals(JSON.parseObject(result).get("returnstatus"))){
             authCodeDao.save(entity);
-//            return entity;
+            return entity;
 //        }
-        return null;
+//        return null;
     }
 
     @Transactional
@@ -73,6 +77,9 @@ public class AuthCodeServiceImpl extends AbstractBasicService<AuthCode, Long> im
             return Boolean.FALSE;
         }
         AuthCode dbinfo = list.get(0);
+        if (dbinfo.getUesd().equals(YesOrNo.YES)){
+            return Boolean.FALSE;
+        }
         if (dbinfo == null || dbinfo.getId() == null){
             return Boolean.FALSE;
         }

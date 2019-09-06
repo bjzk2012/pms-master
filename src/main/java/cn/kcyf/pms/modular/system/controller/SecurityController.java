@@ -10,6 +10,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -41,10 +42,13 @@ public class SecurityController extends BasicController {
 
     @PostMapping("/md5")
     @ResponseBody
-    public ResponseData md5(@NotBlank(message = "待加密字符未输入") String password, @NotBlank(message = "加密盐未输入") String salt/*, BindingResult bindingResult*/) {
-//        if (bindingResult.hasErrors()) {
-//            return ResponseData.error(bindingResult.getAllErrors().get(0).getDefaultMessage());
-//        }
+    public ResponseData md5(String password, String salt) {
+        if (StringUtils.isEmpty(password)) {
+            return ResponseData.error("待加密字符未输入!");
+        }
+        if (StringUtils.isEmpty(salt)) {
+            return ResponseData.error("加密盐未输入!");
+        }
         return ResponseData.success(userService.md5(password, salt));
     }
 }
