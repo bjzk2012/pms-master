@@ -221,7 +221,6 @@ public class ShiroConfig {
         map.put("/kaptcha", "anon");
         map.put("/assets/**", "anon");
         map.put("/v2/api-docs/", "anon");
-        map.put("/question/feedback", "anon");
         map.put("/question/kaptcha", "anon");
         map.put("/dingtalk_login", "anon");
         map.put("/dingtalk_bind", "anon");

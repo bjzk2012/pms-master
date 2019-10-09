@@ -20,6 +20,7 @@ import cn.kcyf.commons.utils.RandomUtils;
 import cn.kcyf.commons.web.RequestUtils;
 import cn.kcyf.orm.jpa.criteria.Criteria;
 import cn.kcyf.orm.jpa.criteria.Restrictions;
+import cn.kcyf.security.domain.ShiroUser;
 import com.alibaba.fastjson.JSONObject;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -116,6 +117,10 @@ public class QuestionController extends BasicController {
     @GetMapping("/feedback")
     public String feedback(Model model) {
         setModel(model);
+        ShiroUser shiroUser = getUser();
+        if (shiroUser.getId() == null){
+            model.addAttribute("mobile", shiroUser.getAccount());
+        }
         return PREFIX + "/feedback.html";
     }
 

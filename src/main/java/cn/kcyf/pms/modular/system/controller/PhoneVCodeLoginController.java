@@ -8,7 +8,6 @@ import cn.kcyf.pms.core.model.ResponseData;
 import cn.kcyf.pms.modular.system.service.AuthCodeService;
 import cn.kcyf.security.domain.PhoneVCodeToken;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.web.util.WebUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
 import java.net.URLEncoder;
-import java.util.Date;
 
 @Controller
 public class PhoneVCodeLoginController extends BasicController {

@@ -6,12 +6,6 @@
         <form id="questionForm" lay-filter="questionForm" class="layui-form model-form">
             <input name="id" type="hidden"/>
             <div class="layui-form-item">
-                <label class="layui-form-label"><span style="color: red; padding: 0 3px;">*</span>问题标题</label>
-                <div class="layui-input-block">
-                    <input id="title" name="title" placeholder="请输入问题标题" type="text" class="layui-input" lay-verify="required"/>
-                </div>
-            </div>
-            <div class="layui-form-item">
                 <label class="layui-form-label"><span style="color: red; padding: 0 3px;">*</span>所属项目</label>
                 <div class="layui-input-block">
                     <select id="projectId" name="projectId" lay-verify="required" required>
@@ -29,15 +23,9 @@
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label"><span style="color: red; padding: 0 3px;">*</span>发起人</label>
-                <div class="layui-input-block">
-                    <input id="sponsor" name="sponsor" placeholder="请输入发起人" type="text" class="layui-input" lay-verify="required"/>
-                </div>
-            </div>
-            <div class="layui-form-item">
                 <label class="layui-form-label"><span style="color: red; padding: 0 3px;">*</span>手机号码</label>
                 <div class="layui-input-block">
-                    <input id="phone" name="phone" placeholder="请输入手机号码" type="text" class="layui-input" lay-verify="required|phone"/>
+                    <input id="phone" name="phone" placeholder="请输入手机号码" type="text" class="layui-input" lay-verify="required|phone" value="${mobile!}"/>
                 </div>
             </div>
             @if(shiro.notAuthenticated()){
@@ -58,23 +46,6 @@
                 </div>
             </div>
             @}
-            <div class="layui-form-item">
-                <label class="layui-form-label"><span style="color: red; padding: 0 3px;">*</span>问题类型</label>
-                <div class="layui-input-block">
-                    <select id="category" name="category" lay-verify="required" required>
-                        <option value="">问题类型</option>
-                        @for(category in categorys) {
-                        <option value="${category.key}">${category.value}</option>
-                        @}
-                    </select>
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">问题详情</label>
-                <div class="layui-input-block">
-                    <textarea id="remark" name="remark" placeholder="请输入问题的详情描述" type="text/plain" class="layui-textarea"></textarea>
-                </div>
-            </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">处理动态</label>
                 <div class="layui-input-block">

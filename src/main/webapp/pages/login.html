@@ -24,6 +24,10 @@
             color: rgba(0, 0, 0, .85) !important;
         }
 
+        .layui-tab-content, .layui-card-body {
+            padding-bottom: 0px;
+        }
+
         .login-footer {
             color: rgba(0, 0, 0, 0.7) !important;
         }
@@ -88,7 +92,8 @@
                             <div class="layui-input-block">
                                 <div class="layui-row inline-block">
                                     <div class="layui-col-xs7">
-                                        <input name="kaptcha" type="text" lay-verify="required" placeholder="验证码" class="layui-input">
+                                        <input name="kaptcha" type="text" lay-verify="required" placeholder="验证码"
+                                               class="layui-input">
                                     </div>
                                     <div class="layui-col-xs5" style="padding-left: 10px;">
                                         <img class="login-captcha" _cmd="" src="/kaptcha">
@@ -103,25 +108,19 @@
                         <div class="layui-form-item">
                             <button lay-filter="login-submit" class="layui-btn layui-btn-fluid" lay-submit>登 录</button>
                         </div>
-                        <div class="layui-form-item login-other">
-                            <label>第三方登录</label>
-                            <!--                            <a href="javascript:;"><i class="layui-icon layui-icon-login-qq"></i></a>-->
-                            <!--                            <a href="javascript:;"><i class="layui-icon layui-icon-login-wechat"></i></a>-->
-                            <!--                            <a href="javascript:;"><i class="layui-icon layui-icon-login-weibo"></i></a>-->
-                            <a href="javascript:;" id="to_dingtalk_login"><i class="iconfont icon-dingtalk"></i></a>
-                            <a href="javascript:;" id="to_phone_login"><i class="layui-icon layui-icon-cellphone"></i></a>
-                        </div>
                     </form>
                 </div>
                 <div class="layui-tab-item">
                     <div id="login_container"></div>
                 </div>
                 <div class="layui-tab-item">
-                    <form class="layui-card-body layui-form layui-form-pane" action="${ctxPath}/phonevcode_login" method="post">
+                    <form class="layui-card-body layui-form layui-form-pane" action="${ctxPath}/phonevcode_login"
+                          method="post">
                         <div class="layui-form-item">
                             <label class="layui-form-label">手机号</label>
                             <div class="layui-input-block">
-                                <input id="phone" name="phone" type="text" lay-verify="required|phone" class="layui-input" lay-reqText="请输入手机号">
+                                <input id="phone" name="phone" type="text" lay-verify="required|phone"
+                                       class="layui-input" lay-reqText="请输入手机号">
                             </div>
                         </div>
                         <div class="layui-form-item">
@@ -129,7 +128,8 @@
                             <div class="layui-input-block">
                                 <div class="layui-row inline-block">
                                     <div class="layui-col-xs7">
-                                        <input id="vcode_kaptcha" name="kaptcha" type="text" lay-verify="required" placeholder="验证码" class="layui-input">
+                                        <input id="vcode_kaptcha" name="kaptcha" type="text" lay-verify="required"
+                                               placeholder="验证码" class="layui-input">
                                     </div>
                                     <div class="layui-col-xs5" style="padding-left: 10px;">
                                         <img class="login-captcha" _cmd="phonevcode" src="/kaptcha?cmd=phonevcode">
@@ -142,7 +142,8 @@
                             <div class="layui-input-block">
                                 <div class="layui-row inline-block">
                                     <div class="layui-col-xs6">
-                                        <input name="vcode" type="text" lay-verify="required" placeholder="手机验证码" class="layui-input">
+                                        <input name="vcode" type="text" lay-verify="required" placeholder="手机验证码"
+                                               class="layui-input">
                                     </div>
                                     <div class="layui-col-xs6" style="padding-left: 10px;">
                                         <a id="send_phone_vcode" class="layui-btn">发送验证码</a>
@@ -155,7 +156,15 @@
                         </div>
                     </form>
                 </div>
-
+            </div>
+            <div class="layui-form-item login-other" style="padding: 0px 25px 10px 25px;">
+                <label>第三方登录</label>
+                <!--                            <a href="javascript:;"><i class="layui-icon layui-icon-login-qq"></i></a>-->
+                <!--                            <a href="javascript:;"><i class="layui-icon layui-icon-login-wechat"></i></a>-->
+                <!--                            <a href="javascript:;"><i class="layui-icon layui-icon-login-weibo"></i></a>-->
+                <a href="javascript:;" id="to_dingtalk_login"><i class="iconfont icon-dingtalk"></i></a>
+                <a href="javascript:;" id="to_phone_login"><i
+                        class="layui-icon layui-icon-cellphone"></i></a>
             </div>
         </div>
 
@@ -205,7 +214,7 @@
             layer.msg(errorMsg, {icon: 5, anim: 6});
         }
         var tab = Feng.getUrlParam("tab");
-        if (tab){
+        if (tab) {
             element.tabChange("loginTab", tab);
         }
         DDLogin({
@@ -228,18 +237,18 @@
             window.attachEvent('onmessage', hanndleMessage);
         }
 
-        $("#to_dingtalk_login").click(function(){
+        $("#to_dingtalk_login").click(function () {
             element.tabChange("loginTab", 2);
         });
 
-        $("#to_phone_login").click(function(){
+        $("#to_phone_login").click(function () {
             element.tabChange("loginTab", 3);
         });
 
         var interval;
-        $("#send_phone_vcode").click(function(){
+        $("#send_phone_vcode").click(function () {
             var phone = $("#phone").val();
-            if (!phone){
+            if (!phone) {
                 layer.msg("请输入手机号", {icon: 5, anim: 6});
                 $("#phone").addClass("layui-form-danger").blur(function () {
                     $(this).removeClass("layui-form-danger");
@@ -247,30 +256,31 @@
                 return;
             }
             var kaptcha = $("#vcode_kaptcha").val();
-            if (!kaptcha){
+            if (!kaptcha) {
                 layer.msg("请输入图片验证码", {icon: 5, anim: 6});
                 $("#vcode_kaptcha").addClass("layui-form-danger").blur(function () {
                     $(this).removeClass("layui-form-danger");
                 }).focus();
                 return;
             }
-            var ajax = new $ax("/phonevcode_send", function(data){
+            var ajax = new $ax("/phonevcode_send", function (data) {
                 $("#send_phone_vcode").addClass("layui-btn-disabled").css("color", "#333");
                 var time = 60;
-                interval = setInterval(function(){
-                    time --;
-                    if (time <= 0){
+                interval = setInterval(function () {
+                    time--;
+                    if (time <= 0) {
                         $("#send_phone_vcode").text("发送验证码");
-                        $("#send_phone_vcode").removeClass("layui-btn-disabled").css("color", "");;
+                        $("#send_phone_vcode").removeClass("layui-btn-disabled").css("color", "");
+                        ;
                         clearInterval(interval);
                         return;
                     }
                     $("#send_phone_vcode").text("倒计时" + util.digit(time, 2) + "秒");
                 }, 1000);
-            }, function(data){
+            }, function (data) {
                 Feng.error(data.message)
             });
-            ajax.set({phone: phone, kaptcha:kaptcha});
+            ajax.set({phone: phone, kaptcha: kaptcha});
             ajax.start();
             return;
         });

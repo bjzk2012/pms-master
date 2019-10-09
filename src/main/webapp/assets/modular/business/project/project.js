@@ -92,7 +92,6 @@ layui.use(['form', 'table', 'admin', 'element'], function () {
         height: "full-30",
         even: true,
         cols: Project.initColumn(),
-        limit: 100,
         where: {
             condition: ''
         },

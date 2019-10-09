@@ -43,9 +43,10 @@ public class WorkServiceImpl extends AbstractBasicService<Work, Long> implements
         if (records == null || records.isEmpty()) {
             throw new RuntimeException("工单未填写，无法提交！");
         }
-        if (dbwork.getToday().before(WorkDayUtil.get(new Date(), 3))){
-            throw new RuntimeException("工单已过提交时效，无法提交！");
-        }
+        // TODO 此处日期检验暂时使用实时校验，后续版本规划修改为按照排期表判断
+//        if (dbwork.getToday().before(WorkDayUtil.get(new Date(), 3))){
+//            throw new RuntimeException("工单已过提交时效，无法提交！");
+//        }
         int time = 0;
         for (WorkRecord record : records) {
             time += record.getTime();
@@ -54,6 +55,7 @@ public class WorkServiceImpl extends AbstractBasicService<Work, Long> implements
             throw new RuntimeException("工单总工时必须为7小时，无法提交！");
         }
         ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
+        int i = 0;
         for (WorkRecord record : records) {
             if (record.getStatus().equals(WorkStatus.SUBMIT) || record.getStatus().equals(WorkStatus.FINISH)){
                 continue;
@@ -61,6 +63,7 @@ public class WorkServiceImpl extends AbstractBasicService<Work, Long> implements
             if (record.getStatus().equals(WorkStatus.REFUSE)){
                 throw new RuntimeException("本次提交存在已拒绝的工单，请修改工单后再提交！");
             }
+            i++;
             record.setLastUpdateTime(new Date());
             record.setLastUpdateUserId(shiroUser.getId());
             record.setLastUpdateUserName(shiroUser.getAccount());
@@ -77,6 +80,9 @@ public class WorkServiceImpl extends AbstractBasicService<Work, Long> implements
             audit.setWorkRecordId(record.getId());
             audit.setRemark(String.format("用户【%s】提交【%s】日工作日志【%s】", shiroUser.getAccount(), dbwork.getTodayRemark(), record.getContent()));
             workAuditDao.save(audit);
+        }
+        if (i == 0){
+            throw new RuntimeException("日志中没有可提交的工单！");
         }
     }
 }

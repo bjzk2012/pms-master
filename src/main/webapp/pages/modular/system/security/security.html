@@ -1,23 +1,100 @@
 @layout("/common/_container.html",{bg:"bg-white", js:["/assets/modular/system/security/security.js"]}){
-<form id="saltForm" lay-filter="saltForm" class="layui-form model-form">
+<form class="layui-form model-form">
     <div class="layui-form-item">
         <label class="layui-form-label">Salt</label>
-        <button id="salt_btn" class="layui-btn" lay-filter="saltSubmit" style="float:left;" lay-submit>Salt生成</button>
+        <div class="layui-input-inline">
+            <input name="length" placeholder="请输入盐长度" type="text" lay-verify="required|number" class="layui-input layui-input-number" required min="1" max="1024" data-prec="0" value="${saltlenth!}" />
+        </div>
+        <button class="layui-btn" lay-filter="salt_submit" style="float:left;" lay-submit>生成</button>
         <div id="salt_result" class="layui-form-mid layui-word-aux" style="margin-left:10px;"></div>
     </div>
 </form>
 
-<form id="md5Form" lay-filter="md5Form" class="layui-form model-form">
+<form class="layui-form model-form">
     <div class="layui-form-item">
-        <label class="layui-form-label">MD5</label>
+        <label class="layui-form-label">MD5(无盐)</label>
         <div class="layui-input-inline">
-            <input id="password" name="password" type="text" placeholder="请输入待加密字符" class="layui-input" lay-verify="required" >
+            <input name="target" type="text" placeholder="请输入目标字符串" class="layui-input" lay-verify="required" >
         </div>
-        <div class="layui-input-inline">
-            <input id="salt" name="salt" type="text" placeholder="请输入加密盐" class="layui-input" lay-verify="required" >
-        </div>
-        <button id="md5_btn" class="layui-btn" lay-filter="md5Submit" style="float:left;" lay-submit>MD5加密</button>
+        <button class="layui-btn" lay-filter="md5_submit" style="float:left;" lay-submit>加密</button>
         <div id="md5_result" class="layui-form-mid layui-word-aux" style="margin-left:10px;"></div>
+    </div>
+</form>
+
+<form class="layui-form model-form">
+    <div class="layui-form-item">
+        <label class="layui-form-label">MD5(加盐)</label>
+        <div class="layui-input-inline">
+            <input name="target" type="text" placeholder="请输入目标字符串" class="layui-input" lay-verify="required" >
+        </div>
+        <div class="layui-input-inline">
+            <input name="salt" type="text" placeholder="请输入加密盐" class="layui-input" lay-verify="required" >
+        </div>
+        <div class="layui-input-inline">
+            <input name="iterations" placeholder="请输入循环次数" type="text" lay-verify="required|number" class="layui-input layui-input-number" required min="1" max="1024" data-prec="0" value="${hashIterations!}"/>
+        </div>
+        <button class="layui-btn" lay-filter="saltmd5_submit" style="float:left;" lay-submit>加密</button>
+        <div id="saltmd5_result" class="layui-form-mid layui-word-aux" style="margin-left:10px;"></div>
+    </div>
+</form>
+
+<form class="layui-form model-form">
+    <div class="layui-form-item">
+        <label class="layui-form-label">DES</label>
+        <div class="layui-input-inline">
+            <input name="target" type="text" placeholder="请输入目标字符串" class="layui-input" lay-verify="required" >
+        </div>
+        <div class="layui-input-inline">
+            <input name="key" type="text" placeholder="请输入秘钥(8的倍数)" class="layui-input" lay-verify="required" value="${deskey!}">
+        </div>
+        <div class="layui-input-inline">
+            <input name="iv" type="text" placeholder="请输入向量" class="layui-input" lay-verify="required" value="${desiv!}">
+        </div>
+        <button class="layui-btn" lay-filter="dese_submit" style="float:left;" lay-submit>加密</button>
+        <button class="layui-btn" lay-filter="desd_submit" style="float:left;" lay-submit>解密</button>
+        <div id="des_result" class="layui-form-mid layui-word-aux" style="margin-left:10px;"></div>
+    </div>
+</form>
+
+<form class="layui-form model-form">
+    <div class="layui-form-item">
+        <label class="layui-form-label">3DES</label>
+        <div class="layui-input-inline">
+            <input name="target" type="text" placeholder="请输入目标字符串" class="layui-input" lay-verify="required" >
+        </div>
+        <div class="layui-input-inline" style="width:500px;">
+            <input name="key" type="text" placeholder="请输入秘钥(大于位)" class="layui-input" lay-verify="required" value="${des3key!}">
+        </div>
+        <div class="layui-input-inline">
+            <input name="iv" type="text" placeholder="请输入向量" class="layui-input" lay-verify="required" value="${des3iv!}">
+        </div>
+        <button class="layui-btn" lay-filter="3dese_submit" style="float:left;" lay-submit>加密</button>
+        <button class="layui-btn" lay-filter="3desd_submit" style="float:left;" lay-submit>解密</button>
+        <div id="3des_result" class="layui-form-mid layui-word-aux" style="margin-left:10px;"></div>
+    </div>
+</form>
+
+<form class="layui-form model-form">
+    <div class="layui-form-item">
+        <label class="layui-form-label">base64</label>
+        <div class="layui-input-inline">
+            <input name="target" type="text" placeholder="请输入目标字符串" class="layui-input" lay-verify="required" >
+        </div>
+        <button class="layui-btn" lay-filter="base64e_submit" style="float:left;" lay-submit>加密</button>
+        <button class="layui-btn" lay-filter="base64d_submit" style="float:left;" lay-submit>解密</button>
+        <div id="base64_result" class="layui-form-mid layui-word-aux" style="margin-left:10px;"></div>
+    </div>
+</form>
+
+<form class="layui-form model-form">
+    <div class="layui-form-item">
+        <label class="layui-form-label">URL</label>
+        <div class="layui-input-inline">
+            <input name="target" type="text" placeholder="请输入目标字符串" class="layui-input" lay-verify="required" >
+        </div>
+        <button class="layui-btn" lay-filter="urle_submit" style="float:left;" lay-submit>加密</button>
+        <button class="layui-btn" lay-filter="urld_submit" style="float:left;" lay-submit>解密</button>
+        <div id="url_result" class="layui-form-mid layui-word-aux" style="margin-left:10px;"></div>
     </div>
 </form>
 @}

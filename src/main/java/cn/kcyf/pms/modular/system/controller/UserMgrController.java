@@ -21,6 +21,7 @@ import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
@@ -45,6 +46,9 @@ import javax.validation.constraints.Size;
 public class UserMgrController extends BasicController {
 
     private final static String PREFIX = "/modular/system/user/";
+
+    @Value("${shiro.password.saltlenth}")
+    public int saltlenth;
 
     @Autowired
     private UserService userService;
@@ -107,7 +111,7 @@ public class UserMgrController extends BasicController {
         create(user);
         user.setStatus(LockStatus.UNLOCK);
         user.setAvatar(Constant.DEFAULT_HEAD);
-        user.setSalt(RandomStringUtils.randomAlphabetic(5));
+        user.setSalt(RandomStringUtils.randomAlphabetic(saltlenth));
         user.setPassword(userService.md5(request.getPassword(), user.getSalt()));
         user.setKeyPassword(userService.md5(Constant.DEFAULT_PWD, user.getSalt()));
         user.setDept(deptService.getOne(request.getDeptId()));

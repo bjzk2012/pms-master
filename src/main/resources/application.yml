@@ -23,6 +23,11 @@ shiro:
   password:
     algorithmName: md5
     hashIterations: 2
+    saltlenth: 5
+    deskey: 12345678
+    desiv: 12345678
+    des3key: 12345678123456781234567812345678123456781234567812345678
+    des3iv: 12345678
 swagger:
   production: false
   basic:
