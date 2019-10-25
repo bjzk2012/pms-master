@@ -35,4 +35,10 @@ public class Notice extends TableDomain {
     @Column(name = "type", nullable = false)
     @Enumerated
     private NoticeType type;
+    public String getTypeMessage(){
+        if (this.type != null){
+            return this.type.getMessage();
+        }
+        return "";
+    }
 }
