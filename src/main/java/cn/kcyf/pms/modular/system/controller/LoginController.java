@@ -9,9 +9,7 @@ import cn.kcyf.security.util.KaptchaException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.ExcessiveAttemptsException;
-import org.apache.shiro.authc.IncorrectCredentialsException;
-import org.apache.shiro.authc.UnknownAccountException;
+import org.apache.shiro.authc.*;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -71,9 +69,17 @@ public class LoginController extends BasicController {
         if (KaptchaException.class.getName().equals(exceptionClassName)) {
             error = "验证码不正确";
         } else if (UnknownAccountException.class.getName().equals(exceptionClassName)) {
-            error = "用户不存在或密码错误";
+            error = "用户不存在";
+        } else if (LockedAccountException.class.getName().equals(exceptionClassName)) {
+            error = "用户已被锁定";
+        } else if (DisabledAccountException.class.getName().equals(exceptionClassName)) {
+            error = "用户已被禁用";
+        } else if (ExcessiveAttemptsException.class.getName().equals(exceptionClassName)) {
+            error = "重复登录次数超限";
         } else if (IncorrectCredentialsException.class.getName().equals(exceptionClassName)) {
-            error = "用户不存在或密码错误";
+            error = "用户密码错误";
+        } else if (AuthenticationException.class.getName().equals(exceptionClassName)){
+            error = "用户无法被授权";
         } else if (ExcessiveAttemptsException.class.getName().equals(exceptionClassName)){
             error = "密码错误次数已达上限，请10分钟后再试";
         } else if (exceptionClassName != null) {

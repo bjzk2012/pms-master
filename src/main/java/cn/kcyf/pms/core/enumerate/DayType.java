@@ -2,9 +2,8 @@ package cn.kcyf.pms.core.enumerate;
 
 public enum DayType {
     WORKDAY("工作日"),
-    HOLIDAY("节假日"),
-    ADJUSTDAY("调休日"),
-    PLAYDAY("休息日");
+    PLAYDAY("休息日"),
+    HOLIDAY("节假日");
 
     DayType(String message) {
         this.message = message;
