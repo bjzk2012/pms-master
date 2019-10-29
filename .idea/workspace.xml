@@ -282,7 +282,7 @@
       <select />
     </treeState>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="-8" />
     <option name="y" value="-8" />
     <option name="width" value="1932" />
@@ -475,12 +475,12 @@
       <workItem from="1568794159744" duration="590000" />
       <workItem from="1568855582006" duration="1198000" />
       <workItem from="1570517963243" duration="2401000" />
-      <workItem from="1570584345418" duration="18241000" />
+      <workItem from="1570584345418" duration="18844000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="285215000" />
+    <option name="totallyTimeSpent" value="285818000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -494,7 +494,7 @@
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.7906542" visible="true" weight="0.29104477" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.7906542" visible="true" weight="0.29104477" />
       <window_info id="Structure" order="1" sideWeight="0.20934579" side_tool="true" weight="0.25586355" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -511,7 +511,7 @@
       <window_info anchor="bottom" id="Spring" order="6" />
       <window_info anchor="bottom" id="Terminal" order="7" weight="0.32900432" />
       <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.88646054" side_tool="true" visible="true" weight="0.3181818" />
+      <window_info active="true" anchor="bottom" id="Event Log" order="9" sideWeight="0.88646054" side_tool="true" visible="true" weight="0.3181818" />
       <window_info anchor="bottom" id="Messages" order="10" sideWeight="0.11353944" weight="0.22077923" />
       <window_info anchor="bottom" id="Java Enterprise" order="11" sideWeight="0.15224358" weight="0.32900432" />
       <window_info anchor="bottom" id="Database Changes" order="12" />

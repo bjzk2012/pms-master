@@ -2,6 +2,6 @@
 .gitattributes
 .idea/*
 .svn/*
-target/*
+target/
 *.iml
 *.class
