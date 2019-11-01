@@ -6,6 +6,6 @@ import java.util.Comparator;
 
 public class QuestionRecordComparator implements Comparator<QuestionRecord> {
     public int compare(QuestionRecord o1, QuestionRecord o2) {
-        return o2.getCreateTime().compareTo(o1.getCreateTime());
+        return o1.getCreateTime().compareTo(o2.getCreateTime());
     }
 }

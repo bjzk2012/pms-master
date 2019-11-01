@@ -114,11 +114,14 @@ public class Question extends TableDomain {
     /**
      * 问题类型
      */
-    @Column(name = "category", nullable = false)
+    @Column(name = "category")
     @Enumerated
     private QuestionCategory category;
 
     public String getCategoryMessage() {
+        if (this.category == null) {
+            return "";
+        }
         return category.getMessage();
     }
 

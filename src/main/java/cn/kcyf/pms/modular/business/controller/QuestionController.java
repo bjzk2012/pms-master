@@ -99,6 +99,14 @@ public class QuestionController extends BasicController {
         model.addAttribute("statuses", statuses);
     }
 
+    private void setRecords(Model model, Question question) {
+        Set<QuestionRecord> recordSet = question.getRecords();
+        List<QuestionRecord> records = new ArrayList<QuestionRecord>();
+        records.addAll(recordSet);
+        Collections.sort(records, new QuestionRecordComparator());
+        model.addAttribute("records", records);
+    }
+
     public void setModel(Model model) {
         setProjects(model);
         setUsers(model);
@@ -175,14 +183,16 @@ public class QuestionController extends BasicController {
         Question question = questionService.getOne(questionId);
         model.addAttribute("title", question.getTitle());
         setModel(model);
+        setRecords(model, question);
         return PREFIX + "/question_edit.html";
     }
 
     @GetMapping(value = "/question_appoint")
     public String questionAppoint(Long questionId, Model model) {
         model.addAttribute("questionId", questionId);
-        model.addAttribute("title", questionService.getOne(questionId).getTitle());
+        Question question = questionService.getOne(questionId);
         setModel(model);
+        setRecords(model, question);
         return PREFIX + "/question_appoint.html";
     }
 
@@ -191,6 +201,8 @@ public class QuestionController extends BasicController {
         model.addAttribute("questionId", questionId);
         model.addAttribute("title", questionService.getOne(questionId).getTitle());
         setModel(model);
+        Question question = questionService.getOne(questionId);
+        setRecords(model, question);
         return PREFIX + "/question_solve.html";
     }
 
@@ -199,6 +211,8 @@ public class QuestionController extends BasicController {
         model.addAttribute("questionId", questionId);
         model.addAttribute("title", questionService.getOne(questionId).getTitle());
         setModel(model);
+        Question question = questionService.getOne(questionId);
+        setRecords(model, question);
         return PREFIX + "/question_active.html";
     }
 
@@ -206,11 +220,7 @@ public class QuestionController extends BasicController {
     public String questionDetail(Long questionId, Model model) {
         Question question = questionService.getOne(questionId);
         model.addAttribute("question", question);
-        Set<QuestionRecord> recordSet = question.getRecords();
-        List<QuestionRecord> records = new ArrayList<QuestionRecord>();
-        records.addAll(recordSet);
-        Collections.sort(records, new QuestionRecordComparator());
-        model.addAttribute("records", records);
+        setRecords(model, question);
         return PREFIX + "/question_detail.html";
     }
 
@@ -317,13 +327,13 @@ public class QuestionController extends BasicController {
     @PostMapping(value = "/appoint")
     @ResponseBody
     @BussinessLog("指派问题")
-    public ResponseData appoint(Long id, @NotBlank(message = "责任人未选择") Long liableId, @NotBlank(message = "问题原因未选择") QuestionCause cause, String description) {
+    public ResponseData appoint(Long id, @NotBlank(message = "责任人未选择") Long liableId, @NotBlank(message = "问题原因未选择") QuestionCause cause, String remark) {
         Question dbquestion = questionService.getOne(id);
         QuestionRecordType type = QuestionRecordType.APPOINT;
         dbquestion.setStatus(type.getStatus());
         dbquestion.setCause(cause);
         dbquestion.setLiable(userService.getOne(liableId));
-        QuestionRecord record = questionRecordService.create(id, type, description);
+        QuestionRecord record = questionRecordService.create(id, type, remark);
         dbquestion.setDescription(dbquestion + "<br/>" + record.getDescription());
         questionService.update(dbquestion);
         return SUCCESS_TIP;

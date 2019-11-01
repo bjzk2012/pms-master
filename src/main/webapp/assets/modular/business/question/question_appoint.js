@@ -3,7 +3,7 @@ layui.use(['form', 'admin', 'layedit', 'ax'], function () {
     var form = layui.form;
     var admin = layui.admin;
     var layedit = layui.layedit;
-    var layeditIndex = layedit.build('description',{
+    var layeditIndex = layedit.build('remark',{
         uploadImage: {
             url: '/system/upload'
         }
@@ -11,10 +11,17 @@ layui.use(['form', 'admin', 'layedit', 'ax'], function () {
 
     form.render();
     admin.iframeAuto();
+    var ajax = new $ax(Feng.ctxPath + "/question/detail/" + Feng.getUrlParam("questionId"));
+    ajax.type = "get";
+    var result = ajax.start();
+    form.val('questionForm', result.data);
+    try {
+        layedit.setContent(layeditIndex, result.data.remark, false);
+    } catch (e) { }
 
     // 表单提交事件
     form.on('submit(btnSubmit)', function (data) {
-        data.field.description = layedit.getContent(layeditIndex);
+        data.field.remark = layedit.getContent(layeditIndex);
         var ajax = new $ax(Feng.ctxPath + "/question/appoint", function (data) {
             Feng.success("指派成功！");
             admin.putTempData('formOk', true);

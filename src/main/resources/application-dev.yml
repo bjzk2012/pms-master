@@ -12,7 +12,17 @@ spring:
     username: root
     password: root
     druid:
-      validation-query: select 1
+      filters: stat,wall,log4j,config
+      aop-patterns: cn.kcyf.pms.modular.system.service.*,cn.kcyf.pms.modular.business.service.*
+      stat-view-servlet:
+        enabled: true
+        reset-enable: false
+        login-username: kcyf
+        login-password: kcyf
+      web-stat-filter:
+        enabled: true
+        profile-enable: true
+        # TODO 由于shiro与druid监控的冲突此处禁用监控session
 ftp:
   domain: http://www.file-server.com/
   path: bsc/
